@@ -5,48 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ألبوم ذكرياتنا ❤️</title>
     <style>
-        body { margin: 0; background-color: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
-        .container { width: 90%; max-width: 400px; text-align: center; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .section { display: none; animation: fadeIn 0.5s; }
+        :root {
+            --pink: #ff4d6d;
+            --light-pink: #ff8fa3;
+            --shadow: #c9184a;
+        }
+
+        body {
+            margin: 0;
+            background-color: #fff0f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* خلفية القلوب */
+        .heart-bg {
+            position: absolute;
+            top: -10%;
+            color: var(--light-pink);
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 0;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .section { display: none; animation: scaleUp 0.5s ease; }
         .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .img-box { width: 100%; height: 450px; border-radius: 15px; overflow: hidden; margin-bottom: 10px; border: 3px solid #ffb6c1; }
+
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* الأزرار الـ 3D الاحترافية */
+        button {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 6px 0 var(--shadow);
+            transition: all 0.1s;
+            margin-top: 20px;
+        }
+
+        button:active {
+            box-shadow: 0 2px 0 var(--shadow);
+            transform: translateY(4px);
+        }
+
+        input {
+            width: 80%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid var(--light-pink);
+            text-align: center;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .img-box {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
         .img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .caption { font-size: 1.2rem; color: #d63384; font-weight: bold; margin-bottom: 15px; }
-        button { background: #ff4d6d; color: white; border: none; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-size: 1rem; }
-        input { padding: 10px; border-radius: 20px; border: 1px solid #ddd; margin-bottom: 10px; text-align: center; width: 80%; }
+
+        .caption { margin: 15px 0; font-size: 1.3rem; color: var(--pink); font-weight: bold; }
+
+        /* الصندوق الـ 3D */
+        .gift-box {
+            font-size: 100px;
+            cursor: pointer;
+            transition: 0.5s;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        #typewriter {
+            font-size: 1.2rem;
+            color: #444;
+            line-height: 1.8;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div id="s1" class="section active">
-            <h2>ادخلي كلمة السر ❤️</h2>
-            <input type="password" id="pw" placeholder="كلمة السر...">
+            <h2 style="color: var(--pink)">كلمة السر ❤️</h2>
+            <input type="password" id="pw" placeholder="اكتبي الباسورد...">
             <br><button onclick="check()">دخول</button>
         </div>
 
         <div id="s2" class="section">
-            <div onclick="go(3)" style="cursor:pointer; font-size: 80px;">🌸</div>
-            <p>اضغطي على الوردة</p>
+            <h2 style="color: var(--pink)">اضغطي على الوردة ✨</h2>
+            <div style="font-size: 80px; cursor: pointer;" onclick="startGallery()">🌸</div>
         </div>
 
         <div id="s3" class="section">
-            <p style="font-size: 1.3rem;">جاهزة تشوفي أجمل صور؟ ❤️</p>
-            <button onclick="start()">Next</button>
+            <div class="img-box"><img id="gImg" src=""></div>
+            <div id="gCap" class="caption"></div>
+            <button id="nextBtn" onclick="next()">Next</button>
+            <button id="giftBtn" style="display:none;" onclick="goGift()">افتحي الهدية 🎁</button>
         </div>
 
         <div id="s4" class="section">
-            <div class="img-box"><img id="gImg" src=""></div>
-            <div id="gCap" class="caption"></div>
-            <button onclick="next()">Next</button>
+            <div id="gift" class="gift-box" onclick="openGift()">🎁</div>
+            <div id="typewriter"></div>
         </div>
     </div>
 
     <audio id="bgMus" src="1000311463.mp3" loop></audio>
 
     <script>
-        // الأسماء هنا مطابقة لصورك في GitHub بالظبط
+        // إنشاء القلوب المتساقطة
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+
         const data = [
             { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
             { s: "IMG-20251012-WA0053.jpg", t: "قمر منور دايماً" },
@@ -62,23 +184,54 @@
         let idx = 0;
         const mus = document.getElementById('bgMus');
 
-        function check() { if(document.getElementById('pw').value === "123") go(2); else alert("الباسورد غلط!"); }
-        function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); }
+        function check() { 
+            if(document.getElementById('pw').value === "123") go(2); 
+            else alert("الباسورد غلط!"); 
+        }
+
+        function go(n) { 
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
+            document.getElementById('s'+n).classList.add('active'); 
+        }
         
-        function start() { 
-            mus.play(); // تشغيل الأغنية فور الضغط على Next
-            go(4); 
+        function startGallery() { 
+            mus.play(); // تشغيل الموسيقى من ملف 1000311463.mp3
+            go(3); 
             update(); 
         }
 
         function next() { 
-            idx = (idx + 1) % data.length; 
-            update(); 
+            if(idx < data.length - 1) {
+                idx++;
+                update();
+            } else {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('giftBtn').style.display = 'inline-block';
+            }
         }
         
         function update() { 
             document.getElementById('gImg').src = data[idx].s;
             document.getElementById('gCap').innerText = data[idx].t;
+        }
+
+        function goGift() { go(4); }
+
+        function openGift() {
+            document.getElementById('gift').innerHTML = '🔓';
+            document.getElementById('gift').style.animation = 'none';
+            const text = "كل سنة وأنتِ معايا.. \nأنتِ أجمل هدية ربنا بعتهالي.. \nمقدرش أتخيل يومي من غيرك.. \nبحبك جداً ❤️";
+            let i = 0;
+            const typewriter = document.getElementById('typewriter');
+            typewriter.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    typewriter.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            }
+            type();
         }
     </script>
 </body>
