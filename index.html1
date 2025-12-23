@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Special Story</title>
+    <style>
+        /* ستايل الموقع - نفس روح الفيديو */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff5f7; /* لون وردي هادئ جداً */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
+        }
+
+        /* 1. صفحة الباسورد */
+        #password-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            padding: 15px;
+            border-radius: 25px;
+            border: 2px solid #ffb6c1;
+            text-align: center;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        /* 2. صفحة الوردة */
+        #flower-section, #message-section, #gallery-section {
+            display: none;
+        }
+
+        .flower-img {
+            width: 150px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .flower-img:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* 3. صندوق الرسالة */
+        .message-box {
+            padding: 20px;
+            border-radius: 20px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* 4. معرض الصور */
+        .gallery-container {
+            position: relative;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid #fff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .caption {
+            margin-top: 15px;
+            font-size: 1.4rem;
+            color: #d63384;
+            font-weight: 600;
+            min-height: 1.5em;
+        }
+
+        /* الأزرار */
+        button {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 20, 147, 0.3);
+            transition: 0.3s;
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="password-section">
+            <h2 style="color: #d63384;">ادخل كلمة السر ❤️</h2>
+            <input type="password" id="pass-input" placeholder="كلمة السر...">
+            <button onclick="checkPassword()">دخول</button>
+        </div>
+
+        <div id="flower-section">
+            <h2 style="color: #d63384;">في سر مستنيكي...</h2>
+            <img src="https://cdn-icons-png.flaticon.com/512/346/346167.png" class="flower-img" onclick="showMessage()">
+            <p style="color: #888;">(اضغطي على الوردة)</p>
+        </div>
+
+        <div id="message-section">
+            <div class="message-box">
+                <h3 style="color: #ff1493;">يا أغلى الناس ❤️</h3>
+                <p>عايز أوريكي شوية صور من أجمل ذكرياتنا سوا.. جاهزة؟</p>
+                <button onclick="startGallery()">Next</button>
+            </div>
+        </div>
+
+        <div id="gallery-section">
+            <div class="gallery-container">
+                <img id="current-img" src="" class="gallery-img">
+            </div>
+            <div id="caption-text" class="caption"></div>
+            <button onclick="nextPhoto()">الصورة اللي بعدها ✨</button>
+        </div>
+
+    </div>
+
+    <audio id="bg-music" src="1000311463.mp3" loop preload="auto"></audio>
+
+    <script>
+        // مصفوفة الصور بناءً على الملفات اللي بعتها
+        const galleryData = [
+            { src: "IMG-20251030-WA0022.jpg", text: "ضحكتك حياة ❤️" },
+            { src: "IMG-20251012-WA0053.jpg", text: "أجمل عيون شوفتها" },
+            { src: "IMG-20251019-WA0039.jpg", text: "دايماً في قلبي" },
+            { src: "IMG-20251030-WA0023.jpg", text: "رقة مفيش زيها" },
+            { src: "IMG-20251028-WA0006.jpg", text: "جمالك ملوش وصف" },
+            { src: "IMG-20251027-WA0100.jpg", text: "قمر منور دايماً" },
+            { src: "IMG-20251019-WA0011.jpg", text: "يا أحلى حاجة في دنيتي" },
+            { src: "IMG-20251007-WA0049.jpg", text: "صورتك دي غالية عندي" },
+            { src: "IMG-20251106-WA0032.jpg", text: "بحبك أكتر من أي حاجة ❤️" }
+        ];
+
+        let currentIndex = 0;
+        const music = document.getElementById('bg-music');
+
+        function checkPassword() {
+            const pass = document.getElementById('pass-input').value;
+            if (pass === "123") { // الباسورد هنا 123
+                document.getElementById('password-section').style.display = 'none';
+                document.getElementById('flower-section').style.display = 'block';
+            } else {
+                alert("الباسورد غلط!");
+            }
+        }
+
+        function showMessage() {
+            document.getElementById('flower-section').style.display = 'none';
+            document.getElementById('message-section').style.display = 'block';
+        }
+
+        // هنا اللحظة الحاسمة: تشغيل الأغنية مع أول Next
+        function startGallery() {
+            document.getElementById('message-section').style.display = 'none';
+            document.getElementById('gallery-section').style.display = 'block';
+            
+            // تشغيل الموسيقى
+            music.play().catch(e => console.log("المتصفح منع التشغيل التلقائي"));
+            
+            updateGallery();
+        }
+
+        function updateGallery() {
+            const img = document.getElementById('current-img');
+            const text = document.getElementById('caption-text');
+            
+            // إضافة تأثير اختفاء بسيط عند التبديل
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = galleryData[currentIndex].src;
+                text.innerText = galleryData[currentIndex].text;
+                img.style.opacity = 1;
+            }, 200);
+            
+            img.style.transition = "opacity 0.4s";
+        }
+
+        function nextPhoto() {
+            currentIndex++;
+            if (currentIndex >= galleryData.length) {
+                currentIndex = 0;
+            }
+            updateGallery();
+        }
+    </script>
+</body>
+</html>
