@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألبوم ذكرياتنا ❤️</title>
+    <style>
+        body { margin: 0; background-color: #fff0f3; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; overflow: hidden; }
+        .container { width: 90%; max-width: 400px; text-align: center; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .section { display: none; animation: fadeIn 0.5s; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .img-box { width: 100%; height: 450px; border-radius: 15px; overflow: hidden; margin-bottom: 10px; border: 3px solid #ffb6c1; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .caption { font-size: 1.2rem; color: #d63384; font-weight: bold; margin-bottom: 15px; }
+        button { background: #ff4d6d; color: white; border: none; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-size: 1rem; }
+        input { padding: 10px; border-radius: 20px; border: 1px solid #ddd; margin-bottom: 10px; text-align: center; width: 80%; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="s1" class="section active">
+            <h2>ادخلي كلمة السر ❤️</h2>
+            <input type="password" id="pw" placeholder="كلمة السر...">
+            <br><button onclick="check()">دخول</button>
+        </div>
+
+        <div id="s2" class="section">
+            <div onclick="go(3)" style="cursor:pointer; font-size: 80px;">🌸</div>
+            <p>اضغطي على الوردة</p>
+        </div>
+
+        <div id="s3" class="section">
+            <p style="font-size: 1.3rem;">جاهزة تشوفي أجمل صور؟ ❤️</p>
+            <button onclick="start()">Next</button>
+        </div>
+
+        <div id="s4" class="section">
+            <div class="img-box"><img id="gImg" src=""></div>
+            <div id="gCap" class="caption"></div>
+            <button onclick="next()">Next</button>
+        </div>
+    </div>
+
+    <audio id="bgMus" src="1000311463.mp3" loop></audio>
+
+    <script>
+        // الأسماء هنا مطابقة لصورك في GitHub بالظبط
+        const data = [
+            { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { s: "IMG-20251012-WA0053.jpg", t: "قمر منور دايماً" },
+            { s: "IMG-20251019-WA0039.jpg", t: "كل يوم بيكِ أحلى" },
+            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب والروح" },
+            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية تانية" },
+            { s: "IMG-20251027-WA0100.jpg", t: "أجمل ملامح في الكون" },
+            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله هنا" },
+            { s: "IMG-20251007-WA0049.jpg", t: "صورتك دي غالية عندي" },
+            { s: "IMG-20251106-WA0032.jpg", t: "بحبك للأبد ❤️" }
+        ];
+
+        let idx = 0;
+        const mus = document.getElementById('bgMus');
+
+        function check() { if(document.getElementById('pw').value === "123") go(2); else alert("الباسورد غلط!"); }
+        function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); }
+        
+        function start() { 
+            mus.play(); // تشغيل الأغنية فور الضغط على Next
+            go(4); 
+            update(); 
+        }
+
+        function next() { 
+            idx = (idx + 1) % data.length; 
+            update(); 
+        }
+        
+        function update() { 
+            document.getElementById('gImg').src = data[idx].s;
+            document.getElementById('gCap').innerText = data[idx].t;
+        }
+    </script>
+</body>
+</html>
