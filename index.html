@@ -3,120 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Queen | Amal ❤️</title>
+    <title>إلى أمل ❤️</title>
     <style>
         :root {
-            --accent: #ff2d55;
-            --gold: #d4af37;
-            --glass: rgba(255, 255, 255, 0.15);
-            --shadow: rgba(0, 0, 0, 0.8);
-            --gradient: linear-gradient(135deg, #ff2d55, #ff512f, #ffd700);
+            --soft-pink: #f8c8dc; /* وردي هادئ */
+            --light-green: #d4edda; /* أخضر ناعم للطبيعة */
+            --muted-gold: #f4e4bc; /* ذهبي هادئ */
+            --shadow: rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #f8c8dc, #d4edda, #f4e4bc);
         }
 
         body {
             margin: 0;
-            background: linear-gradient(135deg, #0b0b0b, #2d0b11, #050505);
-            color: white;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f7e6 50%, #fffacd 100%); /* خلفية طبيعية هادئة مع أشجار */
+            background-image: url('https://img.freepik.com/free-vector/nature-background-with-leaves_23-2148954999.jpg'); /* خلفية أشجار خفيفة */
+            background-size: cover;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
+            position: relative;
         }
 
-        /* خلفية سينمائية متحركة محسنة */
-        #bg-canvas {
+        /* أوراق وورد طائرة */
+        .floating-leaf {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #2d0b11 0%, #050505 100%);
-            z-index: -1;
-            animation: bgPulse 10s infinite ease-in-out;
+            top: -10%;
+            animation: fallLeaf linear infinite;
+            z-index: 1;
+            user-select: none;
+            opacity: 0.7;
         }
-        @keyframes bgPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        @keyframes fallLeaf {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
         .container {
             width: 90%;
-            max-width: 480px;
-            z-index: 10;
-            background: rgba(20, 20, 20, 0.7);
-            backdrop-filter: blur(30px);
-            border-radius: 50px;
-            padding: 50px;
+            max-width: 500px;
             text-align: center;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 60px 120px var(--shadow);
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 60px;
+            box-shadow: 0 40px 80px var(--shadow);
+            border: 8px solid var(--soft-pink);
+            backdrop-filter: blur(20px);
+            z-index: 10;
+            transition: transform 0.6s;
         }
         .container:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
-        /* الوردة الاحترافية - SVG متحرك */
-        .rose-container {
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 40px;
-            position: relative;
-            cursor: pointer;
+        .section { 
+            display: none; 
+            animation: slideIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
-        .ai-rose {
-            width: 100%;
-            height: 100%;
-            animation: roseGlow 4s infinite ease-in-out, roseRotate 20s linear infinite;
-        }
-        @keyframes roseGlow {
-            0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 45, 85, 0.3)); }
-            50% { filter: drop-shadow(0 0 60px rgba(255, 45, 85, 0.7)); }
-        }
-        @keyframes roseRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
         }
 
-        /* معرض الصور المحسن */
-        .img-frame {
-            width: 100%;
-            height: 450px;
-            border-radius: 30px;
-            border: 5px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 40px 80px var(--shadow);
-            transition: transform 0.5s;
-        }
-        .img-frame:hover {
-            transform: scale(1.05);
-        }
-        .img-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* الأزرار الفخمة المحسنة */
+        /* أزرار هادئة وأنيقة */
         button {
             background: var(--gradient);
-            color: white;
+            color: #333;
             border: none;
-            padding: 20px 50px;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-weight: 900;
+            padding: 20px 40px;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 20px 40px rgba(255, 45, 85, 0.4);
-            transition: 0.4s;
-            margin-top: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            box-shadow: 0 15px 30px var(--shadow);
+            transition: all 0.3s;
+            margin: 20px;
             position: relative;
             overflow: hidden;
         }
@@ -127,19 +92,63 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.7s;
         }
         button:hover::before {
             left: 100%;
         }
         button:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 25px 50px rgba(255, 45, 85, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px var(--shadow);
         }
 
-        /* الصندوق 3D المحسن */
-        .gift-box {
+        .img-box {
+            width: 100%;
+            height: 480px;
+            border-radius: 40px;
+            overflow: hidden;
+            border: 10px solid var(--soft-pink);
+            box-shadow: 0 25px 50px var(--shadow);
+            transition: transform 0.6s;
+        }
+        .img-box:hover {
+            transform: scale(1.05);
+        }
+        .img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+
+        .caption { 
+            margin: 25px 0; 
+            font-size: 1.6rem; 
+            color: #555; 
+            font-weight: 900; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* الورد المتحرك */
+        .rose-3d {
+            font-size: 140px;
+            cursor: pointer;
+            display: inline-block;
+            filter: drop-shadow(0 20px 40px var(--shadow));
+            transition: 0.8s;
+            animation: roseFloat 3s infinite ease-in-out;
+        }
+        @keyframes roseFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .rose-3d:hover { 
+            transform: scale(1.4) rotate(20deg); 
+        }
+
+        /* الصندوق الهدية 3D */
+        .gift-box-3d {
             width: 200px;
             height: 200px;
             margin: 0 auto;
@@ -147,182 +156,192 @@
             background-size: cover;
             border-radius: 25px;
             cursor: pointer;
-            transition: 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             box-shadow: 0 20px 40px var(--shadow);
+            position: relative;
         }
-        .gift-open .gift-box {
+        .gift-open .gift-box-3d {
             transform: scale(0) rotateY(720deg) rotateX(720deg);
             opacity: 0;
-            box-shadow: 0 0 100px rgba(255, 45, 85, 1);
-        }
-
-        #message-card {
-            display: none;
-            padding: 40px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            animation: slideUp 1.5s forwards;
-            box-shadow: 0 30px 60px var(--shadow);
-        }
-        @keyframes slideUp {
-            from { transform: translateY(150px) scale(0.8); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-
-        .section {
-            display: none;
-        }
-        .active {
-            display: block;
-            animation: fadeIn 1.5s forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 18px;
-            border-radius: 15px;
-            color: white;
-            text-align: center;
-            width: 85%;
-            outline: none;
-            font-size: 1.3rem;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(255, 45, 85, 0.5);
+            box-shadow: 0 0 100px rgba(248, 200, 220, 0.8);
         }
 
         #typewriter {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            color: #444;
             line-height: 2.2;
-            color: #fff;
-            font-weight: 400;
-            text-shadow: 0 2px 4px var(--shadow);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 25px;
+            padding: 25px;
+            font-weight: bold;
+            margin-top: 25px;
+            text-align: center;
+            box-shadow: 0 15px 30px var(--shadow);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 20;
+        }
+
+        /* تأثيرات 3D للكلام */
+        .text-3d {
+            animation: textFly 2s forwards;
+            display: inline-block;
+        }
+        @keyframes textFly {
+            from { opacity: 0; transform: translateZ(-100px) scale(0.5); }
+            to { opacity: 1; transform: translateZ(0) scale(1); }
         }
     </style>
+    <!-- مكتبة Particles.js للجزيئات الطبيعية -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <div id="bg-canvas"></div>
+
+    <!-- Particles للأوراق والورد -->
+    <div id="particles-js"></div>
 
     <div class="container">
         <div id="s1" class="section active">
-            <h1 style="color: var(--accent); font-size: 2.5rem; text-shadow: 0 4px 8px var(--shadow);">Private Access</h1>
-            <p style="color: #ccc; font-size: 1.1rem;">منطقة خاصة جداً بـ "أمل"</p>
-            <input type="password" id="pw" placeholder="كلمة السر">
-            <br><button onclick="check()">دخول ❤️</button>
+            <h2 style="color: #555; text-shadow: 0 3px 6px rgba(0,0,0,0.1);">أهلاً يا أمل ❤️</h2>
+            <input type="password" id="pw" style="width:90%; padding:20px; border-radius:20px; border:3px solid var(--soft-pink); text-align:center; outline:none; font-size:1.2rem; transition:0.4s;" placeholder="كلمة السر...">
+            <br><button onclick="check()">دخول</button>
         </div>
 
         <div id="s2" class="section">
-            <div class="rose-container" onclick="startStory()">
-                <svg class="ai-rose" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <radialGradient id="roseGrad" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" style="stop-color:#ff2d55;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#d4af37;stop-opacity:1" />
-                        </radialGradient>
-                    </defs>
-                    <path d="M50 10 C60 10, 70 20, 70 30 C70 40, 60 50, 50 50 C40 50, 30 40, 30 30 C30 20, 40 10, 50 10 Z" fill="url(#roseGrad)" />
-                    <path d="M50 50 C60 50, 70 60, 70 70 C70 80, 60 90, 50 90 C40 90, 30 80, 30 70 C30 60, 40 50, 50 50 Z" fill="url(#roseGrad)" />
-                    <circle cx="50" cy="50" r="5" fill="#fff" />
-                </svg>
-            </div>
-            <h2 style="letter-spacing: 3px; color: var(--gold); text-shadow: 0 2px 4px var(--shadow);">اضغطي لتفتحي الحكاية</h2>
+            <h2 style="color: #555; text-shadow: 0 3px 6px rgba(0,0,0,0.1);">دوسي على الورد 🌹</h2>
+            <div class="rose-3d" onclick="startGallery()">🌹</div>
         </div>
 
         <div id="s3" class="section">
-            <div class="img-frame"><img id="gImg" src=""></div>
-            <h3 id="gCap" style="margin: 30px 0; font-weight: 300; letter-spacing: 2px; color: #eee; text-shadow: 0 2px 4px var(--shadow);"></h3>
-            <button id="nBtn" onclick="nextPhoto()">التالي ➡️</button>
-            <div id="endBtns" style="display:none;">
-                <button onclick="goGift()">المفاجأة الأخيرة 🎁</button>
+            <div class="img-box"><img id="gImg" src=""></div>
+            <div id="gCap" class="caption"></div>
+            <button id="nextBtn" onclick="next()">الصورة اللي بعدها ✨</button>
+            <div id="finalBtns" style="display:none;">
+                <button onclick="resetGallery()" style="background: linear-gradient(135deg, #d1ecf1, #bee5eb); color: #333;">من الأول 🔄</button>
+                <button onclick="goGift()">افتحي الهدية 🎁</button>
             </div>
         </div>
 
         <div id="s4" class="section">
             <div id="giftTrigger" onclick="openGift()">
-                <div class="gift-box"></div>
+                <div class="gift-box-3d"></div>
             </div>
-            <div id="message-card">
-                <div id="typewriter"></div>
-                <button onclick="location.reload()" style="font-size: 0.9rem; padding: 12px 25px; margin-top: 20px;">العودة 🏠</button>
-            </div>
+            <div id="typewriter"></div>
+            <button id="resetFromGift" style="display:none; margin-top:30px;" onclick="location.reload()">نبدأ من الأول؟ 🏠</button>
         </div>
     </div>
 
-    <audio id="mus1" src="1000311463.mp3" loop></audio>
-    <audio id="mus2" src="1000315475.mp3"></audio>
+    <audio id="bgMus" src="1000311463.mp3" loop></audio>
+    <audio id="clickSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"></audio>
 
     <script>
+        // تهيئة Particles.js للأوراق والورد
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50 },
+                color: { value: ['#f8c8dc', '#d4edda', '#f4e4bc'] },
+                shape: { type: 'image', image: { src: 'https://img.icons8.com/emoji/48/000000/rose.png', width: 100, height: 100 } },
+                opacity: { value: 0.7 },
+                size: { value: 20 },
+                move: { speed: 2, direction: 'bottom' }
+            },
+            interactivity: { events: { onhover: { enable: true, mode: 'repulse' } } }
+        });
+
         const data = [
-            { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك تنور الدنيا ❤️" },
-            { s: "IMG-20251012-WA0053.jpg", t: "جمال لا يوصف" },
-            { s: "IMG-20251019-WA0039.jpg", t: "كل لحظة معاكِ عيد" },
-            { s: "IMG-20251030-WA0023.jpg", t: "رقة وخفة دم" },
+            { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { s: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
+            { s: "IMG-20251019-WA0039.jpg", t: "كل يوم بيكِ أحلى" },
+            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
+            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
+            { s: "IMG-20251027-WA0100.jpg", t: "دايماً متألقة" },
+            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
+            { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" },
+            { s: "IMG-20251106-WA0032.jpg", t: "بحبك للأبد ❤️" },
             { s: "1000316273.jpg", t: "القمر بذات نفسه 🌙" },
             { s: "1000316274.jpg", t: "أجمل أمل في الكون ✨" }
         ];
 
         let idx = 0;
-        const m1 = document.getElementById('mus1');
-        const m2 = document.getElementById('mus2');
+        const mus = document.getElementById('bgMus');
+        const clickSound = document.getElementById('clickSound');
 
         function check() { 
-            if(document.getElementById('pw').value === "123") switchSec(2); 
-            else alert("خطأ! حاولي مرة أخرى يا جميلة."); 
+            if(document.getElementById('pw').value === "123") go(2); 
+            else alert("الباسورد غلط يا أمل!"); 
         }
 
-        function switchSec(n) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('s'+n).classList.add('active');
+        function go(n) { 
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
+            document.getElementById('s'+n).classList.add('active'); 
+        }
+        
+        function startGallery() { 
+            mus.play(); 
+            clickSound.play(); 
+            go(3); 
+            update(); 
         }
 
-        function startStory() { m1.play(); switchSec(3); showImg(); }
+        function next() { 
+            clickSound.play(); 
+            if(idx < data.length - 1) {
+                idx++;
+                update();
+            } else {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('finalBtns').style.display = 'block';
+            }
+        }
 
-        function showImg() {
+        function resetGallery() {
+            clickSound.play();
+            idx = 0;
+            update();
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('finalBtns').style.display = 'none';
+        }
+        
+        function update() { 
             const img = document.getElementById('gImg');
             img.style.opacity = 0;
             setTimeout(() => {
                 img.src = data[idx].s;
                 document.getElementById('gCap').innerText = data[idx].t;
                 img.style.opacity = 1;
-            }, 600);
+            }, 700);
         }
 
-        function nextPhoto() {
-            if(idx < data.length - 1) { idx++; showImg(); }
-            else { document.getElementById('nBtn').style.display = 'none'; document.getElementById('endBtns').style.display = 'block'; }
+        function goGift() { 
+            clickSound.play();
+            go(4); 
         }
-
-        function goGift() { switchSec(4); }
 
         function openGift() {
+            clickSound.play();
             document.getElementById('giftTrigger').classList.add('gift-open');
-            m1.pause(); m2.play();
             setTimeout(() => {
-                document.getElementById('message-card').style.display = 'block';
-                typeMsg();
-            }, 1500);
-        }
-
-        function typeMsg() {
-            const text = "إلى أمل.. الشخص اللي بيخلي كل حاجة أحلى.. 🎉\nكل سنة وأنتِ طيبة، وكل سنة وأنتِ ناجحة وقوية.. \nالموقع ده هدية بسيطة عشان أقولك إنك غالية جداً عندي.. ❤️";
-            let i = 0;
-            const target = document.getElementById('typewriter');
-            function typing() {
-                if(i < text.length) {
-                    target.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
-                    i++; setTimeout(typing, 80);
+                const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nوعقبال مليون سنة وتحققي كل اللي في بالك..\nوكل سنة وأنتِ قرفاني في عيشتي كدة دايماً 😂\nبهزر طبعاً.. بجد كل سنة وأنتِ منورة حياتي ❤️";
+                let i = 0;
+                const typewriter = document.getElementById('typewriter');
+                typewriter.innerHTML = "";
+                
+                function type() {
+                    if (i < text.length) {
+                        const char = text.charAt(i);
+                        if (char === '\n') {
+                            typewriter.innerHTML += '<br class="text-3d">';
+                        } else {
+                            typewriter.innerHTML += '<span class="text-3d">' + char + '</span>';
+                        }
+                        i++;
+                        setTimeout(type, 100);
+                    } else {
+                        document.getElementById('resetFromGift').style.display = 'inline-block';
+                    }
                 }
-            }
-            typing();
+                type();
+            }, 2000);
         }
     </script>
 </body>
