@@ -12,17 +12,6 @@
         body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; transition: background 3s ease; position: relative; }
         body.romantic-mode { background: #0a0002; }
 
-        /* تأثير اهتزاز الخطأ */
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        .error-shake { animation: shake 0.4s ease-in-out; border: 2px solid red !important; }
-
-        button { 
-            background: linear-gradient(145deg, #ff4d6d, #d9163b); color: white; border: none; padding: 16px; border-radius: 20px; 
-            width: 90%; font-weight: bold; font-size: 1.05rem; cursor: pointer; margin-top: 15px; position: relative; overflow: hidden;
-            transition: all 0.2s ease; box-shadow: 0 6px 15px rgba(255,77,109,0.35), inset 0 -4px 0 rgba(0,0,0,0.15);
-        }
-        button:active { transform: translateY(3px); box-shadow: 0 2px 5px rgba(255,77,109,0.2), inset 0 2px 4px rgba(0,0,0,0.1); }
-
         .container { width: 92%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); z-index: 10; position: relative; }
         body.romantic-mode .container { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
 
@@ -31,32 +20,43 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* الألبوم */
-        .album-container { width: 260px; height: 320px; margin: 20px auto; perspective: 1500px; position: relative; }
+        .album-container { width: 260px; height: 320px; margin: 15px auto; perspective: 1500px; position: relative; }
         .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
         .page { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1); cursor: pointer; }
         .page img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 5px solid white; backface-visibility: hidden; }
         .page.flipped { transform: rotateY(-160deg); }
-        .page-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; transform: rotateY(180deg); backface-visibility: hidden; border-radius: 15px; display: flex; align-items: center; justify-content: center; padding: 15px; color: var(--main-pink); font-weight: bold; border: 5px solid white; text-align: center; }
+        .page-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; transform: rotateY(180deg); backface-visibility: hidden; border-radius: 15px; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--main-pink); }
 
-        /* الغلاف المخصص */
-        .cover-page { background: linear-gradient(45deg, #ff4d6d, #c9184a) !important; color: white !important; border: 5px solid gold !important; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 15px; }
+        /* الكلام تحت الصور المتوهج */
+        #photo-caption { font-size: 1.2rem; font-weight: bold; color: var(--main-pink); margin-top: 15px; min-height: 35px; text-shadow: 0 0 8px rgba(255, 77, 109, 0.2); transition: 0.3s; }
+        body.romantic-mode #photo-caption { color: var(--gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.6); }
 
-        .fp-wrapper { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--scan-color); box-shadow: 0 0 15px var(--scan-color); display: none; z-index: 5; }
-        .fp-wrapper.scanning .scan-line { display: block; animation: scanMove 1.5s linear infinite; }
-        @keyframes scanMove { 0%, 100% { top: 0; } 50% { top: 100%; } }
+        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; text-align: center; transition: 0.5s; z-index: 9999; border: 2px solid var(--main-pink); font-weight: bold; }
+        #top-comment.show { top: 20px; }
 
+        .fp-wrapper { position: relative; width: 100px; height: 100px; margin: 20px auto; }
+        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--scan-color); box-shadow: 0 0 15px var(--scan-color); display: none; }
+        .fp-wrapper.scanning .scan-line { display: block; animation: scan 1.5s linear infinite; }
+        @keyframes scan { 0%, 100% { top: 0; } 50% { top: 100%; } }
+
+        /* الأزرار */
+        button { background: linear-gradient(145deg, #ff4d6d, #d9163b); color: white; border: none; padding: 15px; border-radius: 20px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        button:active { transform: scale(0.98); }
+
+        /* الشاشة السوداء والنجوم */
+        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; }
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+        
         .gift-box { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; perspective: 1000px; }
         .gift-box .lid { position: absolute; top: 0; left: 0; width: 100%; height: 25%; background: var(--main-pink); border: 2px solid white; z-index: 2; transition: 0.8s; transform-origin: top; }
         .gift-box .box { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: var(--dark-pink); border: 2px solid white; }
         .gift-box.open .lid { transform: rotateX(110deg); }
-
-        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div id="top-comment" style="position:fixed; top:-100px; left:10%; right:10%; background:white; color:var(--main-pink); padding:15px; border-radius:20px; text-align:center; transition:0.5s; z-index:9999; border:2px solid var(--main-pink);"></div>
+    <div id="top-comment"></div>
     <audio id="bgMus" src="1000311463.mp3" loop></audio>
     <audio id="finalSong" src="1000315475.mp3"></audio>
 
@@ -67,27 +67,26 @@
                 <div class="scan-line"></div>
                 <div style="font-size: 80px; color: var(--gold);"><i class="fas fa-fingerprint"></i></div>
             </div>
-            <p id="fp-status">اضغطي بصمتك يا أمل..</p>
+            <p>اضغطي بصمتك يا أمل..</p>
         </div>
 
         <div id="s1" class="section">
             <h3 style="color: var(--main-pink)">نورتي دنيتي</h3>
-            <input type="password" id="pw" inputmode="numeric" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
-            <button onclick="check()">دخول ❤️</button>
+            <input type="password" id="pw" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
+            <br><button onclick="check()">دخول ❤️</button>
         </div>
 
         <div id="s2" class="section">
             <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
-            <div style="width: 90px; height: 90px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 20px auto; cursor: pointer; font-size: 40px; border: 4px solid var(--soft-pink);" onclick="flowerLogic()">🌹</div>
+            <div style="font-size: 60px; cursor: pointer;" onclick="flowerLogic()">🌹</div>
         </div>
 
         <div id="s3" class="section">
-            <h3 style="color: var(--main-pink)">ألبوم ذكرياتنا ❤️</h3>
-            <p id="hint-text" style="font-size:0.8rem; color:#888;">المسي الغلاف لفتح الكتاب..</p>
+            <h3 style="color: var(--main-pink)">ذكرياتنا ❤️</h3>
             <div class="album-container">
-                <div class="book" id="albumBook">
-                    </div>
+                <div class="book" id="albumBook"></div>
             </div>
+            <div id="photo-caption">افتحي الغلاف يا روحي..</div>
             <button id="toGiftBtn" style="display:none;" onclick="startRomanticScene()">افتحي الهدية 🎁</button>
         </div>
 
@@ -95,7 +94,7 @@
             <div class="gift-box" id="giftBox" onclick="openGift()">
                 <div class="lid"></div><div class="box"></div>
             </div>
-            <div id="typewriter" style="font-weight:bold; margin-top:20px;"></div>
+            <div id="typewriter-gift" style="font-weight:bold; margin-top:20px; min-height: 40px;"></div>
             <button id="toScratchBtn" style="display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
         </div>
 
@@ -112,15 +111,15 @@
     <div id="black-screen">
         <h1 style="color:var(--gold); font-size:2.2rem;">Happy Birthday Amal!</h1>
         <img src="IMG-20251030-WA0022.jpg" style="width:120px; height:120px; border-radius:50%; border:4px solid gold; object-fit:cover;">
-        <p style="margin-top:20px;">كل سنة وأنتِ منورة حياتي ❤️</p>
-        <button onclick="location.reload()" style="width:auto; background:rgba(255,255,255,0.1);">رجوع 🏠</button>
+        <p style="margin-top:20px; padding: 0 20px;">كل سنة وأنتِ منورة حياتي.. يارب تكون الهدية عجبتك ❤️</p>
+        <button onclick="location.reload()" style="width:auto; background:rgba(255,255,255,0.1); border: 1px solid white;">رجوع 🏠</button>
     </div>
 
     <script>
-        let fClicks = 0, flippedCount = 0;
+        let fClicks = 0, flippedCount = 0, typingTimer;
         const memories = [
-            { img: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة" },
-            { img: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك" },
+            { img: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { img: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك ❤️" },
             { img: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
             { img: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
             { img: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
@@ -133,81 +132,82 @@
         ];
 
         function vib() { if(navigator.vibrate) navigator.vibrate(40); }
-        function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); if(n===3) initAlbum(); if(n===5) initScratch(); }
+        function showComment(txt) {
+            const c = document.getElementById('top-comment');
+            c.innerText = txt; c.classList.add('show');
+            setTimeout(() => c.classList.remove('show'), 2500);
+        }
 
-        function startScan() { vib(); document.getElementById('fp-area').classList.add('scanning'); setTimeout(() => go(1), 2000); }
+        function startScan() { vib(); document.getElementById('fp-area').classList.add('scanning'); setTimeout(()=>go(1), 2000); }
         function stopScan() { document.getElementById('fp-area').classList.remove('scanning'); }
 
-        function check() { 
-            const input = document.getElementById('pw');
-            if(input.value === "123") { vib(); go(2); } 
-            else { 
-                vib(); input.classList.add('error-shake');
-                setTimeout(() => input.classList.remove('error-shake'), 400);
-                input.value = "";
-            }
+        function check() {
+            if(document.getElementById('pw').value === "123") {
+                vib(); showComment("خشي برجلك اليمين 😂❤️");
+                setTimeout(()=>go(2), 2000);
+            } else { vib(); alert("غلط!"); }
         }
 
         function flowerLogic() {
             fClicks++; vib();
-            if(fClicks === 5) { document.getElementById('bgMus').play(); go(3); }
+            if(fClicks===1) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني..");
+            if(fClicks===3) showComment("غمضي عينك وعدي لـ 5 في سرك وبعدين دوسي");
+            if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂");
+            if(fClicks===5) { document.getElementById('bgMus').play(); go(3); }
         }
 
         function initAlbum() {
             const book = document.getElementById('albumBook');
             if(book.children.length > 0) return;
-
-            // إضافة الغلاف أولاً (أعلى الصفحة)
+            // الغلاف
             const cover = document.createElement('div');
-            cover.className = 'page';
-            cover.style.zIndex = memories.length + 1;
-            cover.innerHTML = `
-                <div style="width:100%; height:100%; background:linear-gradient(135deg, #ff4d6d, #c9184a); color:white; display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:15px; border:5px solid gold;">
-                    <i class="fas fa-heart" style="font-size:50px; margin-bottom:15px;"></i>
-                    <h2 style="margin:0;">ألبوم ذكرياتنا</h2>
-                    <p style="font-size:0.9rem;">إلى حبيبتي أمل ❤️</p>
-                </div>
-                <div class="page-back">يلا نبدأ الرحلة.. 🎬</div>
-            `;
-            cover.onclick = flipPage;
-            book.appendChild(cover);
-
-            // إضافة الصور
+            cover.className = 'page'; cover.style.zIndex = memories.length + 1;
+            cover.innerHTML = `<div style="width:100%; height:100%; background:linear-gradient(45deg, #ff4d6d, #c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold;"><h2>ألبومنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`;
+            cover.onclick = flip; book.appendChild(cover);
+            // الصور
             memories.forEach((m, i) => {
-                const p = document.createElement('div');
-                p.className = 'page';
-                p.style.zIndex = memories.length - i;
-                p.innerHTML = `<img src="${m.img}"><div class="page-back">${m.t}</div>`;
-                p.onclick = flipPage;
-                book.appendChild(p);
+                const p = document.createElement('div'); p.className = 'page'; p.style.zIndex = memories.length - i;
+                p.innerHTML = `<img src="${m.img}"><div class="page-back">❤️</div>`;
+                p.onclick = flip; book.appendChild(p);
             });
         }
 
-        function flipPage() {
+        function typeWriter(text, elementId) {
+            const el = document.getElementById(elementId);
+            el.innerText = ""; let i = 0;
+            clearTimeout(typingTimer);
+            function type() {
+                if (i < text.length) { el.innerText += text.charAt(i); i++; typingTimer = setTimeout(type, 80); }
+            }
+            type();
+        }
+
+        function flip() {
             if(!this.classList.contains('flipped')) {
-                vib();
-                this.classList.add('flipped');
-                flippedCount++;
-                document.getElementById('hint-text').innerText = "كملي تقليب يا روحي.. ❤️";
-                if(flippedCount > memories.length) {
-                    document.getElementById('toGiftBtn').style.display = 'block';
-                    document.getElementById('hint-text').innerText = "خلصنا الألبوم ✨";
-                }
+                vib(); this.classList.add('flipped'); flippedCount++;
+                if(flippedCount <= memories.length) typeWriter(memories[flippedCount-1].t, 'photo-caption');
+                if(flippedCount > memories.length) { document.getElementById('toGiftBtn').style.display = 'block'; document.getElementById('photo-caption').innerText = "خلصنا الألبوم ✨"; }
             }
         }
 
-        function startRomanticScene() { vib(); document.body.classList.add('romantic-mode'); go(4); }
+        function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); if(n===3) initAlbum(); if(n===5) initScratch(); }
+        
+        function startRomanticScene() {
+            vib(); document.body.classList.add('romantic-mode');
+            for(let i=0; i<40; i++) {
+                let s = document.createElement('div'); s.className = 'star';
+                s.style.width = s.style.height = Math.random()*3+'px';
+                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
+                s.style.setProperty('--d', Math.random()*3+2+'s'); document.body.appendChild(s);
+            }
+            go(4);
+        }
 
         function openGift() {
             vib(); document.getElementById('giftBox').classList.add('open');
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            const text = "كل سنة وأنتِ طيبة يا أمل.. ❤️";
-            let i = 0;
-            function type() {
-                if(i < text.length) { document.getElementById('typewriter').innerHTML += text[i]; i++; setTimeout(type, 100); }
-                else document.getElementById('toScratchBtn').style.display = 'block';
-            }
-            setTimeout(type, 800);
+            setTimeout(() => { typeWriter("كل سنة وأنتِ طيبة يا أمل.. بجد فرحتي بيكِ ملهاش حدود ❤️", "typewriter-gift"); }, 500);
+            setTimeout(() => { document.getElementById('toScratchBtn').style.display = 'block'; }, 3000);
         }
 
         function initScratch() {
