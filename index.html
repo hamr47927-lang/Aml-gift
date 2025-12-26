@@ -8,59 +8,74 @@
     <style>
         :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --soft-pink: #ff8fa3; --gold: #ffd700; }
         body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.6s; z-index: 5000; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid var(--main-pink); }
-        .container { width: 88%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); position: relative; z-index: 10; }
-        .section { display: none; }
-        .active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        /* البصمة - نسخة الموبايل المضمونة */
-        .fp-container { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.6s; z-index: 5000; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid var(--main-pink); }
+        .container { width: 88%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); }
+        
+        .section { display: none; }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* البصمة والعداد */
+        .fp-container { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; touch-action: none; }
         .fp-icon { font-size: 80px; color: var(--gold); }
-        .fp-scanner { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; display: none; }
+        .fp-scanner { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #00f2ff; display: none; }
         .scanning .fp-scanner { display: block; animation: scan 1.2s infinite alternate; }
         @keyframes scan { from { top: 0; } to { top: 90px; } }
+        #counter-box { margin: 15px 0; font-size: 1.3rem; font-weight: bold; color: var(--main-pink); }
 
-        /* الصندوق والعداد */
-        #gift-draw-path { width: 180px; height: 180px; margin: 0 auto; display: none; background: url('https://cdn-icons-png.flaticon.com/512/2143/2143150.png') center/contain no-repeat; clip-path: inset(100% 0 0 0); }
-        .drawing-active { animation: drawGift 4s forwards linear; }
-        @keyframes drawGift { to { clip-path: inset(0% 0 0 0); } }
-        #counter-box { margin: 15px 0; font-size: 1.4rem; font-weight: bold; color: var(--main-pink); }
-        .gift-box-container { position: relative; width: 150px; height: 150px; margin: 20px auto; }
+        /* رسم البوكيه */
+        #bouquet-reveal { width: 200px; height: 200px; margin: 20px auto; display: none; background: url('https://images.squarespace-cdn.com/content/v1/552bef29e4b096537b83f064/1586522067784-BWSK4J16N00K6O9S5O1K/Flower+Bouquet.png') center/contain no-repeat; clip-path: inset(100% 0 0 0); }
+        .drawing-active { animation: drawReveal 4s forwards linear; }
+        @keyframes drawReveal { to { clip-path: inset(0% 0 0 0); } }
+
+        /* الجاليري */
+        .gallery-card { width: 100%; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .gallery-card img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* الصندوق الأصلي */
+        .gift-box-container { position: relative; width: 140px; height: 140px; margin: 20px auto; cursor: pointer; }
         .gift-top { position: absolute; top: 0; width: 100%; z-index: 2; transition: 0.8s; }
         .gift-bottom { width: 100%; position: absolute; bottom: 0; }
-        .open .gift-top { transform: translateY(-120px) rotate(-20deg); opacity: 0; }
+        .open .gift-top { transform: translateY(-110px) rotate(-20deg); opacity: 0; }
 
-        #final-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a0a; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 15px; border-radius: 25px; width: 85%; font-weight: bold; margin: 10px 0; box-shadow: 0 5px 0 var(--dark-pink); }
-        .gallery-card { width: 100%; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; }
-        .gallery-card img { width: 100%; height: 100%; object-fit: contain; }
+        /* القلب النابض */
+        #final-heart { display: none; font-size: 80px; animation: pulse 1s infinite; cursor: pointer; margin: 20px auto; filter: drop-shadow(0 0 10px var(--main-pink)); }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        /* لعبة البطاقات */
+        .cards-wrap { display: flex; justify-content: space-around; margin-top: 20px; }
+        .card { width: 80px; height: 120px; background: var(--main-pink); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; cursor: pointer; transition: 0.4s; border: 3px solid white; }
+        .card.flipped { background: white; color: var(--main-pink); transform: rotateY(180deg); }
+
+        /* الشاشة السوداء النهائية */
+        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 25px; }
+        
+        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 15px; border-radius: 25px; width: 85%; font-weight: bold; margin: 10px 0; }
     </style>
 </head>
 <body>
+
     <div id="top-comment"></div>
     <audio id="bgMus" src="1000311463.mp3" loop></audio>
     <audio id="finalSong" src="1000315475.mp3"></audio>
 
-    <div class="container">
+    <div class="container" id="main-ui">
         <div id="s0" class="section active">
-            <h3 style="color: var(--main-pink)">أهلاً يا أمل ❤️</h3>
-            <div class="fp-container" id="fp-box" onpointerdown="startScan()" onpointerup="stopScan()" onpointerleave="stopScan()">
-                <i class="fas fa-fingerprint fp-icon"></i>
-                <div class="fp-scanner"></div>
-            </div>
-            <p id="fp-text">ثبتي بصمتك هنا للبدء...</p>
+            <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
+            <div class="fp-container" id="fp-box" onpointerdown="startScan()" onpointerup="stopScan()"><i class="fas fa-fingerprint fp-icon"></i><div class="fp-scanner"></div></div>
+            <p style="font-weight:bold; color:#666;">بصمتك عشان نفتح ذكرياتنا...</p>
         </div>
 
         <div id="s1" class="section">
-            <h3 style="color: var(--main-pink)">نورتي يا قلبي</h3>
+            <h3 style="color: var(--main-pink)">نورتي دنيتي يا أمل</h3>
             <input type="password" id="pw" inputmode="numeric" style="width:70%; padding:12px; border-radius:12px; border:2px solid var(--soft-pink); text-align:center;" placeholder="123">
             <br><button onclick="check()">دخول ❤️</button>
         </div>
 
         <div id="s2" class="section">
-            <div id="btn-draw" style="font-size: 80px; cursor: pointer;" onclick="drawStep()">🎁</div>
-            <div id="gift-draw-path" onclick="go(3)"></div>
+            <div id="flower-btn" style="font-size: 80px; cursor: pointer;" onclick="flowerStep()">🌹</div>
+            <div id="bouquet-reveal" onclick="go(3)"></div>
         </div>
 
         <div id="s3" class="section">
@@ -76,17 +91,30 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/2143/2143150.png" class="gift-top">
                 <img src="https://cdn-icons-png.flaticon.com/512/2143/2143150.png" class="gift-bottom">
             </div>
-            <div id="gift-text" style="display:none; margin-top:20px;">
-                <p>كل سنة وأنتِ طيبة يا أمل 🎉</p>
-                <button style="background:#333" onclick="finalPage()">ممنوع الدوس! ⛔</button>
+            <div id="gift-text" style="display:none; margin-top:20px; font-weight:bold;">
+                <p id="typewriter"></p>
+                <button id="forbid" style="background:#333; display:none;" onclick="triggerEnd()">ممنوع الدوس! ⛔</button>
             </div>
+        </div>
+
+        <div id="s5" class="section">
+            <h3 style="color: var(--main-pink)">اختاري بطاقة حظك يا أمل ✨</h3>
+            <div class="cards-wrap">
+                <div class="card" onclick="flip(this, 'بحبك')">❓</div>
+                <div class="card" onclick="flip(this, 'يا روحي')">❓</div>
+                <div class="card" onclick="flip(this, 'أغلى أمل')">❓</div>
+            </div>
+            <button id="final-finish-btn" style="display:none; margin-top:30px;" onclick="goToBlackScreen()">شوفي المفاجأة الأخيرة ❤️</button>
         </div>
     </div>
 
-    <div id="final-page">
-        <h2 style="color: var(--soft-pink)">يا رب تكون الهدية عجبتك يا أمل ❤️</h2>
-        <p style="padding:20px; line-height:1.8;">أنتِ أجمل حاجة حصلت لي في الدنيا.. بحبك جداً.</p>
-        <button onclick="location.reload()">البداية 🏠</button>
+    <div id="black-screen">
+        <h1 style="color: var(--soft-pink)">يا رب تكون الهدية عجبتك يا أمل ❤️</h1>
+        <p style="font-size: 1.2rem; line-height: 1.8; padding: 20px;">
+            "أنتِ مش بس شريكة حياتي.. أنتِ النور اللي بيحيي أيامي.. بحبك جداً."
+        </p>
+        <div style="font-size: 60px;">🌹✨❤️</div>
+        <button onclick="location.reload()" style="margin-top:30px; width:auto; background: #333;">البداية 🏠</button>
     </div>
 
     <script>
@@ -96,34 +124,35 @@
         function showComment(txt) {
             const c = document.getElementById('top-comment');
             c.innerText = txt; c.style.top = "20px";
-            setTimeout(() => c.style.top = "-100px", 3000);
+            setTimeout(() => c.style.top = "-100px", 3500);
         }
 
-        // تصليح البصمة
-        function startScan() {
-            document.getElementById('fp-box').classList.add('scanning');
-            document.getElementById('fp-text').innerText = "جاري الفحص...";
-            scanTimer = setTimeout(() => {
-                if(navigator.vibrate) navigator.vibrate(100);
-                showComment("تم التحقق يا أمل ❤️"); go(1);
-            }, 2000);
+        // العداد الصامت
+        function updateTimer() {
+            const diff = new Date() - startDate;
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff / 3600000) % 24);
+            const m = Math.floor((diff / 60000) % 60);
+            const s = Math.floor((diff / 1000) % 60);
+            document.getElementById('timer').innerText = `${d} : ${h} : ${m} : ${s}`;
         }
-        function stopScan() {
-            clearTimeout(scanTimer);
-            document.getElementById('fp-box').classList.remove('scanning');
-            document.getElementById('fp-text').innerText = "ثبتي بصمتك هنا للبدء...";
-        }
+        setInterval(updateTimer, 1000);
+
+        // البصمة
+        function startScan() { document.getElementById('fp-box').classList.add('scanning'); scanTimer = setTimeout(() => { go(1); }, 2200); }
+        function stopScan() { clearTimeout(scanTimer); document.getElementById('fp-box').classList.remove('scanning'); }
 
         function check() { if(document.getElementById('pw').value === "123") { go(2); document.getElementById('bgMus').play(); } }
 
-        function drawStep() {
+        // رسم البوكيه (رقم 4 في الترتيب الأصلي)
+        function flowerStep() {
             fClicks++;
             if(fClicks === 1) showComment("دوسي تاني يكمل الرسم..");
             if(fClicks === 2) {
-                document.getElementById('btn-draw').style.display = 'none';
-                const g = document.getElementById('gift-draw-path');
-                g.style.display = 'block'; g.classList.add('drawing-active');
-                setTimeout(() => showComment("دوسي على الصندوق لمتابعة الصور 😍"), 4500);
+                document.getElementById('flower-btn').style.display = 'none';
+                const b = document.getElementById('bouquet-reveal');
+                b.style.display = 'block'; b.classList.add('drawing-active');
+                setTimeout(() => { go(3); }, 4500); // بعد الرسم يروح للجاليري
             }
         }
 
@@ -131,7 +160,12 @@
             { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
             { s: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك ❤️" },
             { s: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
-            { s: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" }
+            { s: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
+            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
+            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
+            { s: "IMG-20251027-WA0100.jpg", t: "دايماً متألقة" },
+            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
+            { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" }
         ];
 
         function next() {
@@ -140,31 +174,48 @@
         }
         function update() { document.getElementById('gImg').src = data[idx].s; document.getElementById('gCap').innerText = data[idx].t; }
 
+        // فتح الصندوق (الغطاء بيطير) - رقم 5 في الترتيب الأصلي
         function openGift() {
             document.getElementById('giftBox').classList.add('open');
-            setTimeout(() => { document.getElementById('gift-text').style.display = 'block'; }, 600);
+            setTimeout(() => {
+                document.getElementById('gift-text').style.display = 'block';
+                type("كل سنة وأنتِ طيبة يا أمل.. منورة حياتي يا أغلى ما عندي ❤️");
+            }, 800);
         }
 
-        function finalPage() {
+        function type(txt) {
+            let i = 0; const el = document.getElementById('typewriter');
+            el.innerHTML = ""; // إعادة تعيين النص قبل الكتابة
+            function step() { if(i < txt.length) { el.innerHTML += txt[i]; i++; setTimeout(step, 50); } else { document.getElementById('forbid').style.display='inline-block'; } }
+            step();
+        }
+
+        // "ممنوع الدوس" ينقل للعبة البطاقات - رقم 6 في الترتيب
+        function triggerEnd() {
+            showComment("قلنا بلاش شقاوة! بس عشانك هنلعب شوية 😉");
+            go(5); // يذهب مباشرة للعبة البطاقات
+        }
+
+        // لعبة البطاقات - رقم 7 في الترتيب
+        function flip(el, msg) {
+            el.innerHTML = msg; el.classList.add('flipped'); el.style.fontSize = '0.9rem';
+            document.getElementById('final-finish-btn').style.display = 'inline-block';
+        }
+
+        // الدخول للشاشة السوداء والأغنية الجديدة
+        function goToBlackScreen() {
             document.getElementById('bgMus').pause();
             document.getElementById('finalSong').play();
-            document.getElementById('final-page').style.display = 'flex';
+            document.getElementById('main-ui').style.display = 'none';
+            document.getElementById('black-screen').style.display = 'flex';
         }
 
         function go(n) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('s'+n).classList.add('active');
-            if(n===3) update();
+            // تحديث محتوى الصور لو في مرحلة الجاليري
+            if(n === 3) { update(); }
         }
-
-        setInterval(() => {
-            const diff = new Date() - startDate;
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff / 3600000) % 24);
-            const m = Math.floor((diff / 60000) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-            document.getElementById('timer').innerText = `${d} : ${h} : ${m} : ${s}`;
-        }, 1000);
     </script>
 </body>
 </html>
