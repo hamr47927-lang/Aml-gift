@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى أمل ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --main-pink: #ff4d6d;
             --soft-pink: #ff8fa3;
             --btn-shadow: #c9184a;
+            --gold: #ffd700;
+            --bg-color: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%);
         }
 
         body {
             margin: 0;
-            background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%);
+            background: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,88 +24,151 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
             position: relative;
+            transition: background 2s ease; /* لتنعيم انتقال الألوان */
         }
 
-        .floating-element {
-            position: absolute;
-            top: -10%;
-            animation: fall linear infinite;
-            z-index: 1;
+        /* زر الموسيقى */
+        #music-ctrl {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 3000;
+            background: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            color: var(--main-pink);
+            font-size: 1.2rem;
         }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 77, 109, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            color: white;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
 
         .container {
-            width: 85%;
+            width: 90%;
             max-width: 420px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             padding: 25px;
             border-radius: 40px;
-            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.4);
-            border: 5px solid white;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.3);
             z-index: 10;
         }
 
-        .section { display: none; animation: slideIn 0.5s ease; }
-        .active { display: block; }
+        .section { display: none; }
+        .active { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* البصمة */
+        .fingerprint-box { cursor: pointer; transition: 0.3s; }
+        .scan-line {
+            width: 80px; height: 2px; background: red;
+            margin: 0 auto; position: relative;
+            animation: scan 2s infinite; display: none;
+        }
+        @keyframes scan { 0% { top: -80px; } 100% { top: 0px; } }
+
+        /* الوردة */
+        .flower-svg {
+            width: 180px; height: 180px; fill: none;
+            stroke: var(--main-pink); stroke-width: 2;
+            stroke-dasharray: 1000; stroke-dashoffset: 1000;
+            animation: draw 5s forwards;
+        }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+
+        /* الصندوق */
+        .gift-container {
+            position: relative; width: 120px; height: 120px;
+            margin: 20px auto; cursor: pointer; perspective: 1000px;
+        }
+        .gift-box { width: 100%; height: 100%; background: var(--main-pink); border-radius: 10px; }
+        .gift-lid {
+            position: absolute; top: -15px; left: -5%;
+            width: 110%; height: 25px; background: #ff758c;
+            border-radius: 5px; transition: 0.5s; z-index: 2;
+        }
+        .gift-container.open .gift-lid { transform: translateY(-40px) rotateX(40deg); opacity: 0; }
+
+        .cards-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .luck-card {
+            width: 90px; height: 130px; background: var(--gold); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.6s; font-size: 12px; font-weight: bold;
+            padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .flipped { background: white; color: var(--main-pink); transform: rotateY(180deg); border: 2px solid var(--gold); }
+
+        .img-box {
+            width: 100%; height: 380px; background: #fff;
+            border-radius: 20px; overflow: hidden; border: 4px solid white;
+        }
+        .img-box img { width: 100%; height: 100%; object-fit: contain; }
 
         button {
             background: linear-gradient(145deg, #ff4d6d, #ff758c);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 6px 0 var(--btn-shadow);
-            transition: 0.1s;
-            margin: 10px;
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 20px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 6px 0 var(--btn-shadow); margin: 10px;
         }
-        button:active { box-shadow: 0 2px 0 var(--btn-shadow); transform: translateY(4px); }
 
-        .img-box {
-            width: 100%;
-            height: 350px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 4px solid white;
-        }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .obj-3d { font-size: 80px; cursor: pointer; transition: 0.5s; display: inline-block; }
-        
-        #msg-box { color: #d63384; font-weight: bold; margin: 10px 0; min-height: 40px; font-size: 1rem; }
-
-        textarea {
-            width: 90%;
-            height: 80px;
-            border-radius: 15px;
-            border: 2px solid var(--soft-pink);
-            padding: 10px;
-            font-family: inherit;
-            resize: none;
-            margin-top: 10px;
-            outline: none;
-        }
+        .confetti { position: absolute; font-size: 25px; animation: fall linear infinite; z-index: 1; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
-<body>
+<body id="main-body">
+
+    <div id="music-ctrl" onclick="toggleMusic()">
+        <i id="music-icon" class="fas fa-music"></i>
+    </div>
+
+    <div id="welcome-overlay">خشّي برجلك اليمين وبضحكة حلوة ❤️😂</div>
 
     <div class="container">
-        <div id="s1" class="section active">
-            <h2 style="color: var(--main-pink)">أهلاً يا أمل ❤️</h2>
+        <div id="s0" class="section active">
+            <h3 style="color: var(--main-pink)">تحقق الهوية</h3>
+            <div class="fingerprint-box" onclick="startScan()">
+                <i class="fas fa-fingerprint" style="font-size: 80px; color: var(--gold);"></i>
+                <div class="scan-line" id="line"></div>
+            </div>
+            <p id="scan-text" style="margin-top:20px; font-weight:bold;">الموقع يحتاج التعرف على "أجمل بنت"</p>
+        </div>
+
+        <div id="s1" class="section">
+            <h2 style="color: var(--main-pink)">نورتي يا أمل ❤️</h2>
             <input type="password" id="pw" style="width:80%; padding:15px; border-radius:15px; border:2px solid var(--soft-pink); text-align:center;" placeholder="كلمة السر...">
-            <div id="login-msg" style="margin-top:10px; color:#d63384; font-weight:bold;"></div>
             <br><button onclick="check()">دخول</button>
         </div>
 
         <div id="s2" class="section">
-            <div id="msg-box">دوسي على الوردة 🌸</div>
-            <div id="flower-target" class="obj-3d" onclick="flowerClick()">🌸</div>
+            <div id="flower-msg" style="margin-bottom: 15px; color: var(--main-pink); font-weight: bold;">استني الوردة تترسم ليكي... 🌸</div>
+            <div onclick="flowerDone()" id="flower-draw">
+                <svg class="flower-svg" viewBox="0 0 100 100">
+                    <path d="M50 95 Q50 70 50 50 M50 50 Q70 30 50 10 Q30 30 50 50 M50 50 Q80 50 90 30 Q70 10 50 50 M50 50 Q20 50 10 30 Q30 10 50 50" />
+                </svg>
+            </div>
+            <div id="after-flower" style="display:none;">
+                <div style="font-size: 60px;">💐</div>
+                <button onclick="go(3)">دوسي هنا تشوفي الصور ✨</button>
+            </div>
         </div>
 
         <div id="s3" class="section">
@@ -110,83 +176,85 @@
             <div id="gCap" style="margin:10px; font-weight:bold; color:var(--main-pink)"></div>
             <button id="nextBtn" onclick="next()">الصورة اللي بعدها ✨</button>
             <div id="finalBtns" style="display:none;">
-                <button onclick="goGift()">افتحي الهدية 🎁</button>
+                <button onclick="go(4)">افتحي الهدية 🎁</button>
             </div>
         </div>
 
         <div id="s4" class="section">
-            <div id="gift" class="obj-3d" onclick="openGift()">🎁</div>
-            <div id="typewriter" style="white-space: pre-line; font-weight:bold; margin:15px 0; color:#444;"></div>
-            
-            <div id="final-form" style="display:none; border-top: 2px dashed #ff8fa3; padding-top:10px;">
-                <p style="color:#d63384; font-size: 0.9rem;">اكتبيلي رسالة (مش هعرف مين اللي باعتها 😉)</p>
-                <textarea id="user-msg" placeholder="اكتبي اللي في قلبك هنا..."></textarea>
-                <br>
-                <button onclick="sendToWhatsApp()">إرسال الرسالة 💌</button>
-                <button onclick="skipMsg()" style="background:#6c757d; box-shadow:0 6px 0 #495057;">مش عايزة أكتب</button>
-                <p id="last-word" style="display:none; color:var(--main-pink); font-weight:bold; margin-top:15px;">يا رب تكون المفاجأة عجبتك يا أمل! ❤️</p>
+            <div class="gift-container" id="gift-box" onclick="openGift3D()">
+                <div class="gift-lid"></div>
+                <div class="gift-box"></div>
             </div>
+            <div id="typewriter" style="white-space: pre-line; font-weight:bold; margin-top:20px; color:#444;"></div>
+            <div id="wa-section" style="display:none;">
+                <textarea id="user-msg" style="width:90%; height:60px; border-radius:10px; margin-top:10px; padding:10px;" placeholder="اكتبي رسالة مجهولة..."></textarea>
+                <br><button onclick="sendToWhatsApp()">إرسال الرسالة 💌</button>
+                <button onclick="go(5)">المفاجأة الأخيرة ✨</button>
+            </div>
+        </div>
+
+        <div id="s5" class="section">
+            <h2 style="color: var(--main-pink)">اختاري حظك النهاردة يا أمل ✨</h2>
+            <div class="cards-container">
+                <div class="luck-card" onclick="flipCard(this, 'هتفضلي أحلى واحدة في حياتي 🌹')">؟</div>
+                <div class="luck-card" onclick="flipCard(this, 'ليكي مفاجأة تانية لما نشوف بعض 😉')">؟</div>
+                <div class="luck-card" onclick="flipCard(this, 'ضحكتك هي اللي منورة الدنيا ✨')">؟</div>
+            </div>
+            <h3 style="color: var(--main-pink); margin-top:30px;">يا رب تكون المفاجأة عجبتك! ❤️</h3>
+            <div style="font-size: 50px;">🧸🎁🎉</div>
+            <button onclick="location.reload()">نبدأ من الأول؟ 🏠</button>
         </div>
     </div>
 
     <audio id="bgMus" src="1000311463.mp3" loop></audio>
 
     <script>
-        // تأثير القلوب الطائرة
-        setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'floating-element';
-            el.innerHTML = '❤️';
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = Math.random() * 20 + 10 + 'px';
-            el.style.animationDuration = Math.random() * 3 + 3 + 's';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 5000);
-        }, 500);
-
-        let flowerStep = 0;
+        const myNumber = "201202158675";
         const mus = document.getElementById('bgMus');
+        const musicIcon = document.getElementById('music-icon');
 
-        function check() {
-            if(document.getElementById('pw').value === "123") {
-                document.getElementById('login-msg').innerHTML = "خش برجلك اليمين بضحكة كدة 😂❤️";
-                setTimeout(() => go(2), 2000);
+        function toggleMusic() {
+            if (mus.paused) {
+                mus.play();
+                musicIcon.classList.replace('fa-volume-mute', 'fa-music');
             } else {
-                alert("الباسورد غلط يا أمل!");
+                mus.pause();
+                musicIcon.classList.replace('fa-music', 'fa-volume-mute');
             }
         }
 
-        function flowerClick() {
-            flowerStep++;
-            const msg = document.getElementById('msg-box');
-            const target = document.getElementById('flower-target');
+        function startScan() {
+            document.getElementById('line').style.display = 'block';
+            document.getElementById('scan-text').innerText = "جاري التأكد من الجمال...";
+            setTimeout(() => {
+                document.getElementById('scan-text').innerText = "تم التعرف! أهلاً يا ست الحسن ❤️";
+                setTimeout(() => go(1), 1500);
+            }, 2500);
+        }
 
-            if(flowerStep === 1) {
-                mus.play();
-                msg.innerText = "الوردة علقت تاني ولا إيه؟ الموقع لسه جديد معلش..";
-            } else if(flowerStep === 2) {
-                msg.innerText = "غمضي عينك وعدي لـ 5 في سرك ودوسي تاني..";
+        function check() {
+            if(document.getElementById('pw').value === "123") {
+                const overlay = document.getElementById('welcome-overlay');
+                overlay.style.display = 'flex';
                 setTimeout(() => {
-                    msg.innerText = "أنا عارف إنك مـغمضتيش عينك 😂 دوسي تاني بقى";
-                    target.innerHTML = "💐";
-                    target.style.transform = "scale(1.2)";
-                }, 4000);
-            } else if(flowerStep >= 3) {
-                go(3);
-                update();
-            }
+                    overlay.style.display = 'none';
+                    go(2);
+                    mus.play();
+                }, 3000);
+            } else { alert("الباسورد غلط!"); }
+        }
+
+        function flowerDone() {
+            document.getElementById('flower-msg').innerText = "أدي بوكيه الورد يا ستي! ❤️";
+            document.getElementById('flower-draw').style.display = 'none';
+            document.getElementById('after-flower').style.display = 'block';
         }
 
         const data = [
             { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { s: "IMG-20251106-WA0032.jpg", t: "بحبك للأبد ❤️" },
             { s: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
-            { s: "IMG-20251019-WA0039.jpg", t: "كل يوم بيكِ أحلى" },
-            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
-            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
-            { s: "IMG-20251027-WA0100.jpg", t: "دايماً متألقة" },
-            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
-            { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" },
-            { s: "IMG-20251106-WA0032.jpg", t: "بحبك للأبد ❤️" }
+            { s: "IMG-20251019-WA0039.jpg", t: "كل يوم بيكِ أحلى" }
         ];
         let idx = 0;
 
@@ -203,51 +271,65 @@
             }
         }
 
-        function go(n) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('s'+n).classList.add('active');
-        }
-
-        function goGift() { go(4); }
-
-        function openGift() {
-            const gift = document.getElementById('gift');
-            gift.innerHTML = '✨🎁✨';
-            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nوعقبال مليون سنة وتحققي كل اللي في بالك..\nوكل سنة وأنتِ قرفاني في عيشتي كدة دايماً 😂\nبجد كل سنة وأنتِ منورة حياتي ❤️";
+        function openGift3D() {
+            // تأثير التعتيم الرومانسي
+            document.getElementById('main-body').style.background = "radial-gradient(circle, #2d0010 0%, #000 100%)";
+            document.querySelector('.container').style.background = "rgba(255, 255, 255, 0.1)";
+            document.querySelector('.container').style.color = "white";
+            document.getElementById('typewriter').style.color = "#ff8fa3";
+            
+            document.getElementById('gift-box').classList.add('open');
+            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nوعقبال مليون سنة وتحققي كل اللي في بالك..\nوكل سنة وأنتِ منورة حياتي ❤️";
             let i = 0;
             const tw = document.getElementById('typewriter');
-            tw.innerHTML = "";
             function type() {
                 if (i < text.length) {
                     tw.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
                     i++; setTimeout(type, 60);
-                } else {
-                    document.getElementById('final-form').style.display = 'block';
-                }
+                } else { document.getElementById('wa-section').style.display = 'block'; }
             }
-            type();
+            setTimeout(type, 1000);
+        }
+
+        function flipCard(card, msg) {
+            if(!card.classList.contains('flipped')) {
+                card.innerHTML = msg;
+                card.classList.add('flipped');
+            }
         }
 
         function sendToWhatsApp() {
-            const userMsg = document.getElementById('user-msg').value;
-            if(!userMsg) { alert("اكتبي حاجة الأول!"); return; }
-
-            const myNumber = "201202158675"; // الرقم بتاعك انضاف هنا
-            
-            const encodedMsg = encodeURIComponent("رسالة سرية من الموقع: " + userMsg);
-            window.open(`https://wa.me/${myNumber}?text=${encodedMsg}`, '_blank');
-            finish();
+            const msg = document.getElementById('user-msg').value;
+            if(!msg) return alert("اكتبي حاجة الأول!");
+            window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent("رسالة من أمل: " + msg)}`, '_blank');
+            alert("تم استلام رسالتك.. وجاري تجهيز الرد المناسب يا فندم ❤️😂");
+            go(5);
         }
 
-        function skipMsg() { finish(); }
-
-        function finish() {
-            document.getElementById('last-word').style.display = 'block';
-            // إخفاء الصندوق بعد الإرسال
-            document.getElementById('user-msg').style.display = 'none';
-            document.querySelectorAll('#final-form button').forEach(b => b.style.display = 'none');
-            document.querySelector('#final-form p').style.display = 'none';
+        function go(n) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('s'+n).classList.add('active');
+            if(n === 5) startCelebration();
         }
+
+        function startCelebration() {
+            // إعادة الألوان المبهجة في النهاية
+            document.getElementById('main-body').style.background = "radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%)";
+            document.querySelector('.container').style.background = "rgba(255, 255, 255, 0.9)";
+            document.querySelector('.container').style.color = "black";
+
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.className = 'confetti';
+                el.innerHTML = ['❤️', '🧸', '🎁', '✨', '🎈'][Math.floor(Math.random()*5)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.animationDuration = Math.random() * 2 + 3 + 's';
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 4000);
+            }, 300);
+        }
+
+        update();
     </script>
 </body>
 </html>
