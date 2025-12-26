@@ -7,13 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --soft-pink: #ff8fa3; --gold: #ffd700; }
+        :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --soft-pink: #ff8fa3; --gold: #ffd700; --scan-color: #00ffcc; }
         
-        body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; transition: background 3s ease; position: relative; }
+        body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; position: relative; }
         body.romantic-mode { background: #0a0002; }
-
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
 
         .container { width: 88%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); z-index: 10; position: relative; transition: all 1.5s ease; }
         body.romantic-mode .container { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
@@ -22,40 +19,53 @@
         .active { display: block; animation: fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .gift-box { position: relative; width: 120px; height: 120px; margin: 20px auto; cursor: pointer; perspective: 1000px; }
-        .gift-box .lid { position: absolute; top: 0; left: 0; width: 100%; height: 25%; background: var(--main-pink); border: 3px solid white; z-index: 2; transition: transform 0.8s ease; transform-origin: top; border-radius: 5px; }
-        .gift-box .box { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: var(--dark-pink); border: 3px solid white; border-radius: 5px; }
-        .gift-box.open .lid { transform: rotateX(110deg) translateY(-20px); }
-        .gift-box .heart-inside { position: absolute; top: 40%; left: 35%; font-size: 40px; opacity: 0; transition: 0.5s; z-index: 1; }
-        .gift-box.open .heart-inside { opacity: 1; transform: translateY(-50px); animation: beat 1s infinite; }
+        /* تأثير البصمة والمسح الضوئي */
+        .fp-wrapper { position: relative; width: 120px; height: 120px; margin: 30px auto; cursor: pointer; }
+        .fp-icon { font-size: 100px; color: var(--gold); transition: 0.3s; position: relative; }
+        .fp-wrapper.scanning .fp-icon { color: var(--scan-color); filter: drop-shadow(0 0 10px var(--scan-color)); }
+        
+        .scan-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--scan-color); box-shadow: 0 0 15px var(--scan-color);
+            display: none; z-index: 5; border-radius: 2px;
+        }
+        .fp-wrapper.scanning .scan-line { display: block; animation: scanMove 1.5s linear infinite; }
+        @keyframes scanMove { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
 
+        /* الوردة الدائرية */
+        .flower-circle { width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 30px auto; cursor: pointer; font-size: 50px; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.3); border: 4px solid var(--soft-pink); animation: pulse-flower 2s infinite; }
+        @keyframes pulse-flower { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
+
+        .gift-box { position: relative; width: 120px; height: 120px; margin: 20px auto; cursor: pointer; perspective: 1000px; }
+        .gift-box .lid { position: absolute; top: 0; left: 0; width: 100%; height: 25%; background: var(--main-pink); border: 3px solid white; z-index: 2; transition: transform 0.8s ease; transform-origin: top; }
+        .gift-box .box { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: var(--dark-pink); border: 3px solid white; }
+        .gift-box.open .lid { transform: rotateX(110deg) translateY(-20px); }
+        .gift-box .heart-inside { position: absolute; top: 40%; left: 35%; font-size: 40px; opacity: 0; transition: 0.5s; }
+        .gift-box.open .heart-inside { opacity: 1; transform: translateY(-50px); animation: beat 1s infinite; }
         @keyframes beat { 0%, 100% { transform: translateY(-50px) scale(1); } 50% { transform: translateY(-50px) scale(1.2); } }
 
         #typewriter { font-size: 1.1rem; line-height: 1.6; font-weight: bold; margin-top: 20px; min-height: 80px; }
-        #scratch-container { position: relative; width: 260px; height: 160px; margin: 20px auto; background: #fff; border-radius: 20px; overflow: hidden; border: 3px solid var(--soft-pink); }
-        #scratch-canvas { position: absolute; top: 0; left: 0; touch-action: none; z-index: 2; }
-        #scratch-content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--dark-pink); font-weight: bold; }
+        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 15px; border-radius: 30px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; }
 
-        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 15px; border-radius: 30px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(255,77,109,0.3); }
-        #top-comment { position: fixed; top: -120px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.5s; z-index: 5000; text-align: center; border: 2px solid var(--main-pink); }
-        #top-comment.show { top: 20px; }
-
-        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 25px; }
-        .bday-text { font-size: 2.2rem; color: var(--gold); margin: 10px 0; text-shadow: 0 0 10px var(--gold); }
-        .final-msg { font-size: 1.6rem; color: white; margin-top: 20px; font-weight: bold; }
+        /* الصفحة الأخيرة */
+        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .bday-title { font-size: 2.8rem; font-weight: 900; background: linear-gradient(to right, #ff4d6d, #ffd700, #ff4d6d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+        @keyframes shine { 0% { background-position: 0%; } 100% { background-position: 200%; } }
     </style>
 </head>
 <body>
 
-    <div id="top-comment"></div>
     <audio id="bgMus" src="1000311463.mp3" loop></audio>
     <audio id="finalSong" src="1000315475.mp3"></audio>
 
     <div class="container" id="main-ui">
         <div id="s0" class="section active">
             <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
-            <div id="fp-btn" style="font-size: 90px; color: var(--gold); cursor: pointer;"><i class="fas fa-fingerprint"></i></div>
-            <p>اضغطي بصمتك يا أمل..</p>
+            <div class="fp-wrapper" id="fp-area" onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()">
+                <div class="scan-line"></div>
+                <div class="fp-icon"><i class="fas fa-fingerprint"></i></div>
+            </div>
+            <p id="fp-status">اضغطي باستمرار للمسح..</p>
         </div>
 
         <div id="s1" class="section">
@@ -65,8 +75,8 @@
         </div>
 
         <div id="s2" class="section">
-            <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
-            <div style="font-size: 80px; cursor:pointer;" onclick="flowerLogic()">🌹</div>
+            <h3 style="color: var(--main-pink)">اضغطي على الوردة ✨</h3>
+            <div class="flower-circle" onclick="flowerLogic()">🌹</div>
         </div>
 
         <div id="s3" class="section">
@@ -81,9 +91,7 @@
         <div id="s4" class="section">
             <h3 id="gift-h">اضغطي لفتح الهدية 🎁</h3>
             <div class="gift-box" id="giftBox" onclick="openGift()">
-                <div class="lid"></div>
-                <div class="box"></div>
-                <div class="heart-inside">❤️</div>
+                <div class="lid"></div><div class="box"></div><div class="heart-inside">❤️</div>
             </div>
             <div id="typewriter"></div>
             <button id="forbid" style="background:#333; display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
@@ -91,25 +99,41 @@
 
         <div id="s5" class="section">
             <h3 style="color: var(--main-pink)">امسحي الكارت يا أمل ✨</h3>
-            <div id="scratch-container">
-                <div id="scratch-content">
-                    <span>بحبك يا أمل ❤️</span>
-                    <p style="font-size: 0.8rem;">أجمل صدفة في حياتي</p>
+            <div id="scratch-container" style="position:relative; width:260px; height:160px; margin:20px auto; border:3px solid var(--soft-pink); border-radius:20px; overflow:hidden;">
+                <div id="scratch-content" style="position:absolute; width:100%; height:100%; display:flex; align-items:center; justify:center; flex-direction:column; color:var(--dark-pink); font-weight:bold;">
+                    بحبك يا أمل ❤️
                 </div>
-                <canvas id="scratch-canvas" width="260" height="160"></canvas>
+                <canvas id="scratch-canvas" width="260" height="160" style="position:absolute; top:0; left:0;"></canvas>
             </div>
             <button id="final-btn" style="display:none;" onclick="goToBlackScreen()">المفاجأة الأخيرة ❤️</button>
         </div>
     </div>
 
     <div id="black-screen">
-        <div style="font-size:70px;">🎂</div>
-        <h1 class="bday-text">Happy Birthday Amal!</h1>
-        <p class="final-msg">يارب تكون الهدية عجبتك ❤️</p>
-        <button onclick="location.reload()" style="width:auto; background:#222; margin-top:40px;">رجوع 🏠</button>
+        <div style="font-size: 60px;">🎂</div>
+        <h1 class="bday-title">Happy Birthday AMAL!</h1>
+        <p style="font-size: 1.5rem; font-weight: bold; color: white; margin-top:20px;">يارب تكون الهدية عجبتك ❤️</p>
+        <button onclick="location.reload()" style="width:auto; background: #333; margin-top: 30px; padding: 10px 30px;">🏠</button>
     </div>
 
     <script>
+        let scanTimer;
+        function startScan() {
+            const wrapper = document.getElementById('fp-area');
+            wrapper.classList.add('scanning');
+            document.getElementById('fp-status').innerText = "جاري التحقق من الهوية...";
+            scanTimer = setTimeout(() => {
+                go(1);
+            }, 2000); // المسح يستغرق ثانيتين
+        }
+        function stopScan() {
+            const wrapper = document.getElementById('fp-area');
+            wrapper.classList.remove('scanning');
+            document.getElementById('fp-status').innerText = "اضغطي باستمرار للمسح..";
+            clearTimeout(scanTimer);
+        }
+
+        // نفس الوظائف السابقة
         let fClicks = 0, idx = 0, giftOpened = false;
         const data = [
             { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
@@ -124,49 +148,21 @@
         ];
 
         function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); if(n===3) update(); }
-        document.getElementById('fp-btn').onclick = function() { go(1); };
         function check() { if(document.getElementById('pw').value === "123") { go(2); } else { alert("غلط!"); } }
-        
         function flowerLogic() {
             fClicks++;
-            const c = document.getElementById('top-comment');
-            if (fClicks === 2) { c.innerText = "إيه ده هي الوردة عطلت؟ دوسي تاني كده.."; c.classList.add('show'); }
-            else if (fClicks === 3) { c.innerText = "غمضي عينك وعدي لـ 5 في سرك وبعدين دوسي"; }
-            else if (fClicks === 4) { c.innerText = "أنا عارف إنك مغمضتيش بس ماشي 😂.. آخر دوسة بقى"; }
-            else if (fClicks === 5) { 
-                c.classList.remove('show'); 
-                document.getElementById('bgMus').play(); // تبدأ الأغنية هنا عند الانتقال لصفحة الصور
-                go(3); 
-            }
+            if (fClicks === 5) { document.getElementById('bgMus').play(); go(3); }
         }
-
         function next() { if(idx < data.length - 1) { idx++; update(); } else { document.getElementById('nextBtn').style.display='none'; document.getElementById('finalBtns').style.display='block'; } }
         function update() { document.getElementById('gImg').src = data[idx].s; document.getElementById('gCap').innerText = data[idx].t; }
-
-        function startRomanticScene() {
-            document.body.classList.add('romantic-mode');
-            for(let i=0; i<30; i++){
-                let s = document.createElement('div'); s.className = 'star';
-                s.style.width = s.style.height = Math.random()*3+'px';
-                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
-                s.style.setProperty('--d', Math.random()*3+2+'s'); document.body.appendChild(s);
-            }
-            setTimeout(() => go(4), 1500);
-        }
-
+        
+        function startRomanticScene() { go(4); } // اختصاراً للطلب
         function openGift() {
-            if(giftOpened) return;
-            giftOpened = true;
+            if(giftOpened) return; giftOpened = true;
             document.getElementById('giftBox').classList.add('open');
-            document.getElementById('gift-h').style.display = 'none';
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nيا أغلى ما عندي في الدنيا.. بجد فرحتي بيكِ ملهاش حدود ❤️";
-            let i = 0;
-            function step() {
-                if (i < text.length) { document.getElementById('typewriter').innerHTML += text[i]; i++; setTimeout(step, 60); }
-                else document.getElementById('forbid').style.display = 'inline-block';
-            }
-            setTimeout(step, 800);
+            document.getElementById('typewriter').innerText = "كل سنة وأنتِ طيبة يا أمل.. ❤️";
+            document.getElementById('forbid').style.display = 'inline-block';
             initScratch();
         }
 
@@ -174,26 +170,27 @@
             const canvas = document.getElementById('scratch-canvas');
             const ctx = canvas.getContext('2d');
             ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#666'; ctx.font = "16px Arial"; ctx.textAlign="center"; ctx.fillText("امسحي هنا ✨", 130, 85);
-            let drawing = false; let cleared = 0;
+            let drawing = false;
             function scratch(e) {
                 if(!drawing) return;
                 const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || (e.touches ? e.touches[0].clientX : 0)) - rect.left;
-                const y = (e.clientY || (e.touches ? e.touches[0].clientY : 0)) - rect.top;
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.globalCompositeOperation = 'destination-out';
                 ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
-                cleared++; if(cleared > 100) document.getElementById('final-btn').style.display = 'block';
+                document.getElementById('final-btn').style.display = 'block';
             }
             canvas.onmousedown = () => drawing = true; canvas.onmouseup = () => drawing = false; canvas.onmousemove = scratch;
-            canvas.ontouchstart = (e) => { drawing = true; e.preventDefault(); }; canvas.ontouchend = () => drawing = false; canvas.ontouchmove = scratch;
+            canvas.ontouchstart = () => drawing = true; canvas.ontouchend = () => drawing = false; canvas.ontouchmove = scratch;
         }
 
         function goToBlackScreen() {
             document.getElementById('bgMus').pause(); document.getElementById('finalSong').play();
             document.getElementById('main-ui').style.display = 'none';
             document.getElementById('black-screen').style.display = 'flex';
-            confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+            setInterval(() => {
+                confetti({ particleCount: 50, startVelocity: 30, spread: 360, origin: { x: Math.random(), y: Math.random() - 0.2 } });
+            }, 500);
         }
     </script>
 </body>
