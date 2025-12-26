@@ -29,7 +29,7 @@
         .gift-box .heart-inside { position: absolute; top: 40%; left: 35%; font-size: 40px; opacity: 0; transition: 0.5s; z-index: 1; }
         .gift-box.open .heart-inside { opacity: 1; transform: translateY(-50px); animation: beat 1s infinite; }
 
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes beat { 0%, 100% { transform: translateY(-50px) scale(1); } 50% { transform: translateY(-50px) scale(1.2); } }
 
         #typewriter { font-size: 1.1rem; line-height: 1.6; font-weight: bold; margin-top: 20px; min-height: 80px; }
         #scratch-container { position: relative; width: 260px; height: 160px; margin: 20px auto; background: #fff; border-radius: 20px; overflow: hidden; border: 3px solid var(--soft-pink); }
@@ -40,16 +40,9 @@
         #top-comment { position: fixed; top: -120px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.5s; z-index: 5000; text-align: center; border: 2px solid var(--main-pink); }
         #top-comment.show { top: 20px; }
 
-        /* شاشة الاحتفال الختامية */
-        #black-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; color: white; z-index: 10000; display: none; 
-            flex-direction: column; justify-content: center; align-items: center; 
-            text-align: center; padding: 25px;
-        }
-        .bday-text { font-size: 2.5rem; color: var(--gold); margin: 10px 0; text-shadow: 0 0 15px var(--gold); }
-        .final-msg { font-size: 1.5rem; color: white; margin-top: 20px; font-weight: bold; }
-        .cake { font-size: 60px; margin: 20px 0; }
+        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 25px; }
+        .bday-text { font-size: 2.2rem; color: var(--gold); margin: 10px 0; text-shadow: 0 0 10px var(--gold); }
+        .final-msg { font-size: 1.6rem; color: white; margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -110,11 +103,10 @@
     </div>
 
     <div id="black-screen">
-        <div class="cake">🎂</div>
+        <div style="font-size:70px;">🎂</div>
         <h1 class="bday-text">Happy Birthday Amal!</h1>
         <p class="final-msg">يارب تكون الهدية عجبتك ❤️</p>
-        <p style="color: #888; margin-top: 10px;">أنتِ أجمل حاجة في سنيني الجديدة</p>
-        <button onclick="location.reload()" style="width:auto; background:#222; border:1px solid #444; margin-top:40px;">رجوع 🏠</button>
+        <button onclick="location.reload()" style="width:auto; background:#222; margin-top:40px;">رجوع 🏠</button>
     </div>
 
     <script>
@@ -131,18 +123,23 @@
             { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" }
         ];
 
+        function go(n) { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.getElementById('s'+n).classList.add('active'); if(n===3) update(); }
         document.getElementById('fp-btn').onclick = function() { go(1); };
-
+        function check() { if(document.getElementById('pw').value === "123") { go(2); } else { alert("غلط!"); } }
+        
         function flowerLogic() {
             fClicks++;
             const c = document.getElementById('top-comment');
             if (fClicks === 2) { c.innerText = "إيه ده هي الوردة عطلت؟ دوسي تاني كده.."; c.classList.add('show'); }
             else if (fClicks === 3) { c.innerText = "غمضي عينك وعدي لـ 5 في سرك وبعدين دوسي"; }
             else if (fClicks === 4) { c.innerText = "أنا عارف إنك مغمضتيش بس ماشي 😂.. آخر دوسة بقى"; }
-            else if (fClicks === 5) { c.classList.remove('show'); go(3); }
+            else if (fClicks === 5) { 
+                c.classList.remove('show'); 
+                document.getElementById('bgMus').play(); // تبدأ الأغنية هنا عند الانتقال لصفحة الصور
+                go(3); 
+            }
         }
 
-        function check() { if(document.getElementById('pw').value === "123") { go(2); document.getElementById('bgMus').play(); } else { alert("غلط!"); } }
         function next() { if(idx < data.length - 1) { idx++; update(); } else { document.getElementById('nextBtn').style.display='none'; document.getElementById('finalBtns').style.display='block'; } }
         function update() { document.getElementById('gImg').src = data[idx].s; document.getElementById('gCap').innerText = data[idx].t; }
 
@@ -196,19 +193,7 @@
             document.getElementById('bgMus').pause(); document.getElementById('finalSong').play();
             document.getElementById('main-ui').style.display = 'none';
             document.getElementById('black-screen').style.display = 'flex';
-            // نافورة احتفال مستمرة
-            var end = Date.now() + (5 * 1000);
-            (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 } });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 } });
-                if (Date.now() < end) { requestAnimationFrame(frame); }
-            }());
-        }
-
-        function go(n) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('s'+n).classList.add('active');
-            if(n===3) update();
+            confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
         }
     </script>
 </body>
