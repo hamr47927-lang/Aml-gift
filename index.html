@@ -3,427 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هدية خاصة جداً 💖</title>
+    <title>إلى أمل ❤️</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Reem+Kufi:wght@400;700&display=swap');
-
         :root {
-            --primary-pink: #ff85a2;
-            --deep-rose: #ff4d6d;
-            --gold: #d4af37;
-            --glass: rgba(255, 255, 255, 0.2);
-            --glass-border: rgba(255, 255, 255, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            --main-pink: #ff4d6d;
+            --soft-pink: #ff8fa3;
+            --btn-shadow: #c9184a;
         }
 
         body {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe3ec 100%);
-            min-height: 100vh;
+            margin: 0;
+            background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%);
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
-            perspective: 1000px;
-        }
-
-        /* Particles Background */
-        #particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            opacity: 0.6;
-            animation: float 10s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Container & Glassmorphism */
-        .main-container {
             position: relative;
+        }
+
+        .corner-flower {
+            position: absolute;
+            font-size: 60px;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.2));
+            z-index: 5;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .top-right { top: 10px; right: 10px; }
+        .top-left { top: 10px; left: 10px; }
+
+        .floating-element {
+            position: absolute;
+            top: -10%;
+            animation: fall linear infinite;
+            z-index: 1;
+            user-select: none;
+        }
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .container {
+            width: 85%;
+            max-width: 420px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 25px;
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(255, 77, 109, 0.4);
+            border: 5px solid white;
+            backdrop-filter: blur(10px);
             z-index: 10;
-            width: 90%;
-            max-width: 450px;
-            padding: 40px 20px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hidden { display: none !important; opacity: 0; transform: scale(0.8); }
+        .section { display: none; animation: slideIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .active { display: block; }
 
-        /* Typography */
-        h1 { font-family: 'Reem Kufi', sans-serif; color: var(--deep-rose); margin-bottom: 20px; }
-        p { color: #666; line-height: 1.6; }
-
-        /* Inputs & Buttons */
-        .input-group { margin: 25px 0; position: relative; }
-        input {
-            width: 100%;
-            padding: 15px;
-            border-radius: 50px;
-            border: none;
-            outline: none;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-            font-size: 18px;
-            text-align: center;
-            color: var(--deep-rose);
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+            to { opacity: 1; transform: scale(1) rotate(0); }
         }
 
-        .btn-3d {
-            background: linear-gradient(to bottom, var(--primary-pink), var(--deep-rose));
+        button {
+            background: linear-gradient(145deg, #ff4d6d, #ff758c);
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 6px #c93653, 0 10px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 0 var(--btn-shadow), 0 15px 20px rgba(0,0,0,0.2);
             transition: all 0.1s;
-            position: relative;
-            top: 0;
+            margin: 10px;
+        }
+        button:active {
+            box-shadow: 0 2px 0 var(--btn-shadow);
+            transform: translateY(6px);
         }
 
-        .btn-3d:active {
-            top: 4px;
-            box-shadow: 0 2px #c93653, 0 5px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Rose & Bouquet Animations */
-        .rose-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.5s;
-        }
-        .rose-img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); }
-        
-        /* Photo Gallery */
-        .gallery-container { position: relative; height: 400px; }
-        .photo-card {
+        .img-box {
             width: 100%;
-            height: 300px;
-            border-radius: 20px;
+            height: 400px; /* تم تعديل الطول ليتناسب مع أغلب الشاشات */
+            border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-            border: 5px solid white;
+            border: 6px solid white;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            background: #fff;
         }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
-        .caption { font-style: italic; color: var(--deep-rose); margin-top: 10px; font-weight: bold; }
+        .img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* لضمان ملء الإطار بشكل جمالي */
+        }
 
-        /* Gift Box 3D */
-        .gift-box-wrapper {
-            width: 150px;
-            height: 150px;
-            margin: 50px auto;
-            position: relative;
+        .caption { margin: 15px 0; font-size: 1.4rem; color: var(--main-pink); font-weight: 900; }
+
+        .obj-3d {
+            font-size: 100px;
             cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 1s;
+            display: inline-block;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            transition: 0.5s;
         }
-        .box-lid {
-            position: absolute; width: 100%; height: 20%; background: #ff4d6d;
-            top: 0; z-index: 2; transition: all 1s; transform-origin: top;
-            border: 2px solid #fff;
-        }
-        .box-body {
-            position: absolute; width: 100%; height: 80%; background: #ff85a2;
-            bottom: 0; border: 2px solid #fff;
-        }
+        .obj-3d:hover { transform: scale(1.2) rotate(10deg); }
 
-        /* Messages */
-        .fun-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            z-index: 100;
-            text-align: center;
-            border: 3px solid var(--primary-pink);
-        }
-
-        .typewriter {
-            font-size: 18px;
-            line-height: 1.8;
+        #typewriter {
+            font-size: 1.1rem;
             color: #444;
-            text-align: right;
-            white-space: pre-wrap;
-        }
-
-        /* Success Animation */
-        @keyframes openBox {
-            0% { transform: rotateX(0deg); }
-            100% { transform: rotateX(-110deg) translateY(-20px); }
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 15px;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+            white-space: pre-line; /* لضمان ظهور السطور الجديدة بشكل صحيح */
         }
     </style>
 </head>
 <body>
 
-    <div id="particles"></div>
+    <div class="corner-flower top-right">🌸</div>
+    <div class="corner-flower top-left">🌹</div>
 
-    <!-- Stage 1: Password -->
-    <div id="stage1" class="main-container">
-        <h1>مرحباً يا أميرتي 👑</h1>
-        <p>هذا المكان لا يدخله إلا أصحاب القلوب الجميلة.. هل معكِ كلمة السر؟</p>
-        <div class="input-group">
-            <input type="password" id="passwordInput" placeholder="اكتبي كلمة السر هنا...">
+    <div class="container">
+        <div id="s1" class="section active">
+            <h2 style="color: var(--main-pink)">أهلاً يا أمل ❤️</h2>
+            <input type="password" id="pw" style="width:80%; padding:15px; border-radius:15px; border:2px solid var(--soft-pink); text-align:center; outline:none;" placeholder="كلمة السر...">
+            <br><button onclick="check()">دخول</button>
         </div>
-        <button class="btn-3d" onclick="checkPassword()">دخول</button>
-    </div>
 
-    <!-- Stage 2: The Rose -->
-    <div id="stage2" class="main-container hidden">
-        <h1>وردة رقيقة لمثلك 🌹</h1>
-        <p id="rose-hint">المسي الوردة لتكتشفي المفاجأة</p>
-        <div class="rose-container" id="roseContainer" onclick="handleRoseClick()">
-            <!-- AI Generated Style SVG Rose -->
-            <svg id="roseSvg" viewBox="0 0 100 100" class="rose-img">
-                <path fill="#ff4d6d" d="M50 20c-10 0-15 10-15 15 0 15 15 25 15 25s15-10 15-25c0-5-5-15-15-15z"/>
-                <path fill="#2d6a4f" d="M50 60v20c0 5-5 10-10 10M50 70c5 0 10-5 10-10"/>
-            </svg>
+        <div id="s2" class="section">
+            <h2 style="color: var(--main-pink)">دوسي على الوردة 🌹</h2>
+            <div class="obj-3d" onclick="startGallery()">🌹</div>
         </div>
-        <div id="timer-display" style="margin-top: 15px; font-weight: bold; color: var(--deep-rose); display: none;"></div>
-    </div>
 
-    <!-- Stage 3: Gallery -->
-    <div id="stage3" class="main-container hidden">
-        <h1>لحظاتنا الجميلة ✨</h1>
-        <div class="gallery-container">
-            <div id="current-photo" class="photo-card">
-                <img id="galleryImg" src="" alt="Romantic Moment">
+        <div id="s3" class="section">
+            <div class="img-box"><img id="gImg" src=""></div>
+            <div id="gCap" class="caption"></div>
+            <button id="nextBtn" onclick="next()">الصورة اللي بعدها ✨</button>
+            <div id="finalBtns" style="display:none;">
+                <button onclick="resetGallery()" style="background: #6c757d; box-shadow: 0 8px 0 #495057;">من الأول 🔄</button>
+                <button onclick="goGift()">افتحي الهدية 🎁</button>
             </div>
-            <p id="galleryCaption" class="caption"></p>
         </div>
-        <button class="btn-3d" onclick="nextPhoto()">الصورة اللي بعدها ✨</button>
+
+        <div id="s4" class="section">
+            <div id="gift" class="obj-3d" onclick="openGift()">🎁</div>
+            <div id="typewriter"></div>
+            <button id="resetFromGift" style="display:none; margin-top:20px;" onclick="location.reload()">نبدأ من الأول؟ 🏠</button>
+        </div>
     </div>
 
-    <!-- Stage 4: Gift Box -->
-    <div id="stage4" class="main-container hidden">
-        <h1>الهدية الكبرى 🎁</h1>
-        <p id="gift-hint">صندوق السعادة.. اضغطي لفتحه</p>
-        <div class="gift-box-wrapper" id="giftBox" onclick="handleBoxClick()">
-            <div class="box-lid" id="boxLid"></div>
-            <div class="box-body"></div>
-        </div>
-        <div id="final-message" class="typewriter"></div>
-        <button id="restartBtn" class="btn-3d hidden" onclick="location.reload()" style="margin-top: 20px;">أعيدي التجربة يا حبّي ❤️</button>
-    </div>
-
-    <!-- Interactive Audio (Hidden) -->
-    <audio id="bgMusic" loop>
-        <source src="https://www.chosic.com/wp-content/uploads/2021/07/Rainy-Day-Romantic-Piano.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bgMus" src="1000311463.mp3" loop></audio>
 
     <script>
-        // 1. Background Particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const hearts = ['❤️', '💖', '✨', '🌸', '🌹'];
-            for(let i=0; i<30; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                p.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                p.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                p.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(p);
-            }
+        function createFloating() {
+            const el = document.createElement('div');
+            el.classList.add('floating-element');
+            el.innerHTML = ['❤️', '🌸', '✨', '🌹'][Math.floor(Math.random() * 4)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = Math.random() * 20 + 20 + 'px';
+            el.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 7000);
         }
-        createParticles();
+        setInterval(createFloating, 300);
 
-        // 2. Password Logic
-        function checkPassword() {
-            const pass = document.getElementById('passwordInput').value;
-            if(pass.trim() !== "") {
-                showMessage("خشّي برجلك اليمين 😄", () => {
-                    transitionStage('stage1', 'stage2');
-                });
-            } else {
-                alert("اكتبي أي كلمة سر يا قمر");
-            }
-        }
-
-        // 3. Rose Logic
-        let roseClicks = 0;
-        function handleRoseClick() {
-            roseClicks++;
-            const hint = document.getElementById('rose-hint');
-            if(roseClicks < 3) {
-                hint.innerText = "إيه ده؟ 😅 الوردة علّقت تاني.. جربي كمان مرة";
-            } else if(roseClicks === 3) {
-                showMessage("إيه ده؟ 😅 الوردة علّقت تاني.. معلش أنا لسه مصمّمها جديد، جرّبي تغمّضي عينك وعدّي لحد 10 في دماغك 🤍", startRoseTimer);
-            }
-        }
-
-        function startRoseTimer() {
-            let timeLeft = 10;
-            const display = document.getElementById('timer-display');
-            display.style.display = 'block';
-            const interval = setInterval(() => {
-                display.innerText = `تحويل الوردة في خلال: ${timeLeft}... 🌸`;
-                timeLeft--;
-                if(timeLeft < 0) {
-                    clearInterval(interval);
-                    transformToBouquet();
-                }
-            }, 1000);
-        }
-
-        function transformToBouquet() {
-            const roseContainer = document.getElementById('roseContainer');
-            // Change SVG to a bouquet (Simplified for CSS)
-            roseContainer.innerHTML = `
-                <img src="https://img.freepik.com/free-photo/vibrant-pink-roses-bouquet-black-background_23-2150741285.jpg?t=st=1710500000" 
-                class="rose-img" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover; animation: pulse 2s infinite;">
-            `;
-            document.getElementById('rose-hint').innerText = "وااااو! شوفي بقت إيه 😍 اضغطي عليها بقى";
-            document.getElementById('timer-display').style.display = 'none';
-            document.getElementById('bgMusic').play();
-            roseContainer.onclick = () => transitionStage('stage2', 'stage3');
-            
-            // Add pulse animation
-            roseContainer.style.animation = "pulse 2s infinite";
-        }
-
-        // 4. Gallery Logic
-        const photos = [
-            {url: "https://img.freepik.com/free-photo/digital-art-style-romantic-couple-nature_23-2151152123.jpg", caption: "كل صورة معاكي هي حكاية حب جديدة.. ❤️"},
-            {url: "https://img.freepik.com/free-photo/beautiful-romantic-composition-with-flowers_23-2150741263.jpg", caption: "انتي الوردة اللي مابتذبلش في حياتي.. 🌸"},
-            {url: "https://img.freepik.com/free-photo/sunset-beach-romantic-couple-silhouette_23-2151031385.jpg", caption: "وجودك جنبي هو أكبر هدية من السما.. ✨"}
+        const data = [
+            { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { s: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
+            { s: "IMG-20251019-WA0039.jpg", t: "كل يوم بيكِ أحلى" },
+            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
+            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
+            { s: "IMG-20251027-WA0100.jpg", t: "دايماً متألقة" },
+            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
+            { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" },
+            { s: "IMG-20251106-WA0032.jpg", t: "بحبك للأبد ❤️" }
         ];
-        let currentPhotoIdx = 0;
 
-        function nextPhoto() {
-            currentPhotoIdx++;
-            if(currentPhotoIdx < photos.length) {
-                updateGallery();
+        let idx = 0;
+        const mus = document.getElementById('bgMus');
+
+        function check() { 
+            if(document.getElementById('pw').value === "123") go(2); 
+            else alert("الباسورد غلط يا أمل!"); 
+        }
+
+        function go(n) { 
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
+            document.getElementById('s'+n).classList.add('active'); 
+        }
+        
+        function startGallery() { 
+            mus.play(); 
+            go(3); 
+            update(); 
+        }
+
+        function next() { 
+            if(idx < data.length - 1) {
+                idx++;
+                update();
             } else {
-                transitionStage('stage3', 'stage4');
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('finalBtns').style.display = 'block';
             }
         }
 
-        function updateGallery() {
-            const img = document.getElementById('galleryImg');
-            const cap = document.getElementById('galleryCaption');
-            img.style.opacity = 0;
-            setTimeout(() => {
-                img.src = photos[currentPhotoIdx].url;
-                cap.innerText = photos[currentPhotoIdx].caption;
-                img.style.opacity = 1;
-            }, 300);
+        function resetGallery() {
+            idx = 0;
+            update();
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('finalBtns').style.display = 'none';
         }
-        updateGallery();
+        
+        function update() { 
+            document.getElementById('gImg').src = data[idx].s;
+            document.getElementById('gCap').innerText = data[idx].t;
+        }
 
-        // 5. Gift Box Logic
-        let boxClicks = 0;
-        function handleBoxClick() {
-            boxClicks++;
-            if(boxClicks === 1) {
-                document.getElementById('gift-hint').innerText = "مش عايز يفتح ليه؟ 😅";
-            } else if(boxClicks === 2) {
-                showMessage("إيه ده 😅 هو الصندوق كمان علّق؟ غمّضي عينك 10 ثواني بس 🤍", openGift);
-            }
-        }
+        function goGift() { go(4); }
 
         function openGift() {
-            const lid = document.getElementById('boxLid');
-            const hint = document.getElementById('gift-hint');
-            setTimeout(() => {
-                lid.style.animation = "openBox 2s forwards";
-                hint.innerText = "فتحت أخيراً! اقرئي بقلبك.. ❤️";
-                typeWriterEffect();
-            }, 3000); // Small delay to feel realistic
-        }
-
-        function typeWriterEffect() {
-            const text = "يا أجمل ما رأت عيني..\nهذه ليست مجرد صفحة ويب، بل هي رسالة حب برمجتها بكل نبضة في قلبي.\nأريدك أن تعرفي أنكِ لستِ فقط حبيبتي، بل أنتِ عالمي، وصديقتي، وملهمتي.\nشكراً لأنكِ في حياتي، وشكراً لأنكِ تجعلين كل يوم أجمل.\nأحبكِ فوق ما يتصوره عقلك.. دمتِ لي ملكةً لا تغيب. ❤️✨";
-            const container = document.getElementById('final-message');
+            const gift = document.getElementById('gift');
+            gift.innerHTML = '✨🎁✨'; 
+            gift.style.transform = "scale(1.3) rotate(360deg)";
+            
+            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nوعقبال مليون سنة وتحققي كل اللي في بالك..\nوكل سنة وأنتِ قرفاني في عيشتي كدة دايماً 😂\nبهزر طبعاً.. بجد كل سنة وأنتِ منورة حياتي ❤️";
+            
             let i = 0;
+            const typewriter = document.getElementById('typewriter');
+            typewriter.innerHTML = "";
+            
             function type() {
                 if (i < text.length) {
-                    container.innerHTML += text.charAt(i);
+                    // معالجة السطر الجديد ليعمل في HTML
+                    if (text.charAt(i) === "\n") {
+                        typewriter.innerHTML += "<br>";
+                    } else {
+                        typewriter.innerHTML += text.charAt(i);
+                    }
                     i++;
-                    setTimeout(type, 50);
+                    setTimeout(type, 80);
                 } else {
-                    document.getElementById('restartBtn').classList.remove('hidden');
+                    document.getElementById('resetFromGift').style.display = 'inline-block';
                 }
             }
             type();
         }
-
-        // Helpers
-        function showMessage(msg, callback) {
-            const modal = document.createElement('div');
-            modal.className = 'fun-message';
-            modal.innerHTML = `
-                <p style="font-size: 20px; margin-bottom: 20px;">${msg}</p>
-                <button class="btn-3d" onclick="this.parentElement.remove();">ماشي 😄</button>
-            `;
-            document.body.appendChild(modal);
-            const btn = modal.querySelector('button');
-            btn.addEventListener('click', callback);
-        }
-
-        function transitionStage(from, to) {
-            const f = document.getElementById(from);
-            const t = document.getElementById(to);
-            f.style.opacity = '0';
-            f.style.transform = 'scale(0.8) rotateY(20deg)';
-            setTimeout(() => {
-                f.classList.add('hidden');
-                t.classList.remove('hidden');
-                setTimeout(() => {
-                    t.style.opacity = '1';
-                    t.style.transform = 'scale(1) rotateY(0deg)';
-                }, 50);
-            }, 800);
-        }
-
-        // Animations CSS injection
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,133,162,0.5)); }
-                50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(255,133,162,0.8)); }
-                100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,133,162,0.5)); }
-            }
-        `;
-        document.head.append(style);
-
     </script>
 </body>
 </html>
