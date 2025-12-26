@@ -2,262 +2,235 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إلى أمل ❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --main-pink: #ff4d6d;
-            --soft-pink: #ff8fa3;
-            --btn-shadow: #c9184a;
-            --gold: #ffd700;
-        }
-
-        body {
+        :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --soft-pink: #ff8fa3; --gold: #ffd700; }
+        
+        body { 
             margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%);
             display: flex; justify-content: center; align-items: center; height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden;
-            position: relative; transition: background 1.5s ease;
-        }
-
-        #music-ctrl {
-            position: fixed; top: 15px; left: 15px; z-index: 3000;
-            background: white; width: 40px; height: 40px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; color: var(--main-pink);
+            font-family: 'Segoe UI', sans-serif; overflow: hidden;
         }
 
         #top-comment {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            background: var(--main-pink); color: white; padding: 12px 30px;
-            border-radius: 50px; font-weight: bold; transition: 0.5s; z-index: 5000;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: fixed; top: -100px; left: 10%; right: 10%;
+            background: white; color: var(--main-pink); padding: 15px;
+            border-radius: 20px; font-weight: bold; transition: 0.6s;
+            z-index: 5000; text-align: center; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
+            border: 2px solid var(--main-pink);
         }
 
         .container {
-            width: 85%; max-width: 400px; text-align: center;
-            background: rgba(255, 255, 255, 0.85); padding: 25px;
-            border-radius: 40px; box-shadow: 0 25px 50px rgba(255, 77, 109, 0.3);
-            border: 5px solid white; backdrop-filter: blur(10px); z-index: 10;
+            width: 88%; max-width: 380px; text-align: center;
+            background: rgba(255, 255, 255, 0.9); padding: 25px;
+            border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.25);
+            border: 4px solid white; backdrop-filter: blur(10px);
         }
 
         .section { display: none; }
         .active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* البصمة الاحترافية */
-        .fp-container { position: relative; width: 100px; height: 100px; margin: 0 auto; cursor: pointer; }
-        .fp-icon { font-size: 80px; color: var(--gold); transition: 0.3s; }
-        .fp-scanner {
-            position: absolute; top: 0; left: 10px; width: 80px; height: 3px;
-            background: #00f2ff; box-shadow: 0 0 15px #00f2ff; display: none;
+        /* معرض الصور الاحترافي */
+        .gallery-card {
+            width: 100%; height: 350px; background: #fff; border-radius: 20px;
+            overflow: hidden; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border: 5px solid white;
         }
-        @keyframes scanAnim { 0% { top: 0; } 100% { top: 80px; } }
-        .fp-container.scanning .fp-icon { color: #00f2ff; filter: drop-shadow(0 0 10px #00f2ff); }
-        .fp-container.scanning .fp-scanner { display: block; animation: scanAnim 1s infinite alternate; }
+        .gallery-card img { width: 100%; height: 100%; object-fit: contain; transition: 0.5s; }
+        
+        /* عداد الأيام */
+        #counter-box {
+            margin-top: 15px; background: var(--main-pink); color: white;
+            padding: 10px; border-radius: 15px; font-size: 0.85rem; font-weight: bold;
+        }
 
-        /* الوردة والرسم */
-        .flower-3d { font-size: 100px; cursor: pointer; transition: 0.5s; }
-        #drawing-bouquet { width: 220px; height: 220px; display: none; margin: 0 auto; }
-        .draw-line {
-            fill: none; stroke: var(--main-pink); stroke-width: 1.5;
-            stroke-dasharray: 1500; stroke-dashoffset: 1500;
-            animation: drawAction 4s forwards;
-        }
-        @keyframes drawAction { to { stroke-dashoffset: 0; } }
-        #final-bouquet-img { display: none; width: 230px; cursor: pointer; margin: 0 auto; animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        /* البصمة */
+        .fp-container { position: relative; width: 90px; height: 90px; margin: 0 auto; cursor: pointer; }
+        .fp-icon { font-size: 70px; color: var(--gold); }
+        .fp-scanner { position: absolute; top: 0; width: 100%; height: 3px; background: #00f2ff; display: none; }
+        @keyframes scan { 0% { top: 0; } 100% { top: 80px; } }
+        .scanning .fp-scanner { display: block; animation: scan 1s infinite alternate; }
 
-        /* شريط الفيلم السينمائي */
-        .film-strip {
-            border-top: 20px solid #222; border-bottom: 20px solid #222;
-            background: #000; padding: 10px 0; position: relative; border-radius: 5px;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* البوكيه */
+        #bouquet-reveal {
+            width: 250px; height: 250px; margin: 0 auto; display: none;
+            background: url('https://images.squarespace-cdn.com/content/v1/552bef29e4b096537b83f064/1586522067784-BWSK4J16N00K6O9S5O1K/Flower+Bouquet.png') center/contain no-repeat;
+            clip-path: inset(100% 0 0 0); cursor: pointer;
         }
-        .film-strip::before {
-            content: "••••••••••••••••••••"; position: absolute; top: -18px; left: 0;
-            color: #555; letter-spacing: 12px; width: 100%; font-size: 15px;
-        }
-        .film-strip::after {
-            content: "••••••••••••••••••••"; position: absolute; bottom: -18px; left: 0;
-            color: #555; letter-spacing: 12px; width: 100%; font-size: 15px;
-        }
-        .img-box { width: 100%; height: 350px; background: white; }
-        .img-box img { width: 100%; height: 100%; object-fit: contain; transition: 0.5s transform; }
+        .drawing-active { animation: drawReveal 4s forwards linear; }
+        @keyframes drawReveal { to { clip-path: inset(0% 0 0 0); } }
 
         button {
-            background: linear-gradient(145deg, #ff4d6d, #ff758c);
-            color: white; border: none; padding: 12px 25px; border-radius: 20px;
-            font-weight: bold; cursor: pointer; box-shadow: 0 6px 0 var(--btn-shadow); margin: 10px;
+            background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white;
+            border: none; padding: 15px; border-radius: 25px; width: 85%;
+            font-weight: bold; margin: 10px 0; box-shadow: 0 5px 0 var(--dark-pink);
         }
 
-        .flying-item { position: absolute; font-size: 30px; z-index: 1000; animation: flyUp 3s forwards linear; }
-        @keyframes flyUp { 0% { transform: translateY(100vh) rotate(0); opacity: 1; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+        #final-heart { display: none; font-size: 80px; animation: pulse 1s infinite; cursor: pointer; margin: 20px auto; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
     </style>
 </head>
-<body id="main-body">
+<body>
 
-    <div id="music-ctrl" onclick="toggleMusic()"><i id="music-icon" class="fas fa-music"></i></div>
     <div id="top-comment"></div>
+    <audio id="bgMus" src="1000311463.mp3" loop></audio>
+    <audio id="finalSong" src="1000315475.mp3"></audio>
 
     <div class="container">
         <div id="s0" class="section active">
-            <h3 style="color: var(--main-pink)">افحصي البصمة هنا ❤️</h3>
-            <div class="fp-container" id="fp-box" onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()">
-                <i class="fas fa-fingerprint fp-icon"></i>
-                <div class="fp-scanner"></div>
+            <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
+            <div class="fp-container" id="fp-box" ontouchstart="startScan()" ontouchend="stopScan()">
+                <i class="fas fa-fingerprint fp-icon"></i><div class="fp-scanner"></div>
             </div>
-            <p id="fp-text" style="margin-top:20px; font-weight:bold;">خليكي دايسة عشان يفحص الجمال...</p>
+            <p style="font-weight:bold; color:#666; margin-top:15px;">بصمتك هنا عشان نفتح الذكريات...</p>
         </div>
 
         <div id="s1" class="section">
-            <h2 style="color: var(--main-pink)">نورتي يا أمل ❤️</h2>
-            <input type="password" id="pw" style="width:80%; padding:12px; border-radius:15px; border:2px solid var(--soft-pink); text-align:center;" placeholder="كلمة السر...">
-            <br><button onclick="check()">دخول</button>
+            <h3 style="color: var(--main-pink)">نورتي دنيتي يا أمل</h3>
+            <input type="password" id="pw" inputmode="numeric" style="width:70%; padding:12px; border-radius:12px; border:2px solid var(--soft-pink); text-align:center;" placeholder="123">
+            <br><button onclick="check()">دخول ❤️</button>
         </div>
 
         <div id="s2" class="section">
-            <div id="f-area">
-                <div class="flower-3d" id="single-flower" onclick="flowerLogic()">🌹</div>
-            </div>
-            <svg id="drawing-bouquet" viewBox="0 0 100 100">
-                <path class="draw-line" d="M50 90 L50 60 M50 60 L70 40 M50 60 L30 40 M50 60 L50 30 M30 40 Q50 10 70 40 Q90 60 70 80 Q50 100 30 80 Q10 60 30 40" />
-            </svg>
-            <img src="https://images.squarespace-cdn.com/content/v1/552bef29e4b096537b83f064/1586522067784-BWSK4J16N00K6O9S5O1K/Flower+Bouquet.png" id="final-bouquet-img" onclick="go(3)">
+            <div id="flower-btn" style="font-size: 80px; cursor: pointer;" onclick="flowerStep()">🌹</div>
+            <div id="bouquet-reveal" onclick="go(3)"></div>
         </div>
 
         <div id="s3" class="section">
-            <div class="film-strip">
-                <div class="img-box"><img id="gImg" src=""></div>
+            <div class="gallery-card">
+                <img id="gImg" src="">
             </div>
-            <div id="gCap" style="margin:15px; font-weight:bold; color:var(--main-pink); min-height: 25px;"></div>
-            <button id="nextBtn" onclick="next()">المشهد التالي 🎬</button>
+            <p id="gCap" style="color:var(--main-pink); font-weight:bold; margin:10px 0;"></p>
+            
+            <div id="counter-box">
+                إحنا مع بعض بقالنا: <br>
+                <span id="timer"></span>
+            </div>
+
+            <button id="nextBtn" onclick="next()">الذكرى التالية 🎬</button>
             <div id="finalBtns" style="display:none;"><button onclick="go(4)">افتحي الهدية 🎁</button></div>
         </div>
 
         <div id="s4" class="section">
-            <div style="font-size: 100px; cursor: pointer;" id="gift-icon" onclick="openGift()">🎁</div>
-            <div id="typewriter" style="white-space: pre-line; font-weight:bold; margin-top:20px;"></div>
-            <div id="wa-section" style="display:none; margin-top:15px;">
-                <button onclick="sendToWhatsApp()">إرسال رسالة 💌</button>
-                <button style="background: #333;" onclick="triggerFun()">ممنوع الدوس هنا! ⛔</button>
-                <br><button onclick="location.reload()" style="margin-top:20px;">البداية 🏠</button>
+            <div id="gift-icon" style="font-size:80px;" onclick="openGift()">🎁</div>
+            <div id="typewriter" style="font-weight:bold; margin:15px 0; font-size: 0.95rem;"></div>
+            
+            <div id="last-stage" style="display:none;">
+                <button id="forbid" style="background:#333" onclick="triggerEnd()">ممنوع الدوس! ⛔</button>
+                <div id="final-heart" onclick="finishStory()">❤️</div>
+                <div id="final-msg" style="display:none; color: var(--main-pink); font-weight: bold; margin-top: 10px;">
+                    يا رب تكون الهدية عجبتك يا أمل.. <br> بحبك أوي ❤️
+                </div>
             </div>
         </div>
     </div>
 
-    <audio id="bgMus" src="1000311463.mp3" loop></audio>
-
     <script>
-        const myNumber = "201202158675";
-        let scanTimer, fClicks = 0;
+        let fClicks = 0, idx = 0;
+        const startDate = new Date("2025-07-20T00:00:00");
+
+        function showComment(txt, stay = false) {
+            const c = document.getElementById('top-comment');
+            c.innerText = txt; c.style.top = "20px";
+            if(!stay) setTimeout(() => c.style.top = "-100px", 3000);
+        }
+
+        // عداد الوقت
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            document.getElementById('timer').innerText = `${days} يوم و ${hours}:${mins}:${secs}`;
+        }
+        setInterval(updateTimer, 1000);
 
         function startScan() {
             document.getElementById('fp-box').classList.add('scanning');
-            document.getElementById('fp-text').innerText = "جاري الفحص... ملمسك رقيق أوي!";
-            scanTimer = setTimeout(() => { showComment("تم التحقق! أهلاً يا أجمل البنات ❤️"); go(1); }, 3000);
+            window.scanTimer = setTimeout(() => { showComment("تم التحقق يا أجمل أمل ❤️"); go(1); }, 2500);
         }
-        function stopScan() {
-            clearTimeout(scanTimer);
-            document.getElementById('fp-box').classList.remove('scanning');
-            document.getElementById('fp-text').innerText = "ليه شيلتي إيدك؟ كملي فحص!";
-        }
-
-        function showComment(txt, keep = false) {
-            const c = document.getElementById('top-comment');
-            c.innerText = txt; c.style.top = "20px";
-            if(!keep) setTimeout(() => { c.style.top = "-100px"; }, 3500);
-        }
+        function stopScan() { clearTimeout(window.scanTimer); document.getElementById('fp-box').classList.remove('scanning'); }
 
         function check() {
             if(document.getElementById('pw').value === "123") {
-                showComment("خشّي برجلك اليمين وبضحكة حلوة ❤️😂");
-                setTimeout(() => { go(2); document.getElementById('bgMus').play(); }, 2000);
-            } else { alert("الباسورد غلط!"); }
+                go(2); document.getElementById('bgMus').play();
+            }
         }
 
-        function flowerLogic() {
+        function flowerStep() {
             fClicks++;
-            if(fClicks === 2) { showComment("هي الوردة علقت تاني؟ دوسي كده تاني معلش.."); }
-            else if(fClicks === 3) { showComment("طب غمضي عينك 5 ثواني ودوسي دوسة أخيرة.."); }
-            else if(fClicks === 4) {
-                document.getElementById('single-flower').style.display = 'none';
-                document.getElementById('drawing-bouquet').style.display = 'block';
-                showComment("استني بتترسم ليكي مخصوص... ✨", true);
-                setTimeout(() => {
-                    document.getElementById('drawing-bouquet').style.display = 'none';
-                    document.getElementById('final-bouquet-img').style.display = 'block';
-                    showComment("أنا عارف إنك مـغمضتيش عينك.. دوسي على البوكيه يلا!", true);
-                }, 4000);
+            if(fClicks === 1) showComment("الوردة معلقة؟ دوسي تاني..");
+            if(fClicks === 2) showComment("غمضي عينك ودوسي دوسة أخيرة..");
+            if(fClicks === 3) {
+                document.getElementById('flower-btn').style.display = 'none';
+                const b = document.getElementById('bouquet-reveal');
+                b.style.display = 'block'; b.classList.add('drawing-active');
+                showComment("البوكيه بيترسم ليكي مخصوص ✨", true);
+                setTimeout(() => showComment("دوسي على البوكيه عشان نشوف ذكرياتنا 😍", true), 4500);
             }
         }
 
         const data = [
-            { s: "IMG-20251030-WA0022.jpg", t: "المشهد الأول: ضحكتك حياة ❤️" },
-            { s: "IMG-20251106-WA0032.jpg", t: "المشهد الثاني: بحبك للأبد ❤️" },
-            { s: "IMG-20251012-WA0053.jpg", t: "المشهد الثالث: أجمل ملامح" },
-            { s: "IMG-20251019-WA0039.jpg", t: "المشهد الرابع: كل يوم بيكِ أحلى" },
-            { s: "IMG-20251030-WA0023.jpg", t: "المشهد الخامس: يا رقة القلب" },
-            { s: "IMG-20251028-WA0006.jpg", t: "المشهد السادس: عيونك حكاية" },
-            { s: "IMG-20251027-WA0100.jpg", t: "المشهد السابع: دايماً متألقة" },
-            { s: "IMG-20251019-WA0011.jpg", t: "المشهد الثامن: الجمال كله" },
-            { s: "IMG-20251007-WA0049.jpg", t: "المشهد التاسع: ذكريات غالية" }
+            { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+            { s: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك ❤️" },
+            { s: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
+            { s: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
+            { s: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
+            { s: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
+            { s: "IMG-20251027-WA0100.jpg", t: "دايماً متألقة" },
+            { s: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
+            { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" }
         ];
-        let idx = 0;
 
         function update() {
             const img = document.getElementById('gImg');
-            img.style.transform = "translateX(100%)";
+            img.style.opacity = 0;
             setTimeout(() => {
                 img.src = data[idx].s;
-                img.style.transform = "translateX(0)";
                 document.getElementById('gCap').innerText = data[idx].t;
+                img.style.opacity = 1;
             }, 300);
-            document.getElementById('top-comment').style.top = "-100px";
         }
 
         function next() {
             if(idx < data.length - 1) { idx++; update(); }
-            else { document.getElementById('nextBtn').style.display = 'none'; document.getElementById('finalBtns').style.display = 'block'; }
+            else { document.getElementById('nextBtn').style.display='none'; document.getElementById('finalBtns').style.display='block'; }
         }
 
         function openGift() {
-            document.getElementById('main-body').style.background = "#1a000a";
             document.getElementById('gift-icon').innerHTML = "📦✨";
-            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nوعقبال مليون سنة وتحققي كل اللي في بالك..\nوكل سنة وأنتِ منورة حياتي ❤️";
+            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nمنورة حياتي يا أغلى ما عندي ❤️";
             let i = 0; const tw = document.getElementById('typewriter');
-            tw.innerHTML = "";
             function type() {
-                if (i < text.length) { tw.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i); i++; setTimeout(type, 60); }
-                else { document.getElementById('wa-section').style.display = 'block'; }
+                if(i < text.length) { tw.innerHTML += text[i]==='\n'?'<br>':text[i]; i++; setTimeout(type, 60); }
+                else document.getElementById('last-stage').style.display='block';
             }
             type();
         }
 
-        function triggerFun() {
-            showComment("قلنا ممنوع الدوس يا أمل! بس عشان خاطرك هنعديها المرة دي 😉");
-            for(let i=0; i<30; i++) {
-                setTimeout(() => {
-                    const el = document.createElement('div'); el.className = 'flying-item';
-                    el.innerHTML = ['🌹', '❤️', '🌸', '✨', '💐'][Math.floor(Math.random()*5)];
-                    el.style.left = Math.random() * 100 + 'vw'; document.body.appendChild(el);
-                    setTimeout(() => el.remove(), 3000);
-                }, i * 100);
-            }
+        function triggerEnd() {
+            document.getElementById('forbid').style.display='none';
+            showComment("قلنا بلاش شقاوة! بس الورد ده عشانك 😉");
+            document.getElementById('final-heart').style.display='block';
         }
 
-        function sendToWhatsApp() {
-            window.open(`https://wa.me/${myNumber}?text=شكراً على المفاجأة الجميلة دي ❤️`, '_blank');
+        function finishStory() {
+            document.getElementById('bgMus').pause(); // وقف الموسيقى الهادية
+            document.getElementById('finalSong').play(); // شغل الأغنية الجديدة
+            document.getElementById('final-heart').style.display = 'none';
+            document.getElementById('final-msg').style.display = 'block';
+            showComment("يا رب تكون الهدية عجبتك يا أمل.. ❤️", true);
         }
 
         function go(n) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('s'+n).classList.add('active');
             if(n === 3) update();
-        }
-
-        function toggleMusic() {
-            const m = document.getElementById('bgMus');
-            if(m.paused) m.play(); else m.pause();
         }
     </script>
 </body>
