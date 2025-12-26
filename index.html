@@ -5,53 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إلى أمل ❤️</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --soft-pink: #ff8fa3; --gold: #ffd700; }
-        body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
         
-        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.6s; z-index: 5000; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid var(--main-pink); }
-        .container { width: 88%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); }
-        
+        body { 
+            margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); 
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden;
+            transition: background 3s ease; position: relative;
+        }
+
+        /* الوضع الرومانسي */
+        body.romantic-mode { background: #0a0002; }
+
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+
+        .container { 
+            width: 88%; max-width: 380px; text-align: center; 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 25px; border-radius: 40px; 
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); 
+            z-index: 10; position: relative; transition: all 2s ease;
+        }
+
+        body.romantic-mode .container { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+
         .section { display: none; }
-        .active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .active { display: block; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* البصمة والعداد */
-        .fp-container { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; touch-action: none; }
-        .fp-icon { font-size: 80px; color: var(--gold); }
-        .fp-scanner { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #00f2ff; display: none; }
-        .scanning .fp-scanner { display: block; animation: scan 1.2s infinite alternate; }
-        @keyframes scan { from { top: 0; } to { top: 90px; } }
-        #counter-box { margin: 15px 0; font-size: 1.3rem; font-weight: bold; color: var(--main-pink); }
+        /* العناصر العائمة */
+        .floating { animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* رسم البوكيه */
-        #bouquet-reveal { width: 200px; height: 200px; margin: 20px auto; display: none; background: url('https://images.squarespace-cdn.com/content/v1/552bef29e4b096537b83f064/1586522067784-BWSK4J16N00K6O9S5O1K/Flower+Bouquet.png') center/contain no-repeat; clip-path: inset(100% 0 0 0); }
-        .drawing-active { animation: drawReveal 4s forwards linear; }
-        @keyframes drawReveal { to { clip-path: inset(0% 0 0 0); } }
+        /* تأثير التلاشي للصور */
+        .fade-img { animation: imgFade 1s ease-in-out; }
+        @keyframes imgFade { from { opacity: 0; } to { opacity: 1; } }
 
-        /* الجاليري */
-        .gallery-card { width: 100%; height: 320px; border-radius: 20px; overflow: hidden; border: 4px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .gallery-card img { width: 100%; height: 100%; object-fit: contain; }
+        /* كارت الخربشة */
+        #scratch-container {
+            position: relative; width: 260px; height: 160px; margin: 20px auto;
+            background: #fff; border-radius: 20px; overflow: hidden;
+            border: 3px solid var(--soft-pink);
+        }
+        #scratch-content {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: var(--dark-pink); font-weight: bold; font-size: 1.3rem;
+        }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 2; }
 
-        /* الصندوق الأصلي */
-        .gift-box-container { position: relative; width: 140px; height: 140px; margin: 20px auto; cursor: pointer; }
-        .gift-top { position: absolute; top: 0; width: 100%; z-index: 2; transition: 0.8s; }
-        .gift-bottom { width: 100%; position: absolute; bottom: 0; }
-        .open .gift-top { transform: translateY(-110px) rotate(-20deg); opacity: 0; }
+        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; font-weight: bold; transition: 0.6s; z-index: 5000; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 2px solid var(--main-pink); }
 
-        /* القلب النابض */
-        #final-heart { display: none; font-size: 80px; animation: pulse 1s infinite; cursor: pointer; margin: 20px auto; filter: drop-shadow(0 0 10px var(--main-pink)); }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-
-        /* لعبة البطاقات */
-        .cards-wrap { display: flex; justify-content: space-around; margin-top: 20px; }
-        .card { width: 80px; height: 120px; background: var(--main-pink); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; cursor: pointer; transition: 0.4s; border: 3px solid white; }
-        .card.flipped { background: white; color: var(--main-pink); transform: rotateY(180deg); }
-
-        /* الشاشة السوداء النهائية */
-        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 25px; }
+        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 16px; border-radius: 30px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; box-shadow: 0 5px 15px rgba(255,77,109,0.3); }
         
-        button { background: linear-gradient(145deg, #ff4d6d, #ff758c); color: white; border: none; padding: 15px; border-radius: 25px; width: 85%; font-weight: bold; margin: 10px 0; }
+        .heart-beat { animation: beat 1.5s infinite; color: red; font-size: 60px; text-shadow: 0 0 20px rgba(255,0,0,0.5); }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        input { width: 80%; padding: 15px; border-radius: 20px; border: 2px solid var(--soft-pink); text-align: center; font-size: 1.2rem; outline: none; }
     </style>
 </head>
 <body>
@@ -63,99 +76,59 @@
     <div class="container" id="main-ui">
         <div id="s0" class="section active">
             <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
-            <div class="fp-container" id="fp-box" onpointerdown="startScan()" onpointerup="stopScan()"><i class="fas fa-fingerprint fp-icon"></i><div class="fp-scanner"></div></div>
-            <p style="font-weight:bold; color:#666;">بصمتك عشان نفتح ذكرياتنا...</p>
+            <div style="font-size: 90px; color: var(--gold); cursor: pointer;" class="floating" onclick="go(1)"><i class="fas fa-fingerprint"></i></div>
+            <p style="font-weight:bold; color:#666;">بصمتك يا أمل عشان نبدأ..</p>
         </div>
 
         <div id="s1" class="section">
-            <h3 style="color: var(--main-pink)">نورتي دنيتي يا أمل</h3>
-            <input type="password" id="pw" inputmode="numeric" style="width:70%; padding:12px; border-radius:12px; border:2px solid var(--soft-pink); text-align:center;" placeholder="123">
+            <h3 style="color: var(--main-pink)">نورتي دنيتي</h3>
+            <input type="password" id="pw" inputmode="numeric" placeholder="كلمة السر..">
             <br><button onclick="check()">دخول ❤️</button>
         </div>
 
         <div id="s2" class="section">
-            <div id="flower-btn" style="font-size: 80px; cursor: pointer;" onclick="flowerStep()">🌹</div>
-            <div id="bouquet-reveal" onclick="go(3)"></div>
+            <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
+            <div style="font-size: 80px; cursor:pointer;" class="floating" onclick="flowerLogic()">🌹</div>
         </div>
 
         <div id="s3" class="section">
-            <div class="gallery-card"><img id="gImg" src=""></div>
-            <p id="gCap" style="color:var(--main-pink); font-weight:bold; margin:10px 0;"></p>
-            <div id="counter-box"><span id="timer"></span></div>
+            <div style="width:100%; height:320px; border-radius:25px; overflow:hidden; border:5px solid white; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+                <img id="gImg" src="" style="width:100%; height:100%; object-fit: contain;" class="fade-img">
+            </div>
+            <p id="gCap" style="color:var(--main-pink); font-weight:bold; margin:15px 0; font-size:1.1rem;"></p>
             <button id="nextBtn" onclick="next()">الذكرى التالية 🎬</button>
-            <div id="finalBtns" style="display:none;"><button onclick="go(4)">افتحي الهدية 🎁</button></div>
+            <div id="finalBtns" style="display:none;"><button onclick="startRomanticScene()">افتحي الهدية 🎁</button></div>
         </div>
 
         <div id="s4" class="section">
-            <div class="gift-box-container" id="giftBox" onclick="openGift()">
-                <img src="https://cdn-icons-png.flaticon.com/512/2143/2143150.png" class="gift-top">
-                <img src="https://cdn-icons-png.flaticon.com/512/2143/2143150.png" class="gift-bottom">
-            </div>
-            <div id="gift-text" style="display:none; margin-top:20px; font-weight:bold;">
-                <p id="typewriter"></p>
-                <button id="forbid" style="background:#333; display:none;" onclick="triggerEnd()">ممنوع الدوس! ⛔</button>
-            </div>
+            <div id="gift" style="font-size: 100px; cursor:pointer;" class="floating" onclick="openGift()">🎁</div>
+            <div id="typewriter" style="min-height:60px;"></div>
+            <button id="forbid" style="background:#333; display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
         </div>
 
         <div id="s5" class="section">
-            <h3 style="color: var(--main-pink)">اختاري بطاقة حظك يا أمل ✨</h3>
-            <div class="cards-wrap">
-                <div class="card" onclick="flip(this, 'بحبك')">❓</div>
-                <div class="card" onclick="flip(this, 'يا روحي')">❓</div>
-                <div class="card" onclick="flip(this, 'أغلى أمل')">❓</div>
+            <h3 style="color: var(--main-pink)">امسحي الكارت يا أمل ✨</h3>
+            <div id="scratch-container">
+                <div id="scratch-content">
+                    <span>بحبك يا أمل ❤️</span>
+                    <p style="font-size: 0.9rem; margin-top:5px;">أنتِ أجمل صدفة في حياتي</p>
+                </div>
+                <canvas id="scratch-canvas" width="260" height="160"></canvas>
             </div>
-            <button id="final-finish-btn" style="display:none; margin-top:30px;" onclick="goToBlackScreen()">شوفي المفاجأة الأخيرة ❤️</button>
+            <button id="final-btn" style="display:none;" onclick="goToBlackScreen()">المفاجأة الأخيرة ❤️</button>
         </div>
     </div>
 
-    <div id="black-screen">
-        <h1 style="color: var(--soft-pink)">يا رب تكون الهدية عجبتك يا أمل ❤️</h1>
-        <p style="font-size: 1.2rem; line-height: 1.8; padding: 20px;">
-            "أنتِ مش بس شريكة حياتي.. أنتِ النور اللي بيحيي أيامي.. بحبك جداً."
-        </p>
-        <div style="font-size: 60px;">🌹✨❤️</div>
-        <button onclick="location.reload()" style="margin-top:30px; width:auto; background: #333;">البداية 🏠</button>
+    <div id="black-screen" style="position:fixed; top:0; left:0; width:100%; height:100%; background:#000; color:white; z-index:10000; display:none; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:25px;">
+        <div class="heart-beat">❤️</div>
+        <h1 style="color: var(--soft-pink); margin-top:20px;">كل سنة وأنتِ معايا</h1>
+        <p style="font-size:1.3rem; line-height:1.8; max-width:85%;">"أنتِ مش بس شريكة حياتي، أنتِ النور اللي بيجمل كل لحظة في عمري.. بحبك جداً يا أمل."</p>
+        <button onclick="location.reload()" style="width:auto; background:#222; margin-top:40px; padding:10px 30px;">رجوع للبداية 🏠</button>
     </div>
 
     <script>
-        let fClicks = 0, idx = 0, scanTimer;
-        const startDate = new Date("2025-07-20T00:00:00");
-
-        function showComment(txt) {
-            const c = document.getElementById('top-comment');
-            c.innerText = txt; c.style.top = "20px";
-            setTimeout(() => c.style.top = "-100px", 3500);
-        }
-
-        // العداد الصامت
-        function updateTimer() {
-            const diff = new Date() - startDate;
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff / 3600000) % 24);
-            const m = Math.floor((diff / 60000) % 60);
-            const s = Math.floor((diff / 1000) % 60);
-            document.getElementById('timer').innerText = `${d} : ${h} : ${m} : ${s}`;
-        }
-        setInterval(updateTimer, 1000);
-
-        // البصمة
-        function startScan() { document.getElementById('fp-box').classList.add('scanning'); scanTimer = setTimeout(() => { go(1); }, 2200); }
-        function stopScan() { clearTimeout(scanTimer); document.getElementById('fp-box').classList.remove('scanning'); }
-
-        function check() { if(document.getElementById('pw').value === "123") { go(2); document.getElementById('bgMus').play(); } }
-
-        // رسم البوكيه (رقم 4 في الترتيب الأصلي)
-        function flowerStep() {
-            fClicks++;
-            if(fClicks === 1) showComment("دوسي تاني يكمل الرسم..");
-            if(fClicks === 2) {
-                document.getElementById('flower-btn').style.display = 'none';
-                const b = document.getElementById('bouquet-reveal');
-                b.style.display = 'block'; b.classList.add('drawing-active');
-                setTimeout(() => { go(3); }, 4500); // بعد الرسم يروح للجاليري
-            }
-        }
-
+        let fClicks = 0, idx = 0, scratchNotified = false;
+        // قائمة الصور - تأكد من وجود الصور بنفس المجلد
         const data = [
             { s: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
             { s: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك ❤️" },
@@ -168,43 +141,118 @@
             { s: "IMG-20251007-WA0049.jpg", t: "ذكريات غالية" }
         ];
 
+        function showComment(txt) {
+            const c = document.getElementById('top-comment');
+            c.innerText = txt; c.style.top = "20px";
+            setTimeout(() => c.style.top = "-100px", 3500);
+        }
+
+        function check() { 
+            if(document.getElementById('pw').value === "123") { 
+                go(2); document.getElementById('bgMus').play(); 
+            } else { 
+                alert("الباسورد غلط يا أمل! حاولي تاني ❤️"); 
+            } 
+        }
+
+        function flowerLogic() {
+            fClicks++;
+            if(fClicks === 1) {
+                showComment("إيه ده الوردة عطلت شكلها!");
+                setTimeout(() => showComment("غمضي عينك وعدي لـ 10 في دماغك.. يلا"), 3600);
+            } else if(fClicks === 2) {
+                showComment("أنا عارف إنك مغمضتيش عينك بس ماشي 😂");
+                setTimeout(() => showComment("دوسي على الوردة آخر مرة بقى.."), 3000);
+            } else { 
+                go(3); 
+            }
+        }
+
         function next() {
-            if(idx < data.length - 1) { idx++; update(); }
-            else { document.getElementById('nextBtn').style.display='none'; document.getElementById('finalBtns').style.display='block'; }
+            if(idx < data.length - 1) { 
+                idx++; 
+                const img = document.getElementById('gImg');
+                img.classList.remove('fade-img');
+                void img.offsetWidth; // إعادة تشغيل الأنيميشن
+                img.classList.add('fade-img');
+                update(); 
+            } else { 
+                document.getElementById('nextBtn').style.display='none'; 
+                document.getElementById('finalBtns').style.display='block'; 
+            }
         }
-        function update() { document.getElementById('gImg').src = data[idx].s; document.getElementById('gCap').innerText = data[idx].t; }
 
-        // فتح الصندوق (الغطاء بيطير) - رقم 5 في الترتيب الأصلي
+        function update() { 
+            document.getElementById('gImg').src = data[idx].s; 
+            document.getElementById('gCap').innerText = data[idx].t; 
+        }
+
+        function startRomanticScene() {
+            document.body.classList.add('romantic-mode');
+            showComment("استني بهدي النور عشان اللحظة تبقى أحلى.. ✨");
+            // إنشاء نجوم
+            for(let i=0; i<45; i++){
+                let s = document.createElement('div'); s.className = 'star';
+                s.style.width = s.style.height = Math.random()*3+'px';
+                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
+                s.style.setProperty('--d', Math.random()*3+2+'s'); document.body.appendChild(s);
+            }
+            setTimeout(() => go(4), 3000);
+        }
+
         function openGift() {
-            document.getElementById('giftBox').classList.add('open');
-            setTimeout(() => {
-                document.getElementById('gift-text').style.display = 'block';
-                type("كل سنة وأنتِ طيبة يا أمل.. منورة حياتي يا أغلى ما عندي ❤️");
-            }, 800);
-        }
-
-        function type(txt) {
-            let i = 0; const el = document.getElementById('typewriter');
-            el.innerHTML = ""; // إعادة تعيين النص قبل الكتابة
-            function step() { if(i < txt.length) { el.innerHTML += txt[i]; i++; setTimeout(step, 50); } else { document.getElementById('forbid').style.display='inline-block'; } }
+            const g = document.getElementById('gift'); g.innerHTML = "💝"; 
+            const text = "كل سنة وأنتِ طيبة يا أمل.. 🎉\nيا أغلى ما عندي في الدنيا.. بجد فرحتي بيكِ ملهاش حدود ❤️";
+            let i = 0; document.getElementById('typewriter').innerHTML = "";
+            function step() {
+                if (i < text.length) { 
+                    document.getElementById('typewriter').innerHTML += text[i]; i++; setTimeout(step, 60); 
+                } else { 
+                    document.getElementById('forbid').style.display = 'inline-block'; 
+                    initScratch(); 
+                }
+            }
             step();
         }
 
-        // "ممنوع الدوس" ينقل للعبة البطاقات - رقم 6 في الترتيب
-        function triggerEnd() {
-            showComment("قلنا بلاش شقاوة! بس عشانك هنلعب شوية 😉");
-            go(5); // يذهب مباشرة للعبة البطاقات
+        function initScratch() {
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#D4AF37'; // لون ذهبي
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#fff'; ctx.font = "bold 18px Segoe UI"; ctx.textAlign = "center";
+            ctx.fillText("امسحي هنا يا أمل ✨", 130, 85);
+
+            let isDrawing = false;
+            let cleared = 0;
+
+            function scratch(e) {
+                if (!isDrawing) return;
+                const rect = canvas.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill();
+                
+                cleared++;
+                if (cleared > 100 && !scratchNotified) {
+                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffffff', '#ffd700'] });
+                    document.getElementById('final-btn').style.display = 'inline-block';
+                    scratchNotified = true;
+                }
+            }
+
+            canvas.addEventListener('mousedown', () => isDrawing = true);
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('touchstart', (e) => { isDrawing = true; e.preventDefault(); });
+            canvas.addEventListener('touchend', () => isDrawing = false);
+            canvas.addEventListener('touchmove', (e) => { scratch(e); e.preventDefault(); });
         }
 
-        // لعبة البطاقات - رقم 7 في الترتيب
-        function flip(el, msg) {
-            el.innerHTML = msg; el.classList.add('flipped'); el.style.fontSize = '0.9rem';
-            document.getElementById('final-finish-btn').style.display = 'inline-block';
-        }
-
-        // الدخول للشاشة السوداء والأغنية الجديدة
         function goToBlackScreen() {
-            document.getElementById('bgMus').pause();
+            document.getElementById('bgMus').pause(); 
             document.getElementById('finalSong').play();
             document.getElementById('main-ui').style.display = 'none';
             document.getElementById('black-screen').style.display = 'flex';
@@ -213,8 +261,7 @@
         function go(n) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('s'+n).classList.add('active');
-            // تحديث محتوى الصور لو في مرحلة الجاليري
-            if(n === 3) { update(); }
+            if(n===3) update();
         }
     </script>
 </body>
