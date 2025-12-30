@@ -1,72 +1,77 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إلى أمل ❤️</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <style>
-        :root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --gold: #ffd700; --scan-color: #00ffcc; }
-        * { touch-action: manipulation; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-        body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; transition: background 3s ease; }
-        body.romantic-mode { background: #0a0002; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>إلى أمل ❤️</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<style>
+:root { --main-pink: #ff4d6d; --dark-pink: #c9184a; --gold: #ffd700; --scan-color: #00ffcc; }
+* { touch-action: manipulation; -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(circle, #fff0f3 0%, #ffc1cf 100%); display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Segoe UI', sans-serif; overflow: hidden; transition: background 3s ease; }
+body.romantic-mode { background: #0a0002; }
 
-        .container { width: 92%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); z-index: 10; position: relative; }
-        body.romantic-mode .container { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
+.container { width: 92%; max-width: 380px; text-align: center; background: rgba(255, 255, 255, 0.95); padding: 25px; border-radius: 40px; box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); z-index: 10; position: relative; }
+body.romantic-mode .container { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); color: white; }
 
-        .section { display: none; }
-        .active { display: block; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.section { display: none; }
+.active { display: block; animation: fadeIn 0.8s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .flower-circle { position: relative; width: 120px; height: 120px; margin: 20px auto; border: 4px dashed var(--main-pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; animation: rotateCircle 10s linear infinite; }
-        .flower-circle i.inner-flower { font-size: 50px; animation: pulse 1.5s infinite; }
-        .flower-circle .outer-rose { position: absolute; font-size: 20px; }
-        @keyframes rotateCircle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.flower-circle { position: relative; width: 120px; height: 120px; margin: 20px auto; border: 4px dashed var(--main-pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; animation: rotateCircle 10s linear infinite; }
+.flower-circle i.inner-flower { font-size: 50px; animation: pulse 1.5s infinite; }
+.flower-circle .outer-rose { position: absolute; font-size: 20px; }
+@keyframes rotateCircle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        .album-container { width: 260px; height: 320px; margin: 15px auto; perspective: 1500px; position: relative; }
-        .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
-        .page { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s; cursor: pointer; }
-        .page img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 5px solid white; backface-visibility: hidden; transition: 0.3s; }
-        .page:hover img { transform: scale(1.05); filter: brightness(1.1); }
-        .page.flipped { transform: rotateY(-160deg); }
-        .page-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; transform: rotateY(180deg); backface-visibility: hidden; border-radius: 15px; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--main-pink); }
+.album-container { width: 260px; height: 320px; margin: 15px auto; perspective: 1500px; position: relative; }
+.book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+.page { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s; cursor: pointer; }
+.page img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 5px solid white; backface-visibility: hidden; transition: 0.3s; }
+.page:hover img { transform: scale(1.05); filter: brightness(1.1); }
+.page.flipped { transform: rotateY(-160deg); }
+.page-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; transform: rotateY(180deg); backface-visibility: hidden; border-radius: 15px; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--main-pink); }
 
-        #photo-caption { font-size: 1.2rem; font-weight: bold; color: var(--main-pink); margin-top: 15px; min-height: 35px; }
-        body.romantic-mode #photo-caption { color: var(--gold); }
+#photo-caption { font-size: 1.2rem; font-weight: bold; color: var(--main-pink); margin-top: 15px; min-height: 35px; }
+body.romantic-mode #photo-caption { color: var(--gold); }
 
-        #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; text-align: center; transition: 0.5s; z-index: 9999; border: 2px solid var(--main-pink); font-weight: bold; }
-        #top-comment.show { top: 20px; }
+#top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; text-align: center; transition: 0.5s; z-index: 9999; border: 2px solid var(--main-pink); font-weight: bold; }
+#top-comment.show { top: 20px; }
 
-        .candle-container { position: relative; height: 150px; cursor: pointer; }
-        .flame { width: 20px; height: 35px; background: orange; border-radius: 50% 50% 20% 20%; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: flicker 0.1s infinite; box-shadow: 0 0 20px orange; }
-        @keyframes flicker { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1) rotate(2deg); } }
-        .stick { width: 15px; height: 80px; background: white; position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); border-radius: 5px; }
+.candle-container { position: relative; height: 150px; cursor: pointer; }
+.flame { width: 20px; height: 35px; background: orange; border-radius: 50% 50% 20% 20%; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: flicker 0.1s infinite; box-shadow: 0 0 20px orange; }
+@keyframes flicker { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1) rotate(2deg); } }
+.stick { width: 15px; height: 80px; background: white; position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%); border-radius: 5px; }
 
-        .fp-wrapper { position: relative; width: 100px; height: 100px; margin: 20px auto; }
-        .scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--scan-color); display: none; }
-        .fp-wrapper.scanning .scan-line { display: block; animation: scan 1.5s linear infinite; }
-        @keyframes scan { 0%, 100% { top: 0; } 50% { top: 100%; } }
+.fp-wrapper { position: relative; width: 100px; height: 100px; margin: 20px auto; }
+.scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--scan-color); display: none; }
+.fp-wrapper.scanning .scan-line { display: block; animation: scan 1.5s linear infinite; }
+@keyframes scan { 0%, 100% { top: 0; } 50% { top: 100%; } }
 
-        button { background: linear-gradient(145deg, #ff4d6d, #d9163b); color: white; border: none; padding: 15px; border-radius: 20px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        #black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+button { background: linear-gradient(145deg, #ff4d6d, #d9163b); color: white; border: none; padding: 15px; border-radius: 20px; width: 90%; font-weight: bold; cursor: pointer; margin-top: 15px; }
+#black-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; color: white; z-index: 10000; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--d) infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
 
-        .gift-box { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; }
-        .gift-box .lid { position: absolute; top: 0; left: 0; width: 100%; height: 25%; background: var(--main-pink); border: 2px solid white; z-index: 2; transition: 0.8s; transform-origin: top; }
-        .gift-box .box { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: var(--dark-pink); border: 2px solid white; }
-        .gift-box.open .lid { transform: rotateX(110deg); }
-    </style>
+.gift-box { position: relative; width: 100px; height: 100px; margin: 20px auto; cursor: pointer; }
+.gift-box .lid { position: absolute; top: 0; left: 0; width: 100%; height: 25%; background: var(--main-pink); border: 2px solid white; z-index: 2; transition: 0.8s; transform-origin: top; }
+.gift-box .box { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: var(--dark-pink); border: 2px solid white; }
+.gift-box.open .lid { transform: rotateX(110deg); }
+</style>
 </head>
 <body>
 
 <div id="top-comment"></div>
+
+<!-- الموسيقى الأساسية -->
 <audio id="bgMus" src="1000311463.mp3" loop></audio>
 <audio id="finalSong" src="1000315475.mp3"></audio>
+<!-- صوتك من GitHub -->
+<audio id="voice.mp3" preload="auto"></audio>
 
 <div class="container" id="main-ui">
+    <!-- s0 بصمة -->
     <div id="s0" class="section active">
         <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
         <div class="fp-wrapper" id="fp-area" onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()">
@@ -76,12 +81,14 @@
         <p>اضغطي بصمتك يا أمل..</p>
     </div>
 
+    <!-- s1 الرقم السري -->
     <div id="s1" class="section">
         <h3 style="color: var(--main-pink)">نورتي دنيتي</h3>
         <input type="password" id="pw" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
         <button onclick="check()">دخول ❤️</button>
     </div>
 
+    <!-- s2 الوردة -->
     <div id="s2" class="section">
         <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
         <div class="flower-circle" onclick="flowerLogic()">
@@ -93,6 +100,7 @@
         </div>
     </div>
 
+    <!-- s3 الألبوم -->
     <div id="s3" class="section">
         <h3 style="color: var(--main-pink)">ذكرياتنا ❤️</h3>
         <div class="album-container"><div class="book" id="albumBook"></div></div>
@@ -103,15 +111,28 @@
         <button id="toGiftBtn" style="display:none;" onclick="startRomanticScene()">افتحي الهدية 🎁</button>
     </div>
 
+    <!-- s4 الهديه -->
     <div id="s4" class="section">
         <div class="gift-box" id="giftBox" onclick="openGift()">
             <div class="lid"></div><div class="box"></div>
         </div>
         <div id="typewriter-gift" style="font-weight:bold; margin-top:20px;"></div>
         <button id="toScratchBtn" style="display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
-        <button id="replayAudioBtn" style="display:none; margin-top:10px;">🔁 سماع الصوت مرة تانية</button>
+        <button id="replayAudioBtn"
+            style="
+            display:none;
+            margin-top:12px;
+            background:linear-gradient(145deg,#ffd700,#ff4d6d);
+            color:#000;
+            font-weight:bold;
+            border-radius:30px;
+            box-shadow:0 0 15px rgba(255,215,0,.6)"
+            onclick="replayVoice()">
+        🔁 سماع صوتي تاني
+        </button>
     </div>
 
+    <!-- s5 الكارت -->
     <div id="s5" class="section">
         <h3 style="color: var(--main-pink)">امسحي الكارت ✨</h3>
         <div style="position:relative; width:260px; height:160px; margin:auto; border-radius:15px; overflow:hidden;">
@@ -121,6 +142,7 @@
         <button id="finalStartBtn" style="display:none;" onclick="go(6)">تمنى أمنية ✨</button>
     </div>
 
+    <!-- s6 الشمعة -->
     <div id="s6" class="section">
         <h3 style="color: var(--main-pink)">غمضي عينك واتمني أمنية.. ❤️</h3>
         <div class="candle-container" onclick="blowCandle()">
@@ -131,6 +153,7 @@
     </div>
 </div>
 
+<!-- الشاشة النهائية -->
 <div id="black-screen">
     <h1 style="color:var(--gold);">Happy Birthday Amal!</h1>
     <img src="IMG-20251030-WA0022.jpg" style="width:150px; height:150px; border-radius:50%; border:5px solid gold; object-fit:cover;">
@@ -139,48 +162,26 @@
 </div>
 
 <script>
-let fClicks = 0, flippedCount = 0, typingTimer;
-const memories = [
-    { img: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
-    { img: "IMG-20251030-WA0023.jpg", t: "بعشق تفاصيلك ❤️" }, // تم تبديل الصورة رقم 2
-    { img: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
-    { img: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
-    { img: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
-    { img: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
-    { img: "IMG-20251027-WA0100.jpg", t: "متألقة دايماً" },
-    { img: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
-    { img: "IMG-20251007-WA0049.jpg", t: "ذكرى غالية" },
-    { img: "IMG-20251030-WA0022.jpg", t: "يا أغلى الناس" },
-    { img: "IMG-20251106-WA0032.jpg", t: "كل سنة وأنتِ طيبة" }
+let fClicks=0, flippedCount=0, typingTimer;
+const memories=[
+{ img:"IMG-20251030-WA0022.jpg", t:"ضحكتك حياة ❤️" },
+{ img:"IMG-20251030-WA0023.jpg", t:"بعشق تفاصيلك ❤️" }, // الصورة رقم 2 تبدلت
+{ img:"IMG-20251012-WA0053.jpg", t:"أجمل ملامح" },
+{ img:"IMG-20251019-WA0039.jpg", t:"منورة دنيتي" },
+{ img:"IMG-20251030-WA0023.jpg", t:"يا رقة القلب" },
+{ img:"IMG-20251028-WA0006.jpg", t:"عيونك حكاية" },
+{ img:"IMG-20251027-WA0100.jpg", t:"متألقة دايماً" },
+{ img:"IMG-20251019-WA0011.jpg", t:"الجمال كله" },
+{ img:"IMG-20251007-WA0049.jpg", t:"ذكرى غالية" },
+{ img:"IMG-20251030-WA0022.jpg", t:"يا أغلى الناس" },
+{ img:"IMG-20251106-WA0032.jpg", t:"كل سنة وأنتِ طيبة" }
 ];
 
 function vib(){ if(navigator.vibrate) navigator.vibrate(40); }
 function showComment(txt){ const c=document.getElementById('top-comment'); c.classList.remove('show'); setTimeout(()=>{ c.innerText=txt; c.classList.add('show'); },50); }
-
 function startScan(){ vib(); document.getElementById('fp-area').classList.add('scanning'); setTimeout(()=>go(1),2000);}
 function stopScan(){ document.getElementById('fp-area').classList.remove('scanning'); }
-
-function check(){ 
-    if(document.getElementById('pw').value==="123"){ vib(); showComment("خشي برجلك اليمين 😂❤️"); setTimeout(()=>go(2),2000); } 
-    else{ vib(); alert("غلط!"); }
-}
-
-function flowerLogic(){
-    fClicks++; vib();
-    if(fClicks===1) showComment("بداية جميلة.. كملي دوس ✨");
-    else if(fClicks===2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني..");
-    else if(fClicks===3) showComment("غمضي عينك 10 ثواني ودوسي تاني");
-    else if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂");
-    else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); document.getElementById('bgMus').play(); go(3); }
-}
-
+function check(){ if(document.getElementById('pw').value==="123"){ vib(); showComment("خشي برجلك اليمين 😂❤️"); setTimeout(()=>go(2),2000); } else{ vib(); alert("غلط!"); } }
+function flowerLogic(){ fClicks++; vib(); if(fClicks===1) showComment("بداية جميلة.. كملي دوس ✨"); else if(fClicks===2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني.."); else if(fClicks===3) showComment("غمضي عينك 10 ثواني ودوسي تاني"); else if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂"); else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); document.getElementById('bgMus').play(); go(3); } }
 function typeWriter(text,elementId){ const el=document.getElementById(elementId); el.innerText=""; let i=0; clearTimeout(typingTimer); function type(){ if(i<text.length){ el.innerText+=text.charAt(i); i++; typingTimer=setTimeout(type,80);} } type(); }
-
-function initAlbum(){
-    const book=document.getElementById('albumBook'); if(book.children.length>0) return;
-    const cover=document.createElement('div'); cover.className='page'; cover.style.zIndex=20;
-    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg, #ff4d6d, #c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold;"><h2>ألبومنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`;
-    cover.onclick = flip; book.appendChild(cover);
-    memories.forEach((m,i)=>{
-        const p=document.createElement('div'); p.className='page'; p.style.zIndex=memories.length-i;
-        p.innerHTML=`<img src="${m.img}"><div class="page
+function initAlbum(){ const book=document.getElementById('albumBook'); if(book.children.length>0) return; const cover=document.createElement('div'); cover.className='page'; cover.style.zIndex=20; cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold;"><h2>ألبومنا ❤️</h2></div><div class
