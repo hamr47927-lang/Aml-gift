@@ -108,7 +108,6 @@
         </div>
         <div id="typewriter-gift" style="font-weight:bold; margin-top:20px;"></div>
         <button id="toScratchBtn" style="display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
-        <button id="replayAudioBtn" style="display:none;margin-top:12px;background:linear-gradient(145deg,#ffd700,#ff4d6d);color:#000;font-weight:bold;border-radius:30px;" onclick="replayVoice()">🔁 سماع صوتي تاني</button>
     </div>
 
     <div id="s5" class="section">
@@ -156,7 +155,6 @@ const memories=[
 function vib(){ if(navigator.vibrate) navigator.vibrate(40); }
 function showComment(txt){ const c=document.getElementById('top-comment'); c.classList.remove('show'); setTimeout(()=>{c.innerText=txt;c.classList.add('show');},50);}
 
-// وظائف البصمة المحسنة
 function startScan(){ 
     vib(); 
     document.getElementById('fp-area').classList.add('scanning'); 
@@ -175,7 +173,7 @@ function flowerLogic(){
     else if(fClicks===2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني.."); 
     else if(fClicks===3) showComment("غمضي عينك 10 ثواني ودوسي تاني"); 
     else if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂"); 
-    else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); document.getElementById('bgMus').play(); go(3); }
+    else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); go(3); }
 }
 
 function typeWriter(text,elementId){ const el=document.getElementById(elementId); el.innerText=""; let i=0; clearTimeout(typingTimer); function type(){ if(i<text.length){ el.innerText+=text.charAt(i); i++; typingTimer=setTimeout(type,80);}} type(); }
@@ -186,7 +184,12 @@ function initAlbum(){
     const cover=document.createElement('div'); 
     cover.className='page'; cover.style.zIndex=20; 
     cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبوم ذكرياتنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
-    cover.onclick=flip; book.appendChild(cover); 
+    cover.onclick=function() {
+        // تشغيل الموسيقى عند الضغط على الغلاف لأول مرة
+        document.getElementById('bgMus').play();
+        flip.call(this);
+    }; 
+    book.appendChild(cover); 
     memories.forEach((m,i)=>{ 
         const p=document.createElement('div'); p.className='page'; p.style.zIndex=memories.length-i; 
         p.innerHTML=`<img src="${m.img}"><div class="page-back">❤️</div>`; 
@@ -233,16 +236,27 @@ function startRomanticScene(){
 
 function openGift() {
     vib();
-    document.getElementById('giftBox').classList.add('open');
-    document.getElementById('voice').play().catch(e => console.log("Audio play blocked"));
+    const giftBox = document.getElementById('giftBox');
+    if(giftBox.classList.contains('open')) return;
+    
+    giftBox.classList.add('open');
+    const bgMusic = document.getElementById('bgMus');
+    const voice = document.getElementById('voice');
+    
+    // خفض صوت الموسيقى وتشغيل الفويس
+    bgMusic.volume = 0.2; 
+    voice.play();
+    
+    // عند انتهاء الفويس، ترجع الموسيقى لصوتها الطبيعي
+    voice.onended = function() {
+        bgMusic.volume = 1.0;
+    };
+
     typeWriter("كل سنة وأنتي أجمل حاجة حصلت في دنيتي.. بحبك يا أمل", "typewriter-gift");
     setTimeout(() => { 
         document.getElementById('toScratchBtn').style.display = 'block';
-        document.getElementById('replayAudioBtn').style.display = 'inline-block';
     }, 3000);
 }
-
-function replayVoice() { const v = document.getElementById('voice'); v.currentTime = 0; v.play(); }
 
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
@@ -253,8 +267,8 @@ function initScratch() {
     const scratch = (e) => {
         if (!isDrawing) return;
         const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches[0].clientY) - rect.top;
+        const x = (e.clientX || (e.touches ? e.touches[0].clientX : 0)) - rect.left;
+        const y = (e.clientY || (e.touches ? e.touches[0].clientY : 0)) - rect.top;
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fill();
         document.getElementById('finalStartBtn').style.display = 'block';
@@ -264,7 +278,7 @@ function initScratch() {
     window.addEventListener('mouseup', () => isDrawing = false);
     window.addEventListener('touchend', () => isDrawing = false);
     canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('touchmove', scratch);
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); scratch(e); }, {passive: false});
 }
 
 function blowCandle() {
