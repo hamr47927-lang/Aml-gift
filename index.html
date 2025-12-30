@@ -19,19 +19,17 @@
         .active { display: block; animation: fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* دائرة الورد */
         .flower-circle { position: relative; width: 120px; height: 120px; margin: 20px auto; border: 4px dashed var(--main-pink); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; animation: rotateCircle 10s linear infinite; }
         .flower-circle i.inner-flower { font-size: 50px; animation: pulse 1.5s infinite; }
         .flower-circle .outer-rose { position: absolute; font-size: 20px; }
         @keyframes rotateCircle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-        /* الألبوم وتأثير اللمس (رقم 4) */
         .album-container { width: 260px; height: 320px; margin: 15px auto; perspective: 1500px; position: relative; }
         .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
         .page { width: 100%; height: 100%; position: absolute; top: 0; left: 0; transform-origin: left; transform-style: preserve-3d; transition: transform 0.8s; cursor: pointer; }
         .page img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; border: 5px solid white; backface-visibility: hidden; transition: 0.3s; }
-        .page:hover img { transform: scale(1.05); filter: brightness(1.1); } /* تفاعل الصورة عند اللمس */
+        .page:hover img { transform: scale(1.05); filter: brightness(1.1); }
         .page.flipped { transform: rotateY(-160deg); }
         .page-back { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #fff; transform: rotateY(180deg); backface-visibility: hidden; border-radius: 15px; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--main-pink); }
 
@@ -41,7 +39,6 @@
         #top-comment { position: fixed; top: -100px; left: 10%; right: 10%; background: white; color: var(--main-pink); padding: 15px; border-radius: 20px; text-align: center; transition: 0.5s; z-index: 9999; border: 2px solid var(--main-pink); font-weight: bold; }
         #top-comment.show { top: 20px; }
 
-        /* شاشة الشمعة (رقم 5) */
         .candle-container { position: relative; height: 150px; cursor: pointer; }
         .flame { width: 20px; height: 35px; background: orange; border-radius: 50% 50% 20% 20%; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: flicker 0.1s infinite; box-shadow: 0 0 20px orange; }
         @keyframes flicker { 0%, 100% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1) rotate(2deg); } }
@@ -65,208 +62,125 @@
 </head>
 <body>
 
-    <div id="top-comment"></div>
-    <audio id="bgMus" src="1000320534.mp3" loop></audio>
-    <audio id="finalSong" src="1000315475.mp3"></audio>
+<div id="top-comment"></div>
+<audio id="bgMus" src="1000311463.mp3" loop></audio>
+<audio id="finalSong" src="1000315475.mp3"></audio>
 
-    <div class="container" id="main-ui">
-        <div id="s0" class="section active">
-            <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
-            <div class="fp-wrapper" id="fp-area" onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()">
-                <div class="scan-line"></div>
-                <div style="font-size: 80px; color: var(--gold);"><i class="fas fa-fingerprint"></i></div>
-            </div>
-            <p>اضغطي بصمتك يا أمل..</p>
+<div class="container" id="main-ui">
+    <div id="s0" class="section active">
+        <h3 style="color: var(--main-pink)">أهلاً يا أميرة ❤️</h3>
+        <div class="fp-wrapper" id="fp-area" onmousedown="startScan()" onmouseup="stopScan()" ontouchstart="startScan()" ontouchend="stopScan()">
+            <div class="scan-line"></div>
+            <div style="font-size: 80px; color: var(--gold);"><i class="fas fa-fingerprint"></i></div>
         </div>
+        <p>اضغطي بصمتك يا أمل..</p>
+    </div>
 
-        <div id="s1" class="section">
-            <h3 style="color: var(--main-pink)">نورتي دنيتي</h3>
-            <input type="password" id="pw" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
-            <button onclick="check()">دخول ❤️</button>
-        </div>
+    <div id="s1" class="section">
+        <h3 style="color: var(--main-pink)">نورتي دنيتي</h3>
+        <input type="password" id="pw" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
+        <button onclick="check()">دخول ❤️</button>
+    </div>
 
-        <div id="s2" class="section">
-            <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
-            <div class="flower-circle" onclick="flowerLogic()">
-                <div class="outer-rose" style="top: -10px; left: 50%; transform: translateX(-50%);">🌹</div>
-                <div class="outer-rose" style="bottom: -10px; left: 50%; transform: translateX(-50%);">🌹</div>
-                <div class="outer-rose" style="left: -10px; top: 50%; transform: translateY(-50%);">🌹</div>
-                <div class="outer-rose" style="right: -10px; top: 50%; transform: translateY(-50%);">🌹</div>
-                <div class="inner-flower">🌹</div>
-            </div>
-        </div>
-
-        <div id="s3" class="section">
-            <h3 style="color: var(--main-pink)">ذكرياتنا ❤️</h3>
-            <div class="album-container"><div class="book" id="albumBook"></div></div>
-            <div id="photo-caption">افتحي الغلاف يا روحي..</div>
-            <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
-                <div onclick="goBack()" style="border:1px solid #ff4d6d; padding:5px 15px; border-radius:10px; color:#ff4d6d;">رجوع ↩️</div>
-            </div>
-            <button id="toGiftBtn" style="display:none;" onclick="startRomanticScene()">افتحي الهدية 🎁</button>
-        </div>
-
-        <div id="s4" class="section">
-            <div class="gift-box" id="giftBox" onclick="openGift()">
-                <div class="lid"></div><div class="box"></div>
-            </div>
-            <div id="typewriter-gift" style="font-weight:bold; margin-top:20px;"></div>
-            <button id="toScratchBtn" style="display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
-        </div>
-
-        <div id="s5" class="section">
-            <h3 style="color: var(--main-pink)">امسحي الكارت ✨</h3>
-            <div style="position:relative; width:260px; height:160px; margin:auto; border-radius:15px; overflow:hidden;">
-                <div style="position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:white; color:var(--main-pink); font-weight:bold;">بحبك يا أمل ❤️</div>
-                <canvas id="scratch-canvas" width="260" height="160" style="position:absolute; top:0; left:0;"></canvas>
-            </div>
-            <button id="finalStartBtn" style="display:none;" onclick="go(6)">تمنى أمنية ✨</button>
-        </div>
-
-        <div id="s6" class="section">
-            <h3 style="color: var(--main-pink)">غمضي عينك واتمني أمنية.. ❤️</h3>
-            <div class="candle-container" onclick="blowCandle()">
-                <div class="flame" id="candle-flame"></div>
-                <div class="stick"></div>
-            </div>
-            <p id="wish-hint">دوسي على الشمعة عشان تطفيها ✨</p>
+    <div id="s2" class="section">
+        <h3 style="color: var(--main-pink)">دوسي على الوردة ✨</h3>
+        <div class="flower-circle" onclick="flowerLogic()">
+            <div class="outer-rose" style="top: -10px; left: 50%; transform: translateX(-50%);">🌹</div>
+            <div class="outer-rose" style="bottom: -10px; left: 50%; transform: translateX(-50%);">🌹</div>
+            <div class="outer-rose" style="left: -10px; top: 50%; transform: translateY(-50%);">🌹</div>
+            <div class="outer-rose" style="right: -10px; top: 50%; transform: translateY(-50%);">🌹</div>
+            <div class="inner-flower">🌹</div>
         </div>
     </div>
 
-    <div id="black-screen">
-        <h1 style="color:var(--gold);">Happy Birthday Amal!</h1>
-        <img src="IMG-20251030-WA0022.jpg" style="width:150px; height:150px; border-radius:50%; border:5px solid gold; object-fit:cover;">
-        <p style="padding:20px;">كل سنة وأنتِ منورة حياتي.. ❤️</p>
-        <button onclick="location.reload()">رجوع 🏠</button>
+    <div id="s3" class="section">
+        <h3 style="color: var(--main-pink)">ذكرياتنا ❤️</h3>
+        <div class="album-container"><div class="book" id="albumBook"></div></div>
+        <div id="photo-caption">افتحي الغلاف يا روحي..</div>
+        <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+            <div onclick="goBack()" style="border:1px solid #ff4d6d; padding:5px 15px; border-radius:10px; color:#ff4d6d;">رجوع ↩️</div>
+        </div>
+        <button id="toGiftBtn" style="display:none;" onclick="startRomanticScene()">افتحي الهدية 🎁</button>
     </div>
 
-    <script>
-        let fClicks = 0, flippedCount = 0, typingTimer;
-        const memories = [
-            { img: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
-            { img: "IMG-20251106-WA0032.jpg", t: "بعشق تفاصيلك ❤️" },
-            { img: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
-            { img: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
-            { img: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
-            { img: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
-            { img: "IMG-20251027-WA0100.jpg", t: "متألقة دايماً" },
-            { img: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
-            { img: "IMG-20251007-WA0049.jpg", t: "ذكرى غالية" },
-            { img: "IMG-20251120-WA0013.jpg", t: "يا أغلى الناس" },
-            { img: "IMG-20251031-WA0076.jpg", t: "كل سنة وأنتِ طيبة" }
-        ];
+    <div id="s4" class="section">
+        <div class="gift-box" id="giftBox" onclick="openGift()">
+            <div class="lid"></div><div class="box"></div>
+        </div>
+        <div id="typewriter-gift" style="font-weight:bold; margin-top:20px;"></div>
+        <button id="toScratchBtn" style="display:none;" onclick="go(5)">امسحي المفاجأة 🎫</button>
+        <button id="replayAudioBtn" style="display:none; margin-top:10px;">🔁 سماع الصوت مرة تانية</button>
+    </div>
 
-        function vib() { if(navigator.vibrate) navigator.vibrate(40); }
-        function showComment(txt) {
-            const c = document.getElementById('top-comment');
-            c.classList.remove('show');
-            setTimeout(() => { c.innerText = txt; c.classList.add('show'); }, 50);
-        }
+    <div id="s5" class="section">
+        <h3 style="color: var(--main-pink)">امسحي الكارت ✨</h3>
+        <div style="position:relative; width:260px; height:160px; margin:auto; border-radius:15px; overflow:hidden;">
+            <div style="position:absolute; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:white; color:var(--main-pink); font-weight:bold;">بحبك يا أمل ❤️</div>
+            <canvas id="scratch-canvas" width="260" height="160" style="position:absolute; top:0; left:0;"></canvas>
+        </div>
+        <button id="finalStartBtn" style="display:none;" onclick="go(6)">تمنى أمنية ✨</button>
+    </div>
 
-        function startScan() { vib(); document.getElementById('fp-area').classList.add('scanning'); setTimeout(()=>go(1), 2000); }
-        function stopScan() { document.getElementById('fp-area').classList.remove('scanning'); }
+    <div id="s6" class="section">
+        <h3 style="color: var(--main-pink)">غمضي عينك واتمني أمنية.. ❤️</h3>
+        <div class="candle-container" onclick="blowCandle()">
+            <div class="flame" id="candle-flame"></div>
+            <div class="stick"></div>
+        </div>
+        <p id="wish-hint">دوسي على الشمعة عشان تطفيها ✨</p>
+    </div>
+</div>
 
-        function check() {
-            if(document.getElementById('pw').value === "123") { vib(); showComment("خشي برجلك اليمين 😂❤️"); setTimeout(()=>go(2), 2000); }
-            else { vib(); alert("غلط!"); }
-        }
+<div id="black-screen">
+    <h1 style="color:var(--gold);">Happy Birthday Amal!</h1>
+    <img src="IMG-20251030-WA0022.jpg" style="width:150px; height:150px; border-radius:50%; border:5px solid gold; object-fit:cover;">
+    <p style="padding:20px;">كل سنة وأنتِ منورة حياتي.. ❤️</p>
+    <button onclick="location.reload()">رجوع 🏠</button>
+</div>
 
-        function flowerLogic() {
-            fClicks++; vib();
-            if(fClicks === 1) showComment("بداية جميلة.. كملي دوس ✨");
-            else if(fClicks === 2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني..");
-            else if(fClicks === 3) showComment("غمضي عينك 10 ثواني ودوسي تاني");
-            else if(fClicks === 4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂");
-            else if(fClicks === 5) { document.getElementById('top-comment').classList.remove('show'); document.getElementById('bgMus').play(); go(3); }
-        }
+<script>
+let fClicks = 0, flippedCount = 0, typingTimer;
+const memories = [
+    { img: "IMG-20251030-WA0022.jpg", t: "ضحكتك حياة ❤️" },
+    { img: "IMG-20251030-WA0023.jpg", t: "بعشق تفاصيلك ❤️" }, // تم تبديل الصورة رقم 2
+    { img: "IMG-20251012-WA0053.jpg", t: "أجمل ملامح" },
+    { img: "IMG-20251019-WA0039.jpg", t: "منورة دنيتي" },
+    { img: "IMG-20251030-WA0023.jpg", t: "يا رقة القلب" },
+    { img: "IMG-20251028-WA0006.jpg", t: "عيونك حكاية" },
+    { img: "IMG-20251027-WA0100.jpg", t: "متألقة دايماً" },
+    { img: "IMG-20251019-WA0011.jpg", t: "الجمال كله" },
+    { img: "IMG-20251007-WA0049.jpg", t: "ذكرى غالية" },
+    { img: "IMG-20251030-WA0022.jpg", t: "يا أغلى الناس" },
+    { img: "IMG-20251106-WA0032.jpg", t: "كل سنة وأنتِ طيبة" }
+];
 
-        function typeWriter(text, elementId) {
-            const el = document.getElementById(elementId); el.innerText = ""; let i = 0;
-            clearTimeout(typingTimer);
-            function type() { if (i < text.length) { el.innerText += text.charAt(i); i++; typingTimer = setTimeout(type, 80); } }
-            type();
-        }
+function vib(){ if(navigator.vibrate) navigator.vibrate(40); }
+function showComment(txt){ const c=document.getElementById('top-comment'); c.classList.remove('show'); setTimeout(()=>{ c.innerText=txt; c.classList.add('show'); },50); }
 
-        function initAlbum() {
-            const book = document.getElementById('albumBook'); if(book.children.length > 0) return;
-            const cover = document.createElement('div'); cover.className = 'page'; cover.style.zIndex = 20;
-            cover.innerHTML = `<div style="width:100%; height:100%; background:linear-gradient(45deg, #ff4d6d, #c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold;"><h2>ألبومنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`;
-            cover.onclick = flip; book.appendChild(cover);
-            memories.forEach((m, i) => {
-                const p = document.createElement('div'); p.className = 'page'; p.style.zIndex = memories.length - i;
-                p.innerHTML = `<img src="${m.img}"><div class="page-back">❤️</div>`; p.onclick = flip; book.appendChild(p);
-            });
-        }
+function startScan(){ vib(); document.getElementById('fp-area').classList.add('scanning'); setTimeout(()=>go(1),2000);}
+function stopScan(){ document.getElementById('fp-area').classList.remove('scanning'); }
 
-        function flip() {
-            if(!this.classList.contains('flipped')) {
-                vib(); this.classList.add('flipped'); flippedCount++;
-                if(flippedCount <= memories.length) typeWriter(memories[flippedCount-1].t, 'photo-caption');
-                if(flippedCount > memories.length) { document.getElementById('toGiftBtn').style.display = 'block'; }
-            }
-        }
+function check(){ 
+    if(document.getElementById('pw').value==="123"){ vib(); showComment("خشي برجلك اليمين 😂❤️"); setTimeout(()=>go(2),2000); } 
+    else{ vib(); alert("غلط!"); }
+}
 
-        function goBack() {
-            const flipped = document.querySelectorAll('.page.flipped');
-            if(flipped.length > 0) {
-                vib(); const last = flipped[flipped.length-1]; last.classList.remove('flipped'); flippedCount--;
-                if(flippedCount === 0) document.getElementById('photo-caption').innerText = "افتحي الغلاف يا روحي..";
-                else typeWriter(memories[flippedCount-1].t, 'photo-caption');
-                document.getElementById('toGiftBtn').style.display = 'none';
-            }
-        }
+function flowerLogic(){
+    fClicks++; vib();
+    if(fClicks===1) showComment("بداية جميلة.. كملي دوس ✨");
+    else if(fClicks===2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني..");
+    else if(fClicks===3) showComment("غمضي عينك 10 ثواني ودوسي تاني");
+    else if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂");
+    else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); document.getElementById('bgMus').play(); go(3); }
+}
 
-        function go(n) { 
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
-            document.getElementById('s'+n).classList.add('active'); 
-            if(n===3) initAlbum(); 
-            if(n===5) initScratch(); 
-        }
+function typeWriter(text,elementId){ const el=document.getElementById(elementId); el.innerText=""; let i=0; clearTimeout(typingTimer); function type(){ if(i<text.length){ el.innerText+=text.charAt(i); i++; typingTimer=setTimeout(type,80);} } type(); }
 
-        function startRomanticScene() {
-            vib(); document.body.classList.add('romantic-mode'); go(4);
-            for(let i=0; i<30; i++) {
-                let s = document.createElement('div'); s.className = 'star';
-                s.style.left = Math.random()*100+'vw'; s.style.top = Math.random()*100+'vh';
-                s.style.setProperty('--d', Math.random()*3+2+'s'); document.body.appendChild(s);
-            }
-        }
-
-        function openGift() {
-            vib(); document.getElementById('giftBox').classList.add('open');
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            setTimeout(() => { typeWriter("كل سنة وأنتِ طيبة يا أمل.. ❤️", "typewriter-gift"); document.getElementById('toScratchBtn').style.display = 'block'; }, 1000);
-        }
-
-        function initScratch() {
-            const canvas = document.getElementById('scratch-canvas'); const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0,0,260,160);
-            let drawing = false;
-            function scratch(e) {
-                if(!drawing) return; const rect = canvas.getBoundingClientRect();
-                const x = (e.clientX || e.touches[0].clientX) - rect.left;
-                const y = (e.clientY || e.touches[0].clientY) - rect.top;
-                ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI*2); ctx.fill();
-                document.getElementById('finalStartBtn').style.display = 'block';
-            }
-            canvas.onmousedown = canvas.ontouchstart = () => drawing = true;
-            canvas.onmouseup = canvas.ontouchend = () => drawing = false;
-            canvas.onmousemove = canvas.ontouchmove = scratch;
-        }
-
-        function blowCandle() {
-            vib();
-            document.getElementById('candle-flame').style.display = 'none';
-            document.getElementById('wish-hint').innerText = "أمنيتك هتتحقق إن شاء الله.. ❤️";
-            confetti({ particleCount: 150, spread: 100, origin: { y: 0.7 } });
-            setTimeout(goToBlackScreen, 2000);
-        }
-
-        function goToBlackScreen() {
-            vib(); document.getElementById('bgMus').pause(); document.getElementById('finalSong').play();
-            document.getElementById('main-ui').style.display = 'none'; document.getElementById('black-screen').style.display = 'flex';
-            setInterval(() => confetti({ particleCount: 30, origin: { x: Math.random(), y: Math.random() } }), 1000);
-        }
-    </script>
-</body>
-</html>
+function initAlbum(){
+    const book=document.getElementById('albumBook'); if(book.children.length>0) return;
+    const cover=document.createElement('div'); cover.className='page'; cover.style.zIndex=20;
+    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg, #ff4d6d, #c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold;"><h2>ألبومنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`;
+    cover.onclick = flip; book.appendChild(cover);
+    memories.forEach((m,i)=>{
+        const p=document.createElement('div'); p.className='page'; p.style.zIndex=memories.length-i;
+        p.innerHTML=`<img src="${m.img}"><div class="page
