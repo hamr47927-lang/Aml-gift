@@ -224,7 +224,7 @@ function initAlbum(){
     if(book.children.length>0) return; 
     const cover=document.createElement('div'); 
     cover.className='page'; cover.style.zIndex=50; 
-    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2<ألبومها ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
+    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبومها افتحيه ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
     cover.onclick=function() {
         bgMusic.play();
         flip.call(this);
