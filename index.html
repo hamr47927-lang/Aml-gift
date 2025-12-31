@@ -9,13 +9,23 @@
     <style>
         :root { --main-pink:#ff4d6d; --dark-pink:#c9184a; --gold:#ffd700; --scan-color:#00ffcc; }
         * { box-sizing:border-box; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
-        body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; font-family:'Segoe UI',sans-serif; background:radial-gradient(circle,#fff0f3 0%,#ffc1cf 100%); transition:background 3s ease; overflow:hidden;}
+        body { margin:0; display:flex; justify-content:center; align-items:center; height:100vh; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:radial-gradient(circle,#fff0f3 0%,#ffc1cf 100%); transition:background 3s ease; overflow:hidden;}
         body.romantic-mode { background:#0a0002; }
+        
         .container { width:92%; max-width:380px; text-align:center; background:rgba(255,255,255,0.95); padding:25px; border-radius:40px; box-shadow:0 20px 50px rgba(255,77,109,0.2); position:relative; z-index:10;}
         body.romantic-mode .container { background:rgba(0,0,0,0.6); backdrop-filter:blur(15px); border:1px solid rgba(255,255,255,0.1); color:white;}
+        
         .section { display:none; }
         .active { display:block; animation:fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+        /* تنسيق الكلام لعدم التداخل */
+        #photo-caption, #typewriter-gift { 
+            line-height: 1.6; 
+            letter-spacing: 0.5px; 
+            padding: 10px;
+            word-wrap: break-word;
+        }
 
         .flower-circle { position:relative; width:120px; height:120px; margin:20px auto; border:4px dashed var(--main-pink); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; animation:rotateCircle 10s linear infinite;}
         .flower-circle i.inner-flower { font-size:50px; animation:pulse 1.5s infinite;}
@@ -23,21 +33,21 @@
         @keyframes rotateCircle { from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
         @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
 
-        /* تعديل تأثير الألبوم ليكون واقعياً */
+        /* تأثير الألبوم الواقعي */
         .album-container { width:260px; height:320px; margin:15px auto; perspective:2000px; position:relative;}
         .book { width:100%; height:100%; position:relative; transform-style:preserve-3d;}
         .page { 
             width:100%; height:100%; position:absolute; top:0; left:0; 
-            transform-origin: right center; /* نقطة الارتكاز لقلب الصفحة جهة اليمين للعربي */
+            transform-origin: right center; 
             transform-style:preserve-3d; 
             transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); 
             cursor:pointer;
         }
         .page img { width:100%; height:100%; object-fit:cover; border-radius:15px; border:5px solid white; backface-visibility:hidden; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-        .page.flipped { transform:rotateY(160deg);} /* القلب لجهة اليسار */
+        .page.flipped { transform:rotateY(160deg);} 
         .page-back { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; transform:rotateY(180deg); backface-visibility:hidden; border-radius:15px; border:5px solid white; display:flex; align-items:center; justify-content:center; font-weight:bold; color:var(--main-pink);}
 
-        #photo-caption { font-size:1.2rem; font-weight:bold; color:var(--main-pink); margin-top:15px; min-height:35px;}
+        #photo-caption { font-size:1.2rem; font-weight:bold; color:var(--main-pink); margin-top:15px; min-height:45px;}
         body.romantic-mode #photo-caption { color:var(--gold); }
 
         #top-comment { position:fixed; top:-100px; left:10%; right:10%; background:white; color:var(--main-pink); padding:15px; border-radius:20px; text-align:center; transition:0.5s; z-index:9999; border:2px solid var(--main-pink); font-weight:bold; }
@@ -159,7 +169,7 @@ const memories=[
     { img:"IMG-20251031-WA0076.jpg", t:"كل سنة وأنتِ طيبة" }
 ];
 
-// منطق التحكم في الموسيقى (إعادة التشغيل قبل النهاية بـ 10 ثواني)
+// منطق إعادة الموسيقى قبل النهاية بـ 10 ثواني
 const bgMusic = document.getElementById('bgMus');
 bgMusic.addEventListener('timeupdate', function() {
     if (this.duration && (this.duration - this.currentTime) <= 10) {
@@ -192,7 +202,22 @@ function flowerLogic(){
     else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); go(3); }
 }
 
-function typeWriter(text,elementId){ const el=document.getElementById(elementId); el.innerText=""; let i=0; clearTimeout(typingTimer); function type(){ if(i<text.length){ el.innerText+=text.charAt(i); i++; typingTimer=setTimeout(type,80);}} type(); }
+// تعديل دالة الكتابة لمنع تداخل الكلام
+function typeWriter(text, elementId) {
+    const el = document.getElementById(elementId);
+    el.innerHTML = ""; 
+    let i = 0;
+    clearTimeout(typingTimer);
+    
+    function type() {
+        if (i < text.length) {
+            el.innerHTML += text.charAt(i);
+            i++;
+            typingTimer = setTimeout(type, 100); // سرعة كتابة متزنة
+        }
+    }
+    type();
+}
 
 function initAlbum(){ 
     const book=document.getElementById('albumBook'); 
@@ -215,7 +240,7 @@ function initAlbum(){
 function flip(){ 
     if(!this.classList.contains('flipped')){ 
         vib(); this.classList.add('flipped'); flippedCount++; 
-        this.style.zIndex = 50 + flippedCount; // ضمان بقاء الصفحة المقلوبة فوق
+        this.style.zIndex = 50 + flippedCount; 
         if(flippedCount<=memories.length) typeWriter(memories[flippedCount-1].t,'photo-caption'); 
         if(flippedCount>memories.length) document.getElementById('toGiftBtn').style.display='block'; 
     } 
@@ -260,11 +285,10 @@ function openGift() {
     giftBox.classList.add('open');
     const voice = document.getElementById('voice');
     
-    // خفض صوت الموسيقى تدريجياً وتشغيل الفويس
+    // خفض صوت الموسيقى عند بدء الفويس
     bgMusic.volume = 0.1; 
     voice.play();
     
-    // عند انتهاء الفويس، ترجع الموسيقى لصوتها الطبيعي
     voice.onended = function() {
         bgMusic.volume = 1.0;
     };
@@ -272,7 +296,7 @@ function openGift() {
     typeWriter("كل سنة وأنتي أجمل حاجة حصلت في دنيتي.. بحبك يا أمل", "typewriter-gift");
     setTimeout(() => { 
         document.getElementById('toScratchBtn').style.display = 'block';
-    }, 3000);
+    }, 4000);
 }
 
 function initScratch() {
