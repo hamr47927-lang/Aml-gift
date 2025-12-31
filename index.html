@@ -93,7 +93,7 @@
     </div>
 
     <div id="s1" class="section">
-        <h3 style="color:var(--main-pink)">نورتي دنيتي</h3>
+        <h3 style="color:var(--main-pink)">نورتي </h3>
         <input type="password" id="pw" style="width:80%; padding:15px; border-radius:20px; border:2px solid #eee; text-align:center;" placeholder="رقم السر">
         <button onclick="check()">دخول ❤️</button>
     </div>
@@ -112,7 +112,7 @@
     <div id="s3" class="section">
         <h3 style="color:var(--main-pink)">ذكرياتنا ❤️</h3>
         <div class="album-container"><div class="book" id="albumBook"></div></div>
-        <div id="photo-caption">افتحي الغلاف يا روحي..</div>
+        <div id="photo-caption">افتحي الغلاف..</div>
         <div style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
             <div onclick="goBack()" style="border:1px solid #ff4d6d; padding:5px 15px; border-radius:10px; color:#ff4d6d; cursor:pointer;">رجوع ↩️</div>
         </div>
@@ -130,7 +130,7 @@
     <div id="s5" class="section">
         <h3 style="color: var(--main-pink)">امسحي الكارت ✨</h3>
         <div style="position:relative;width:260px;height:160px;margin:auto;border-radius:15px;overflow:hidden;">
-            <div style="position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:white;color:var(--main-pink);font-weight:bold;">بحبك يا أمل ❤️</div>
+            <div style="position:absolute;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:white;color:var(--main-pink);font-weight:bold;">كل سنه وانتي طيبه يا غيبوبه😂 ❤️</div>
             <canvas id="scratch-canvas" width="260" height="160" style="position:absolute;top:0;left:0;cursor: crosshair;"></canvas>
         </div>
         <button id="finalStartBtn" style="display:none;" onclick="go(6)">تمنى أمنية ✨</button>
@@ -149,24 +149,24 @@
 <div id="black-screen">
     <h1 style="color:var(--gold);">Happy Birthday Amal!</h1>
     <img src="IMG-20251030-WA0022.jpg" style="width:150px;height:150px;border-radius:50%;border:5px solid gold;object-fit:cover;">
-    <p style="padding:20px;">كل سنة وأنتِ منورة حياتي.. ❤️</p>
+    <p style="padding:20px;">يارب المفاجاه تكون عجبتك.. ❤️</p>
     <button onclick="location.reload()">رجوع 🏠</button>
 </div>
 
 <script>
 let fClicks=0, flippedCount=0, typingTimer, scanTimer;
 const memories=[
-    { img:"IMG-20251030-WA0022.jpg", t:"ضحكتك حياة ❤️" },
-    { img:"IMG-20251030-WA0023.jpg", t:"بعشق تفاصيلك ❤️" },
-    { img:"IMG-20251012-WA0053.jpg", t:"أجمل ملامح" },
-    { img:"IMG-20251019-WA0039.jpg", t:"منورة دنيتي" },
-    { img:"IMG-20251106-WA0032.jpg", t:"يا رقة القلب" },
-    { img:"IMG-20251028-WA0006.jpg", t:"عيونك حكاية" },
-    { img:"IMG-20251027-WA0100.jpg", t:"متألقة دايماً" },
-    { img:"IMG-20251019-WA0011.jpg", t:"الجمال كله" },
-    { img:"IMG-20251007-WA0049.jpg", t:"ذكرى غالية" },
-    { img:"IMG-20251120-WA0013.jpg", t:"يا أغلى الناس" },
-    { img:"IMG-20251031-WA0076.jpg", t:"كل سنة وأنتِ طيبة" }
+    { img:"IMG-20251030-WA0022.jpg", t:"ضحكتها حلوه ❤️" },
+    { img:"IMG-20251030-WA0023.jpg", t:"حتي بصي  ❤️" },
+    { img:"IMG-20251012-WA0053.jpg", t:"شوفتي " },
+    { img:"IMG-20251019-WA0039.jpg", t:"بصي ضحكتها مخليه شكلها حلو " },
+    { img:"IMG-20251106-WA0032.jpg", t:"خلاص بقي انا مش هتكلم تاني 😂" },
+    { img:"IMG-20251028-WA0006.jpg", t:"حتي عنيها حلوه " },
+    { img:"IMG-20251027-WA0100.jpg", t:"بصي " },
+    { img:"IMG-20251019-WA0011.jpg", t:"شوفتي " },
+    { img:"IMG-20251007-WA0049.jpg", t:"الصور دي محدش يشوفها عشان الحسد🙂" },
+    { img:"IMG-20251120-WA0013.jpg", t:"دي دكتوره كنت قايلها عرفيني عليها وهيا مش راضيه" },
+    { img:"IMG-20251031-WA0076.jpg", t:"😁دي خديجه عادي كانت عايز تقولك كل سنه وانتي طيبه" }
 ];
 
 // منطق إعادة الموسيقى قبل النهاية بـ 10 ثواني
@@ -195,10 +195,10 @@ function check(){ if(document.getElementById('pw').value==="123"){ vib(); showCo
 
 function flowerLogic(){ 
     fClicks++; vib(); 
-    if(fClicks===1) showComment("بداية جميلة.. كملي دوس ✨"); 
-    else if(fClicks===2) showComment("إيه ده هي الوردة عطلت؟ دوسي تاني.."); 
-    else if(fClicks===3) showComment("غمضي عينك 10 ثواني ودوسي تاني"); 
-    else if(fClicks===4) showComment("أنا عارف إنك مغمضتيش بس ماشي 😂"); 
+    if(fClicks===1) showComment("! مشتغلتش لي دوسي تاني كدا "); 
+    else if(fClicks===2) showComment("هيا الورده علقت تاني  !؟ لسه كنت عاملها دوسي تاني  "); 
+    else if(fClicks===3) showComment("طيب غمضي عينك وعدي لغايه عشره ف سرك  ودوسي تاني كدا "); 
+    else if(fClicks===4) showComment(" مفتحتش أنا عارف إنك مغمضتيش بس ماشي 😂 دوسي اخر مره😂 "); 
     else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); go(3); }
 }
 
@@ -224,7 +224,7 @@ function initAlbum(){
     if(book.children.length>0) return; 
     const cover=document.createElement('div'); 
     cover.className='page'; cover.style.zIndex=50; 
-    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبوم ذكرياتنا ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
+    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2<ألبومها ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
     cover.onclick=function() {
         bgMusic.play();
         flip.call(this);
@@ -253,7 +253,7 @@ function goBack(){
         last.classList.remove('flipped'); 
         last.style.zIndex = 50 - flippedCount;
         flippedCount--; 
-        if(flippedCount===0) document.getElementById('photo-caption').innerText="افتحي الغلاف يا روحي.."; 
+        if(flippedCount===0) document.getElementById('photo-caption').innerText="افتحي الغلاف .."; 
         else typeWriter(memories[flippedCount-1].t,'photo-caption'); 
         document.getElementById('toGiftBtn').style.display='none'; 
     } 
@@ -293,7 +293,7 @@ function openGift() {
         bgMusic.volume = 1.0;
     };
 
-    typeWriter("كل سنة وأنتي أجمل حاجة حصلت في دنيتي.. بحبك يا أمل", "typewriter-gift");
+    typeWriter("كل سنة وأنتي طييه♥️♥️", "typewriter-gift");
     setTimeout(() => { 
         document.getElementById('toScratchBtn').style.display = 'block';
     }, 4000);
