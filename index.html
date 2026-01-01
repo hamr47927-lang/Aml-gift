@@ -156,17 +156,17 @@
 <script>
 let fClicks=0, flippedCount=0, typingTimer, scanTimer;
 const memories=[
-    { img:"IMG-20251030-WA0022.jpg", t:"ضحكتها حلوه ❤️" },
-    { img:"IMG-20251030-WA0023.jpg", t:"حتي بصي  ❤️" },
-    { img:"IMG-20251012-WA0053.jpg", t:"شوفتي " },
-    { img:"IMG-20251019-WA0039.jpg", t:"بصي ضحكتها مخليه شكلها حلو " },
-    { img:"IMG-20251106-WA0032.jpg", t:"خلاص بقي انا مش هتكلم تاني 😂" },
+    { img:"IMG-20251030-WA0022.jpg", t:"اهي 👀♥️" },
+    { img:"IMG-20251030-WA0023.jpg", t:"ضحكتها حلو" },
+    { img:"IMG-20251012-WA0053.jpg", t:"بصي " },
+    { img:"IMG-20251019-WA0039.jpg", t:"مش هتكلم كتير ع ضحكتها " },
+    { img:"IMG-20251106-WA0032.jpg", t:"كفايه عشان الحسد🙂" },
     { img:"IMG-20251028-WA0006.jpg", t:"حتي عنيها حلوه " },
     { img:"IMG-20251027-WA0100.jpg", t:"بصي " },
-    { img:"IMG-20251019-WA0011.jpg", t:"شوفتي " },
-    { img:"IMG-20251007-WA0049.jpg", t:"الصور دي محدش يشوفها عشان الحسد🙂" },
-    { img:"IMG-20251120-WA0013.jpg", t:"دي دكتوره كنت قايلها عرفيني عليها وهيا مش راضيه" },
-    { img:"IMG-20251031-WA0076.jpg", t:"😁دي خديجه عادي كانت عايز تقولك كل سنه وانتي طيبه" }
+    { img:"IMG-20251019-WA0011.jpg", t:"لو في مكان كنت كتبت قصيده👀" },
+    { img:"IMG-20251007-WA0049.jpg", t:"الصور دي محدش يشوفها عشان الحسد 🙂" },
+    { img:"IMG-20251120-WA0013.jpg", t:"دي دكتوره كنت قايلها عرفيني عليها وهيا مش راضيه وانا مش مسامح 🙄" },
+    { img:"IMG-20251031-WA0076.jpg", t:"دي خديجه عادي كانت عايزه تقولك كل سنه وانتي طيبه🙂" }
 ];
 
 // منطق إعادة الموسيقى قبل النهاية بـ 10 ثواني
@@ -224,7 +224,7 @@ function initAlbum(){
     if(book.children.length>0) return; 
     const cover=document.createElement('div'); 
     cover.className='page'; cover.style.zIndex=50; 
-    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبومها افتحيه ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
+    cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبومها ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
     cover.onclick=function() {
         bgMusic.play();
         flip.call(this);
@@ -293,7 +293,7 @@ function openGift() {
         bgMusic.volume = 1.0;
     };
 
-    typeWriter("كل سنة وأنتي طييه♥️♥️", "typewriter-gift");
+    typeWriter("كل سنة وأنتي طييه ♥️♥️", "typewriter-gift");
     setTimeout(() => { 
         document.getElementById('toScratchBtn').style.display = 'block';
     }, 4000);
