@@ -23,11 +23,24 @@
         .mute-btn { position: fixed; top: 15px; left: 15px; z-index: 10001; background: rgba(255, 77, 109, 0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--main-pink); border: 1px solid var(--main-pink); }
         body.romantic-mode .mute-btn { background: rgba(255, 255, 255, 0.1); color: var(--gold); border-color: var(--gold); }
 
-        /* العداد الزمني */
-        #relationship-counter { margin-bottom: 20px; padding: 15px; background: rgba(255, 77, 109, 0.05); border-radius: 20px; border: 1px dashed var(--main-pink); }
-        body.romantic-mode #relationship-counter { background: rgba(255, 255, 255, 0.05); border-color: var(--gold); }
-        #timer-display { font-weight: bold; font-size: 1rem; color: var(--dark-pink); margin-top: 5px; line-height: 1.4; }
-        body.romantic-mode #timer-display { color: var(--gold); }
+        /* العداد الزمني المطور */
+        #relationship-counter { margin-bottom: 25px; padding: 10px; border-bottom: 1px solid rgba(255, 77, 109, 0.2); }
+        body.romantic-mode #relationship-counter { border-bottom-color: var(--gold); }
+        
+        #timer-display { 
+            font-family: 'Courier New', Courier, monospace; 
+            font-weight: bold; 
+            font-size: 1.6rem; 
+            color: var(--dark-pink); 
+            letter-spacing: 2px;
+            animation: pulse-timer 2s infinite;
+        }
+        body.romantic-mode #timer-display { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        
+        @keyframes pulse-timer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
         #photo-caption, #typewriter-gift { line-height: 1.6; letter-spacing: 0.5px; padding: 10px; word-wrap: break-word; }
 
@@ -122,8 +135,7 @@
 
     <div id="s4" class="section">
         <div id="relationship-counter">
-            <div style="font-size: 0.8rem; opacity: 0.8;">بقالنا مع بعض:</div>
-            <div id="timer-display">جارِ الحساب...</div>
+            <div id="timer-display">00:00:00:00</div>
         </div>
 
         <div class="gift-box" id="giftBox" onclick="openGift()">
@@ -179,24 +191,21 @@ const bgMusic = document.getElementById('bgMus');
 const finalSong = document.getElementById('finalSong');
 const voice = document.getElementById('voice');
 
-// وظيفة كتم الصوت
 function toggleMute() {
     isMuted = !isMuted;
     const audios = [bgMusic, finalSong, voice];
     const icon = document.getElementById('mute-icon');
-    
     audios.forEach(a => a.muted = isMuted);
     icon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
 }
 
-// العداد الزمني
 function updateTimer() {
     const startDate = new Date('2025-07-10T00:00:00');
     const now = new Date();
     const diff = now - startDate;
 
     if (diff < 0) {
-        document.getElementById('timer-display').innerText = "لسه مجهزين للحظة دي ❤️";
+        document.getElementById('timer-display').innerText = "00:00:00:00";
         return;
     }
 
@@ -205,8 +214,12 @@ function updateTimer() {
     const minutes = Math.floor((diff / 1000 / 60) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    document.getElementById('timer-display').innerHTML = 
-        `${days} يوم و ${hours} ساعة<br>${minutes} دقيقة و ${seconds} ثانية`;
+    const d = days.toString().padStart(2, '0');
+    const h = hours.toString().padStart(2, '0');
+    const m = minutes.toString().padStart(2, '0');
+    const s = seconds.toString().padStart(2, '0');
+
+    document.getElementById('timer-display').innerText = `${d}:${h}:${m}:${s}`;
 }
 setInterval(updateTimer, 1000);
 
