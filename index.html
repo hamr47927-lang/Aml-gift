@@ -19,13 +19,17 @@
         .active { display:block; animation:fadeIn 0.8s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
-        /* تنسيق الكلام لعدم التداخل */
-        #photo-caption, #typewriter-gift { 
-            line-height: 1.6; 
-            letter-spacing: 0.5px; 
-            padding: 10px;
-            word-wrap: break-word;
-        }
+        /* زر الميوت */
+        .mute-btn { position: fixed; top: 15px; left: 15px; z-index: 10001; background: rgba(255, 77, 109, 0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--main-pink); border: 1px solid var(--main-pink); }
+        body.romantic-mode .mute-btn { background: rgba(255, 255, 255, 0.1); color: var(--gold); border-color: var(--gold); }
+
+        /* العداد الزمني */
+        #relationship-counter { margin-bottom: 20px; padding: 15px; background: rgba(255, 77, 109, 0.05); border-radius: 20px; border: 1px dashed var(--main-pink); }
+        body.romantic-mode #relationship-counter { background: rgba(255, 255, 255, 0.05); border-color: var(--gold); }
+        #timer-display { font-weight: bold; font-size: 1rem; color: var(--dark-pink); margin-top: 5px; line-height: 1.4; }
+        body.romantic-mode #timer-display { color: var(--gold); }
+
+        #photo-caption, #typewriter-gift { line-height: 1.6; letter-spacing: 0.5px; padding: 10px; word-wrap: break-word; }
 
         .flower-circle { position:relative; width:120px; height:120px; margin:20px auto; border:4px dashed var(--main-pink); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; animation:rotateCircle 10s linear infinite;}
         .flower-circle i.inner-flower { font-size:50px; animation:pulse 1.5s infinite;}
@@ -33,16 +37,9 @@
         @keyframes rotateCircle { from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
         @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
 
-        /* تأثير الألبوم الواقعي */
         .album-container { width:260px; height:320px; margin:15px auto; perspective:2000px; position:relative;}
         .book { width:100%; height:100%; position:relative; transform-style:preserve-3d;}
-        .page { 
-            width:100%; height:100%; position:absolute; top:0; left:0; 
-            transform-origin: right center; 
-            transform-style:preserve-3d; 
-            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); 
-            cursor:pointer;
-        }
+        .page { width:100%; height:100%; position:absolute; top:0; left:0; transform-origin: right center; transform-style:preserve-3d; transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); cursor:pointer;}
         .page img { width:100%; height:100%; object-fit:cover; border-radius:15px; border:5px solid white; backface-visibility:hidden; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
         .page.flipped { transform:rotateY(160deg);} 
         .page-back { position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; transform:rotateY(180deg); backface-visibility:hidden; border-radius:15px; border:5px solid white; display:flex; align-items:center; justify-content:center; font-weight:bold; color:var(--main-pink);}
@@ -77,6 +74,10 @@
 <body>
 
 <div id="top-comment"></div>
+
+<div class="mute-btn" onclick="toggleMute()">
+    <i id="mute-icon" class="fas fa-volume-up"></i>
+</div>
 
 <audio id="bgMus" src="1000320534.mp3" loop></audio>
 <audio id="finalSong" src="1000315475.mp3"></audio>
@@ -120,6 +121,11 @@
     </div>
 
     <div id="s4" class="section">
+        <div id="relationship-counter">
+            <div style="font-size: 0.8rem; opacity: 0.8;">بقالنا مع بعض:</div>
+            <div id="timer-display">جارِ الحساب...</div>
+        </div>
+
         <div class="gift-box" id="giftBox" onclick="openGift()">
             <div class="lid"></div><div class="box"></div>
         </div>
@@ -154,7 +160,7 @@
 </div>
 
 <script>
-let fClicks=0, flippedCount=0, typingTimer, scanTimer;
+let fClicks=0, flippedCount=0, typingTimer, scanTimer, isMuted = false;
 const memories=[
     { img:"IMG-20251030-WA0022.jpg", t:"اهي 👀♥️" },
     { img:"IMG-20251030-WA0023.jpg", t:"ضحكتها حلو" },
@@ -169,12 +175,44 @@ const memories=[
     { img:"IMG-20251031-WA0076.jpg", t:"دي خديجه عادي كانت عايزه تقولك كل سنه وانتي طيبه🙂" }
 ];
 
-// منطق إعادة الموسيقى قبل النهاية بـ 10 ثواني
 const bgMusic = document.getElementById('bgMus');
+const finalSong = document.getElementById('finalSong');
+const voice = document.getElementById('voice');
+
+// وظيفة كتم الصوت
+function toggleMute() {
+    isMuted = !isMuted;
+    const audios = [bgMusic, finalSong, voice];
+    const icon = document.getElementById('mute-icon');
+    
+    audios.forEach(a => a.muted = isMuted);
+    icon.className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+}
+
+// العداد الزمني
+function updateTimer() {
+    const startDate = new Date('2025-07-10T00:00:00');
+    const now = new Date();
+    const diff = now - startDate;
+
+    if (diff < 0) {
+        document.getElementById('timer-display').innerText = "لسه مجهزين للحظة دي ❤️";
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('timer-display').innerHTML = 
+        `${days} يوم و ${hours} ساعة<br>${minutes} دقيقة و ${seconds} ثانية`;
+}
+setInterval(updateTimer, 1000);
+
 bgMusic.addEventListener('timeupdate', function() {
     if (this.duration && (this.duration - this.currentTime) <= 10) {
-        this.currentTime = 0;
-        this.play();
+        this.currentTime = 0; this.play();
     }
 });
 
@@ -182,39 +220,27 @@ function vib(){ if(navigator.vibrate) navigator.vibrate(40); }
 function showComment(txt){ const c=document.getElementById('top-comment'); c.classList.remove('show'); setTimeout(()=>{c.innerText=txt;c.classList.add('show');},50);}
 
 function startScan(){ 
-    vib(); 
-    document.getElementById('fp-area').classList.add('scanning'); 
+    vib(); document.getElementById('fp-area').classList.add('scanning'); 
     scanTimer = setTimeout(() => { go(1); }, 2000);
 }
-function stopScan(){ 
-    document.getElementById('fp-area').classList.remove('scanning'); 
-    clearTimeout(scanTimer);
-}
+function stopScan(){ document.getElementById('fp-area').classList.remove('scanning'); clearTimeout(scanTimer); }
 
 function check(){ if(document.getElementById('pw').value==="1107"){ vib(); showComment("خشي برجلك اليمين 😂❤️"); setTimeout(()=>go(2),1500);} else{ vib(); alert("كلمة السر غلط يا أمل!"); }}
 
 function flowerLogic(){ 
     fClicks++; vib(); 
     if(fClicks===1) showComment("! مشتغلتش لي دوسي تاني كدا "); 
-    else if(fClicks===2) showComment("هيا الورده علقت تاني  !؟ لسه كنت عاملها دوسي تاني  "); 
-    else if(fClicks===3) showComment("طيب غمضي عينك وعدي لغايه عشره ف سرك  ودوسي تاني كدا "); 
+    else if(fClicks===2) showComment("هيا الورده علقت تاني !؟ لسه كنت عاملها دوسي تاني "); 
+    else if(fClicks===3) showComment("طيب غمضي عينك وعدي لغايه عشره ف سرك ودوسي تاني كدا "); 
     else if(fClicks===4) showComment(" مفتحتش أنا عارف إنك مغمضتيش بس ماشي 😂 دوسي اخر مره😂 "); 
     else if(fClicks===5){ document.getElementById('top-comment').classList.remove('show'); go(3); }
 }
 
-// تعديل دالة الكتابة لمنع تداخل الكلام
 function typeWriter(text, elementId) {
     const el = document.getElementById(elementId);
-    el.innerHTML = ""; 
-    let i = 0;
-    clearTimeout(typingTimer);
-    
+    el.innerHTML = ""; let i = 0; clearTimeout(typingTimer);
     function type() {
-        if (i < text.length) {
-            el.innerHTML += text.charAt(i);
-            i++;
-            typingTimer = setTimeout(type, 100); // سرعة كتابة متزنة
-        }
+        if (i < text.length) { el.innerHTML += text.charAt(i); i++; typingTimer = setTimeout(type, 100); }
     }
     type();
 }
@@ -225,10 +251,7 @@ function initAlbum(){
     const cover=document.createElement('div'); 
     cover.className='page'; cover.style.zIndex=50; 
     cover.innerHTML=`<div style="width:100%; height:100%; background:linear-gradient(45deg,#ff4d6d,#c9184a); color:white; display:flex; align-items:center; justify-content:center; border-radius:15px; border:5px solid gold; text-align:center; padding:10px;"><h2>ألبومها ❤️</h2></div><div class="page-back">يلا نبدأ..</div>`; 
-    cover.onclick=function() {
-        bgMusic.play();
-        flip.call(this);
-    }; 
+    cover.onclick=function() { bgMusic.play(); flip.call(this); }; 
     book.appendChild(cover); 
     memories.forEach((m,i)=>{ 
         const p=document.createElement('div'); p.className='page'; p.style.zIndex=memories.length-i; 
@@ -250,8 +273,7 @@ function goBack(){
     const flipped=document.querySelectorAll('.page.flipped'); 
     if(flipped.length>0){ 
         vib(); const last=flipped[flipped.length-1]; 
-        last.classList.remove('flipped'); 
-        last.style.zIndex = 50 - flippedCount;
+        last.classList.remove('flipped'); last.style.zIndex = 50 - flippedCount;
         flippedCount--; 
         if(flippedCount===0) document.getElementById('photo-caption').innerText="افتحي الغلاف .."; 
         else typeWriter(memories[flippedCount-1].t,'photo-caption'); 
@@ -278,32 +300,19 @@ function startRomanticScene(){
 }
 
 function openGift() {
-    vib();
-    const giftBox = document.getElementById('giftBox');
+    vib(); const giftBox = document.getElementById('giftBox');
     if(giftBox.classList.contains('open')) return;
-    
     giftBox.classList.add('open');
-    const voice = document.getElementById('voice');
-    
-    // خفض صوت الموسيقى عند بدء الفويس
-    bgMusic.volume = 0.1; 
-    voice.play();
-    
-    voice.onended = function() {
-        bgMusic.volume = 1.0;
-    };
-
+    bgMusic.volume = 0.1; voice.play();
+    voice.onended = function() { bgMusic.volume = 1.0; };
     typeWriter("كل سنة وأنتي طييه ♥️♥️", "typewriter-gift");
-    setTimeout(() => { 
-        document.getElementById('toScratchBtn').style.display = 'block';
-    }, 4000);
+    setTimeout(() => { document.getElementById('toScratchBtn').style.display = 'block'; }, 4000);
 }
 
 function initScratch() {
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#C0C0C0';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#C0C0C0'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     let isDrawing = false;
     const scratch = (e) => {
         if (!isDrawing) return;
@@ -323,13 +332,11 @@ function initScratch() {
 }
 
 function blowCandle() {
-    vib();
-    document.getElementById('candle-flame').style.display = 'none';
+    vib(); document.getElementById('candle-flame').style.display = 'none';
     document.getElementById('wish-hint').innerText = "اتحققت الأمنية إن شاء الله ❤️";
     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
     setTimeout(() => {
-        bgMusic.pause();
-        document.getElementById('finalSong').play();
+        bgMusic.pause(); finalSong.play();
         document.getElementById('main-ui').style.display = 'none';
         document.getElementById('black-screen').style.display = 'flex';
     }, 2000);
